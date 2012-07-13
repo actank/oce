@@ -1,0 +1,32 @@
+Import('env')
+Import('ice_libs')
+Import('db_libs')
+Import('boost_libs')
+Import('cpp_')
+Import('all_libs')
+
+SameAreaPeer = env.Program('SameAreaPeer',
+	source = [
+		Glob('*.cc'),
+	],
+	LIBS = [
+	  cpp_['fcgi'],
+    cpp_['cwf'],
+    cpp_['arch'],
+		cpp_['xceadapter'],
+    cpp_['socialgraphutil'],
+		'librdc-client.a',
+    cpp_['base'],
+    cpp_['socialgraphproto'],
+    cpp_['dbpool'],
+    'memcached',
+    'zookeeper_mt',
+    db_libs,
+    ice_libs,
+    'log4cplus',
+		'protobuf',
+		'memcached',
+    boost_libs,
+    all_libs,
+	]
+)

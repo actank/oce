@@ -1,0 +1,7 @@
+package xce.menutripod;
+
+message MenuData {
+  required int32 userId = 1;
+  required int32 cacheType = 2;
+  repeated int32 appIds = 3;
+}

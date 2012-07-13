@@ -1,0 +1,20 @@
+
+project name: tripod
+
+project cycle: 3 months(4 people, 4 hours per person a day)
+
+stage:
+
+  1、core(1 month):
+    (1) design class graph  (done)
+    (2) java develop  (doing)
+    (3) java test (doing)
+    (4) c++ develop (to do)
+    (5) c++ test  (to do)
+
+  2、expansion(1 month):
+    (1) server  (to do)
+    (2) preloader (to do)
+    (3) manager (to do)
+
+  3、system test(1 month):

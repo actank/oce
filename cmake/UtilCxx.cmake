@@ -1,0 +1,4 @@
+
+FILE( GLOB BUILD_SRC_CPP_SOURCE "${XNS_ROOT_DIR}/UtilCxx/src/*.cpp" )
+
+ADD_LIBRARY( "UtilCxx" ${BUILD_SRC_CPP_SOURCE})

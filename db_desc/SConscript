@@ -1,0 +1,34 @@
+Import ('env')
+Import('AutoBuild')
+Import('BuildSlice')
+slice_cpp = BuildSlice('dbdescriptor.ice',env)
+
+AutoBuild('dbdesc', 'dbdesc_suite.cc',
+   includes=['#/dbdesc', '/usr/include/mysql', '/usr/local/xce/include'],
+   libs=[
+	      ('mysqlpp' , '/usr/local/xce/lib64'),
+        ('mysqlclient_r' , '/usr/lib64/mysql')
+   ],
+   extern_source=[slice_cpp],
+  )
+
+
+
+"""
+import os
+
+Import("env")
+
+basename = 'dbdesc'
+
+slice_src = []
+a=Glob('*.cpp')
+for i in a:
+  slice_src.append(i)
+
+cloned = env.Clone()
+cloned.Append(CPPPATH=[Dir('.')])
+
+if slice_src:
+  cloned.StaticLibrary(basename + 'slice', slice_src)
+"""

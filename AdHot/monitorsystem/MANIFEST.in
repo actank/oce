@@ -1,0 +1,3 @@
+include monitorsystem/config/deployment.ini_tmpl
+recursive-include monitorsystem/public *
+recursive-include monitorsystem/templates *

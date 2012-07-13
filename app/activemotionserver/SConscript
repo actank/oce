@@ -1,0 +1,28 @@
+Import('env')
+Import('boost_libs')
+Import('cpp_')
+
+activemotionserver = env.Program('activemotionserver',
+  source = [
+     'register.cc',
+     'action.cc',
+     'worker.cc'
+  ],
+  LIBS = [
+           cpp_['cwfmain'],
+           cpp_['cwf'],
+           cpp_['fcgi'],
+           cpp_['base'],
+           boost_libs,
+           'log4cplus',
+           'json_linux-gcc-4.1.2_libmt',
+           'ctemplate'
+  ],
+  LINKFLAGS = [
+     '-Wl,--rpath=./libs',
+     '-O2',
+     '-fPIC',
+     #'-g',
+     '-DNEWARCH'
+  ],
+)

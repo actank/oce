@@ -1,0 +1,5 @@
+#AUX_SOURCE_DIRECTORY("../buddy/BuddyEntry/src" BUILD_BuddyEntry_SRC_CPP_SOURCE )
+AUX_SOURCE_DIRECTORY("../buddy/Buddy/src/loader" BUILD_BuddyLoader_SRC_CPP_SOURCE )
+ADD_LIBRARY( "BuddyLoader" SHARED EXCLUDE_FROM_ALL ${BUILD_BuddyEntry_SRC_CPP_SOURCE} ${BUILD_BuddyLoader_SRC_CPP_SOURCE})
+#ADD_EXECUTABLE( "BuddyLoader" EXCLUDE_FROM_ALL ${BUILD_BuddyEntry_SRC_CPP_SOURCE} ${BUILD_BuddyLoader_SRC_CPP_SOURCE})
+TARGET_LINK_LIBRARIES("BuddyLoader" OceCxxAdapterBuddyAdapter OceCxxAdapterBuddyLogicAdapter ReplicaCluster OceSliceBuddy OceSliceBuddyCommon IceExt OceSliceReplicaCluster OceSliceSubjectObserver OceSliceXceStorm DbCxxPool TalkUtil UtilCxx UtilSlice)

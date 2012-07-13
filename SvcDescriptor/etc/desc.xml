@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database_3_1.dtd"[]>
+<services name="mop_hi_tools_master" defaultIdMethod="native" package="mop.hi.om">
+    <service name="User" timestamp="2007-11-13 11:46:43">
+		<property name="Service.ObjectCache.EI.CacheSize" value="800000"/>
+		<property name="Service.Cluster" value="10"/>
+    </service>
+    
+</services>
+

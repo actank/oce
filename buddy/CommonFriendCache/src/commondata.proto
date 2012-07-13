@@ -1,0 +1,11 @@
+package xce.buddy;
+
+message Item {
+	required int64 gid = 1;
+	repeated int32 common = 2;
+	repeated int32 uncommon = 3;
+}
+
+message Items {
+	repeated Item items = 4;
+}

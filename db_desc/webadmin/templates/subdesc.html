@@ -1,0 +1,49 @@
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8">
+   <meta http-equiv="Pragma" content="no-cache">
+   <script LANGUAGE="JavaScript">
+
+      var pageStart="<HTML><HEAD></HEAD><BODY BGCOLOR=blue TEXT=white><H2>Server pushes: <P>";
+      var pageEnd="</H2></BODY></HTML>";
+
+        function push(content) {
+
+//window.frames['displayFrame'].document.writeln(pageStart+content+pageEnd);
+//window.frames['displayFrame'].document.close();
+          window.document.writeln(pageStart+content+pageEnd);
+          window.document.close();
+        }
+
+   </script>
+</HEAD>
+<BODY BGCOLOR="blue">
+      <% 
+        String jsFunPre = "<script language=JavaScript >parent.push('";
+          
+          String jsFunPost = "')</script> ";
+            try {
+                
+                   for (int i=1; i < 50; i++) {
+                            out.print(jsFunPre+" "+i+jsFunPost);
+                                   out.flush();
+                                        }
+                      for (int i=1; i < 10; i++) {
+                            
+                               out.print(jsFunPre+"Page "+i+jsFunPost);
+                                      out.flush();
+                                             
+                                             try {
+                                                Thread.sleep(3000);
+                                              } catch (InterruptedException e) {
+                                                                  out.print(jsFunPre+"InterruptedException: "+e+jsFunPost);
+                                                                                       }
+                                                  }
+                         } catch (Exception e) {
+                                       out.print(jsFunPre+"Exception: "+e+jsFunPost);
+                                          }
+   out.print(jsFunPre+"DONE "+jsFunPost);
+
+   %>
+   </BODY>
+   </HTML>

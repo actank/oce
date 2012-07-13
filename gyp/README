@@ -1,0 +1,2 @@
+usage:
+gyp --depth . -Dlibrary=static_library yours.gyp

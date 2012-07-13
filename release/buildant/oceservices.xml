@@ -1,0 +1,105 @@
+<?xml version="1.0"?>
+<project name="XiaoNeiOceServices" basedir="../..">
+
+	<target name="PersonalMessage" depends="UtilSlice, OceSlice, DbJavaPool">
+		<mkdir dir="${OceServicePersonalMessage.tmp}" />
+        <javac destdir="${OceServicePersonalMessage.tmp}" debug="${java.debug}" debuglevel="${java.debuglevel}" encoding="UTF-8" optimize="${optimize}" deprecation="${java.deprecation}">
+			<classpath path="${build.release}/oce-util.jar" />
+			<classpath path="${build.target}/OceSlice.jar" />
+			<classpath path="${build.release}/oce-dbjavapool.jar" />
+            <classpath refid="project.class.path" />
+            <src path="${OceServicePersonalMessage.src}"/>
+        </javac>
+		<jar jarfile="${build.target}/PersonalMessage.jar" basedir="${OceServicePersonalMessage.tmp}" level="9">
+			<include name="**" />
+			<fileset dir="${OceServicePersonalMessage.src}">
+				<include name="**" />
+			</fileset>
+			<zipfileset src="${build.target}/OceSlice.jar" />
+		</jar>
+	</target>
+
+	<target name="Importer" depends="UtilSlice, OceSlice, packUtilJar, packDbJar">
+		<mkdir dir="${OceServiceImporter.tmp}" />
+        <javac destdir="${OceServiceImporter.tmp}" debug="${java.debug}" debuglevel="${java.debuglevel}" encoding="UTF-8" optimize="${optimize}" deprecation="${java.deprecation}">
+			<classpath path="${build.target}/OceSlice.jar" />
+			<classpath path="${build.release}/oce-util.jar" />
+			<classpath path="${build.release}/oce-dbjavapool.jar" />
+            <classpath path="${OceServiceImporter.src}"/>
+            <classpath refid="project.class.path" />
+            <src path="${OceServiceImporter.src}"/>
+        </javac>
+		<jar jarfile="${build.target}/Importer.jar" basedir="${OceServiceImporter.tmp}" level="9">
+			<include name="**" />
+			<fileset dir="${OceServiceImporter.src}">
+				<include name="**" />
+			</fileset>
+			<zipfileset src="${build.target}/OceSlice.jar" />
+		</jar>
+	</target>
+	<target name="ImporterMSNWorker" depends="UtilSlice, OceSlice, packUtilJar, packDbJar">
+		<mkdir dir="${OceServiceImporterMSNWorker.tmp}" />
+        <javac destdir="${OceServiceImporterMSNWorker.tmp}" debug="${java.debug}" debuglevel="${java.debuglevel}" encoding="UTF-8" optimize="${optimize}" deprecation="${java.deprecation}">
+			<classpath path="${build.target}/OceSlice.jar" />
+			<classpath path="${build.release}/oce-util.jar" />
+			<classpath path="${build.release}/oce-dbjavapool.jar" />
+            <classpath path="${OceServiceImporterMSNWorker.src}"/>
+            <classpath refid="project.class.path" />
+            <src path="${OceServiceImporterMSNWorker.src}"/>
+        </javac>
+		<jar jarfile="${build.target}/ImporterMSNWorker.jar" basedir="${OceServiceImporterMSNWorker.tmp}" level="9">
+			<include name="**" />
+			<fileset dir="${OceServiceImporterMSNWorker.src}">
+				<include name="**" />
+			</fileset>
+			<zipfileset src="${build.target}/OceSlice.jar" />
+		</jar>
+	</target>
+
+	<target name="WebEvent" depends="UtilSlice, OceSlice, packUtilJar, packDbJar">
+	<mkdir dir="${OceServiceWebEvent.tmp}" />
+	<javac destdir="${OceServiceWebEvent.tmp}" debug="${java.debug}" debuglevel="${java.debuglevel}" encoding="UTF-8" optimize="${optimize}" deprecation="${java.deprecation}">
+	<classpath path="${build.target}/OceSlice.jar" />
+	<classpath path="${build.target}/UtilSlice.jar" />
+	<classpath path="${build.target}/UtilJava.jar" />
+	<classpath path="${build.release}/oce-util.jar" />
+	<classpath path="${build.release}/oce-adapter.jar" />
+	<classpath path="${build.release}/oce-dbjavapool.jar" />
+	<classpath path="${OceServiceWebEvent.src}"/>
+	<classpath refid="project.class.path" />
+	<src path="${OceServiceWebEvent.src}"/>
+	</javac>
+	<jar jarfile="${build.target}/WebEvent.jar" basedir="${OceServiceWebEvent.tmp}" level="9">
+	<include name="**" />
+	<fileset dir="${OceServiceWebEvent.src}">
+	<include name="**" />
+	</fileset>
+	<zipfileset src="${build.target}/OceSlice.jar" />
+	<zipfileset src="${build.target}/OceAdapter.jar" />
+	<zipfileset src="${build.target}/UtilSlice.jar" />
+	<zipfileset src="${build.target}/UtilJava.jar" />
+	</jar>
+	</target>
+
+	<target name="NewbieFeeder" depends="UtilSlice, OceSlice, packUtilJar, packDbJar">
+		<mkdir dir="${NewbieFeeder.tmp}" />
+		<javac destdir="${NewbieFeeder.tmp}" debug="${java.debug}" debuglevel="${java.debuglevel}" encoding="UTF-8" optimize="${optimize}" deprecation="${java.deprecation}">
+			<classpath path="${build.target}/OceSlice.jar" />
+			<classpath path="${build.release}/oce-util.jar" />
+			<classpath path="${build.release}/oce-dbjavapool.jar" />
+			<classpath refid="project.class.path" />
+			<src path="${NewbieFeeder.src}"/>
+		</javac>
+		<jar jarfile="${build.release}/NewbieFeeder.jar" basedir="${NewbieFeeder.tmp}" level="9">
+			<include name="**" />
+			<fileset dir="${NewbieFeeder.src}">
+				<include name="**" />
+			</fileset>
+			<zipfileset src="${build.target}/OceSlice.jar" />
+		</jar>
+	</target>
+</project>
+<!--
+vim:ts=4
+-->
+

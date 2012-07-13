@@ -1,0 +1,11 @@
+
+install:
+./configure --prefix=
+make
+make install
+
+clean:
+make distclean
+
+uninstall:
+make uninstall

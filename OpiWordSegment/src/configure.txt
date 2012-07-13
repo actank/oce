@@ -1,0 +1,4 @@
+./data/StandDict.txt
+./data/StopWords.txt
+./data/PersonNameDict.txt
+./data/DoubleArray.lib

@@ -1,0 +1,64 @@
+Index: feed-admin.js
+===================================================================
+--- feed-admin.js	(revision 23542)
++++ feed-admin.js	(working copy)
+@@ -445,6 +445,9 @@
+ }
+ 
+ FeedKeyView.prototype.ValidateXmlLoop = function(keys_xml) {
++  if (!keys_xml || keys_xml.length <= 0) {
++    return false;
++  }
+   function HasLoopAncestor(node) {
+     var p = node;
+     console.log('parent = ' + p.parent().parent().length);
+@@ -770,6 +773,28 @@
+   var nodes = $("li", root);
+   var i = 0;
+   var xml = '';
++  
++  var keys = $('input.key', root);
++  for(var i = 0; i < keys.length; ++i) {
++    var key = $(keys[i]).val();
++    if (!key || key.length < 0) {
++      alert('字段名不能为空');
++      return '';
++    }
++    if (!/^[a-zA-Z][a-zA-Z0-9]*$/.test(key)) {
++      alert('字段' + key + '命名不合法, 字段名必须由字母或数字组成, 且以字母开头');
++      return '';
++    }
++  }
++      
++  var notes = $('input.note', root);
++  for(var i = 0; i < notes.length; ++i) {
++    var note = $(notes[i]).val();
++    if (!note || note.length < 0) {
++      alert('字段' + key + ' 描述不能为空');
++      return '';
++    }
++  }
+ 
+   nodes.each(
+     function() {
+@@ -779,20 +804,7 @@
+       }
+ 
+       var key = $('input.key', n).val();
+-      
+-      if (!key || key.length < 0) {
+-        alert('字段名不能为空');
+-        return '';
+-      }
+-      if (!/^[a-zA-Z][a-zA-Z0-9]*$/.test(key)) {
+-        alert('字段' + key + '命名不合法, 字段名必须由字母或数字组成, 且以字母开头');
+-        return '';
+-      }
+       var note = $('input.note', n).val();
+-      if (!note || note.length < 0) {
+-        alert('字段' + key + ' 描述不能为空');
+-        return '';
+-      }
+       if ($('> div input:checkbox', n).attr('checked')) {
+         xml += '<key is_loop="1"';
+       } else {

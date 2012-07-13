@@ -1,0 +1,29 @@
+Import('env')
+Import('ice_libs')
+Import('db_libs')
+Import('boost_libs')
+Import('cpp_')
+Import('all_libs')
+
+WriteReconnect = env.Program('WriteReconnect',
+	source = [
+		Glob('*.cc'),	
+	],
+	LIBS = [
+    cpp_['fcgi'],
+    cpp_['cwf'],
+    cpp_['arch'],
+    cpp_['base'],
+    cpp_['socialgraphutil'],
+		cpp_['socialgraphproto'],
+		cpp_['xceadapter'],
+		cpp_['dbpool'],
+		'memcached',
+		'zookeeper_mt',
+    boost_libs,
+    db_libs,
+    ice_libs,
+    'log4cplus',
+    all_libs,
+	]
+)

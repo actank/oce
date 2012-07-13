@@ -1,0 +1,57 @@
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8">
+   <meta http-equiv="Pragma" content="no-cache">
+<script LANGUAGE="JavaScript">
+
+var display_init = null;
+var init = null;
+var link_init = null;
+
+function _init() {
+  //console.info("i init");
+  init = true;
+  pushletFrame.location.href = "/subdesc";
+}
+
+function _display_init() {
+  //console.info("i display init");
+  display_init = true;
+}
+
+function _link_close() {
+  //console.info("i sublet init");
+  link_init = true;
+
+  if (init) {
+    push("<h2>link is losted</h2>");
+    //console.info("i sublet close");
+  }
+/*
+  if (displayFrame && display_init) {
+    pushletFrame.location.href = "/subdesc";
+    //console.info("i relink");
+  }
+  else {
+    setTimeout("_link_close()", 1000);
+    //console.info("i retime");
+  }
+*/
+}
+
+
+function push(content) {
+  //console.info("i recv push");
+  if (displayFrame && display_init)
+    displayFrame.ondata(content);
+}
+</script>
+</HEAD>
+
+<FRAMESET BORDER=0 COLS="*,0" onload= "_init()">
+  <FRAME SRC="/reload" NAME="displayFrame"  BORDER=0  ONLOAD="_display_init()">
+  <FRAME SRC="about:blank" NAME="pushletFrame" BORDER=0  SCROLLING=no ONLOAD="_link_close()">
+</FRAMESET>
+
+
+</HTML>

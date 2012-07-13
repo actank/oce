@@ -1,0 +1,20 @@
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.xiaonei.xce</groupId>
+	<artifactId>oce-clients-parent</artifactId>
+	<packaging>pom</packaging>
+	<version>1.0-SNAPSHOT</version>
+	<url>http://labs.xiaonei.com</url>
+	<modules>
+		<module>OceAdapter</module>
+		<module>Passport</module>
+	</modules>
+	<distributionManagement>
+		<snapshotRepository>
+			<id>archiva.snapshots</id>
+			<name>snapshots</name>
+			<url>http://repos.d.xiaonei.com/nexus/content/repositories/snapshots</url>
+		</snapshotRepository>
+	</distributionManagement>
+</project>
+

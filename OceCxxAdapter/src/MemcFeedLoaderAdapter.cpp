@@ -1,0 +1,2 @@
+#include "MemcFeedLoaderAdapter.h"
+

@@ -1,0 +1,7 @@
+#!/bin/bash
+
+. vars
+
+java IceBox.Server --Ice.Config=conf/meta.config &
+java IceBox.Server --Ice.Config=conf/write.config &
+

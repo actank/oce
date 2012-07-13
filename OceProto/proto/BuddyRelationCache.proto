@@ -1,0 +1,26 @@
+package xce.distcache.buddyrelationcache;
+
+enum BuddyDesc {
+        NoPath = 0;
+        Self = 1;
+        Friend = 2;
+        Apply = 3;
+        Applied = 4;
+        Block = 5;
+        Blocked = 6;
+        BiBlock = 7;
+}
+
+message RelationEntry {
+		required int32 id = 1;
+		required BuddyDesc desc = 2;
+}
+
+message RelationCacheData {
+        repeated RelationEntry list = 1;
+}
+
+
+
+
+

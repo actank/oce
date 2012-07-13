@@ -1,0 +1,2 @@
+#!/bin/bash
+mvn -U clean package dependency:copy-dependencies

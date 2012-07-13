@@ -1,0 +1,3 @@
+CLASSPATH=conf/:target/xce-distcache-1.0-SNAPSHOT.jar:target/dependency/*
+
+export CLASSPATH

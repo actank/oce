@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<xiaonei_dbdesc version="0.1">
+<instance name="user_jordan" type="single">
+<option name="host">jordan</option>
+<option name="port">3306</option>
+<option name="user">ipo2008</option>
+<option name="passwd">secret</option>
+</instance>
+<instance name="user" type="master/slave">
+<option type="master" id="user_jordan" threashold="100" />
+<option type="slave" id="user_jordan" threashold="100" periodity="10" />
+<option type="slave" id="user_jordan" threashold="100" periodity="10" />
+<option type="slave" id="user_jordan" threashold="100" periodity="10" />
+</instance>
+<instance name="blog" type="route">
+<option type="entry" id="relation_0-24" pattern="relation_[0-9]|relation_1[0-9]|relation_2[0-4]"/>
+<option type="entry" id="relation_25-49" pattern="relation_4[0-9]|relation_3[0-9]|relation_2[5-9]"/>
+</instance>
+<instance name="relation_0-24" type="master/slave">
+<option type="master" id="relation_billy" threashold="100" />
+<option type="slave" id="relation_spring" threashold="100" periodity="10"/>
+</instance>
+<instance name="relation_billy" type="single">
+<option name="host">billy</option>
+<option name="port">3306</option>
+<option name="user">ipo2008</option>
+<option name="passwd">secret</option>
+</instance>
+<instance name="relation_spring" type="single">
+<option name="host">billy</option>
+<option name="port">3306</option>
+<option name="user">ipo2008</option>
+<option name="passwd">secret</option>
+</instance>
+
+</xiaonei_dbdesc>
+

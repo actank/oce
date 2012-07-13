@@ -1,0 +1,26 @@
+Import('env')
+Import('cpp_')
+Import('optional_libs')
+
+
+
+
+cwf = env.StaticLibrary('cwf',
+  source = ['connect.cc',
+          'cookie.cc',
+          'dynalib.cc',
+          'frame.cc',
+          'http.cc',
+          'stream.cc',
+          'tplaction.cc',
+          ],
+		LIBS = [cpp_['arch'], cpp_['fcgi']]
+		)
+          
+cwfmain = env.StaticLibrary('cwfmain',
+  source = ['cwfmain.cc'],
+  LIBS = [optional_libs]
+  )
+
+to_export = { 'cwf' : cwf, 'cwfmain' : cwfmain }
+Return('to_export')

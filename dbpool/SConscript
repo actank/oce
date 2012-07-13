@@ -1,0 +1,17 @@
+Import ('env')
+Import ('cpp_')
+
+
+dbpool = env.StaticLibrary('dbpool', 
+  source = [
+			'connectionholder.cpp',
+      'connectionpool.cpp',
+      'connectionpoolmanager.cpp',
+      'connectionquery.cpp', 
+      'queryrunner.cpp'
+  ],
+  LIBS = []
+)
+
+to_export = { 'dbpool' : dbpool }
+Return('to_export')

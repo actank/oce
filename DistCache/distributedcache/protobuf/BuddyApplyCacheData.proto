@@ -1,0 +1,19 @@
+package oce.buddyapplycache;
+
+message ApplyData 
+{
+  required int64 applicant = 1;
+  required int32 time = 2;
+  required string why = 3;
+  required string statfrom = 4;
+  required string groupname = 5;
+}
+
+message ApplyDataSeq {
+  repeated ApplyData item = 1;
+}
+
+message BuddyApplyData {
+  required int32 count = 1;
+  optional ApplyDataSeq items = 2;
+}

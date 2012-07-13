@@ -1,0 +1,6 @@
+#AUX_SOURCE_DIRECTORY("../buddy/BuddyRelationCache/logic" BUILD_BuddyRelationLogic_SRC_CPP_SOURCE )
+AUX_SOURCE_DIRECTORY("../buddy/BuddyRelationCache/tokyo" BUILD_BuddyRelationTokyo_SRC_CPP_SOURCE )
+ADD_LIBRARY( "BuddyRelationTT" SHARED EXCLUDE_FROM_ALL ${BUILD_BuddyRelationLogic_SRC_CPP_SOURCE} ${BUILD_BuddyRelationTokyo_SRC_CPP_SOURCE})
+#ADD_EXECUTABLE( "BuddyRelationTT" EXCLUDE_FROM_ALL ${BUILD_BuddyRelationLogic_SRC_CPP_SOURCE} ${BUILD_BuddyRelationTokyo_SRC_CPP_SOURCE})
+#TARGET_LINK_LIBRARIES( "BuddyRelationCache" OceCxxAdapterBuddyRelationReplicaAdapter ReplicaCluster IceExt OceSliceReplicaCluster OceSliceSubjectObserver OceSliceXceStorm  OceSliceBuddyRelationCache OceSliceBuddyCommon DbCxxPool UtilCxx UtilSlice)
+TARGET_LINK_LIBRARIES( "BuddyRelationTT" OceCxxAdapterBuddyRelationReplicaAdapter IceExt ReplicaCluster OceSliceBuddyRelationCache OceSliceReplicaCluster OceSliceSubjectObserver OceCommon OceSliceXceStorm OceSliceBuddyCommon DbCxxPool UtilCxx UtilSlice tokyotyrant tokyocabinet)

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src/main/java"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="/home/zhangnan/lib/commons-logging-1.1.jar"/>
+	<classpathentry kind="lib" path="/home/zhangnan/lib/Ice.jar"/>
+	<classpathentry kind="lib" path="/home/zhangnan/code/oce/main_project/trunk/client/java/OceAdapter/target/oce-adapter-1.0-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="/home/zhangnan/code/oce/main_project/trunk/util/java/OceUtil/target/oce-util-1.0-SNAPSHOT.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

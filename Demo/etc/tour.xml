@@ -1,0 +1,14 @@
+<icegrid>
+	<server-template id="TourTemp">
+	<parameter name="DefaultHost" />
+	<parameter name="LogLevel" default="WARN" />
+	<parameter name="Timeout" default="1000" />
+	<parameter name="TaskSizeMax" default="100" />
+	<icebox id="Tour" exe="icebox" activation="on-demand">
+		<service name="A" entry="Tour:create">
+			<adapter id="A" name="A" endpoints="tcp:udp">
+			</adapter>
+		</service>
+	</icebox>
+	</server-template>
+</icegrid>

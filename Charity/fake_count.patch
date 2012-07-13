@@ -1,0 +1,58 @@
+Index: src/main/java/xce/charity/CharityManagerI.java
+===================================================================
+--- src/main/java/xce/charity/CharityManagerI.java	(revision 9480)
++++ src/main/java/xce/charity/CharityManagerI.java	(working copy)
+@@ -31,15 +31,17 @@
+     try {
+       is = new ObjectInputStream(new FileInputStream(_path));
+       _bits = (BitSet) is.readObject();
+-      _count.set(_bits.cardinality());
++      int count = _bits.cardinality();
++      count += (9798129 - 6571453);
++      _count.set(count);
+     } catch (Throwable e) {
+       e.printStackTrace();
+     } finally {
+       if (null != is) {
+         try {
+-	  is.close();
++          is.close();
+         } catch (Throwable e) {
+-	  e.printStackTrace();
++          e.printStackTrace();
+         }
+       }
+     }
+@@ -74,23 +76,22 @@
+ 
+     @Override
+     public void run() {
+-	ObjectOutputStream os = null;
++      ObjectOutputStream os = null;
+       try {
+         synchronized (_bits) {
+-          os = new ObjectOutputStream(new FileOutputStream(
+-              _path));
++          os = new ObjectOutputStream(new FileOutputStream(_path));
+           os.writeObject(_bits);
+         }
+       } catch (Throwable e) {
+         e.printStackTrace();
+       } finally {
+-	if (null != os) {
+-	  try {
+-		os.close();
+-	  } catch (Throwable e) {
+-		e.printStackTrace();
+-	  }
+-	}
++        if (null != os) {
++          try {
++            os.close();
++          } catch (Throwable e) {
++            e.printStackTrace();
++          }
++        }
+       }
+     }
+ 

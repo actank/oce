@@ -1,0 +1,5 @@
+#AUX_SOURCE_DIRECTORY("../buddy/BuddyEntry/src" BUILD_BuddyEntry_SRC_CPP_SOURCE )
+AUX_SOURCE_DIRECTORY("../buddy/BuddyRelationCache/loader" BUILD_BuddyRelationLoader_SRC_CPP_SOURCE )
+ADD_LIBRARY( "BuddyRelationLoader" SHARED EXCLUDE_FROM_ALL ${BUILD_BuddyEntry_SRC_CPP_SOURCE} ${BUILD_BuddyRelationLoader_SRC_CPP_SOURCE})
+#ADD_EXECUTABLE( "BuddyRelationLoader"  EXCLUDE_FROM_ALL ${BUILD_BuddyEntry_SRC_CPP_SOURCE} ${BUILD_BuddyRelationLoader_SRC_CPP_SOURCE})
+TARGET_LINK_LIBRARIES( "BuddyRelationLoader" OceCxxAdapterBuddyRelationReplicaAdapter ReplicaCluster OceSliceBuddyRelationCache OceSliceBuddyCommon IceExt OceSliceReplicaCluster OceSliceSubjectObserver OceSliceXceStorm DbCxxPool UtilCxx UtilSlice)

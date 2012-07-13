@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<project name="XiaoNeiUtil" basedir="../..">
+	<target name="UtilSlice.check">
+		<condition property="needsRebuild">
+			<not>
+			<uptodate>
+				<srcfiles dir="${UtilSlice.src}" includes="*.ice" />
+				<compositemapper>
+					<mapper type="merge" to="${build.target}/UtilSlice.jar"/>
+				</compositemapper>
+			</uptodate>
+			</not>
+		</condition>
+	</target>
+	<target name="UtilSlice" depends="UtilSlice.check" if="needsRebuild">
+		<echo message="compiling UtilSlice to Java" />
+		<mkdir dir="${UtilSlice.tmp}/java" />
+		<slice2java outputdir="${UtilSlice.tmp}/java">
+			<includepath>
+				<pathelement path="${UtilSlice.src}" />
+				<pathelement path="${ICE.slice}" />
+			</includepath>
+			<fileset dir="${UtilSlice.src}" includes="*.ice" />
+		</slice2java>
+        <javac destdir="${UtilSlice.tmp}/java" debug="${java.debug}" debuglevel="${java.debuglevel}" encoding="UTF-8" optimize="${optimize}" deprecation="${java.deprecation}">
+            <classpath refid="project.class.path" />
+            <src path="${UtilSlice.tmp}/java"/>
+        </javac>
+		<jar jarfile="${build.target}/UtilSlice.jar" basedir="${UtilSlice.tmp}/java">
+			<include name="**" />
+			<exclude name="**/.depend" />
+		</jar>
+	</target>
+
+	<target name="UtilJava" depends="UtilSlice">
+		<echo message="compiling UtilJava" />
+		<mkdir dir="${UtilJava.tmp}" />
+        <javac destdir="${UtilJava.tmp}" debug="${java.debug}" debuglevel="${java.debuglevel}" encoding="UTF-8" optimize="${optimize}" deprecation="${java.deprecation}">
+			<classpath path="${build.target}/UtilSlice.jar" />
+            <classpath refid="project.class.path" />
+            <src path="${UtilJava.src}"/>
+        </javac>
+		<jar jarfile="${build.target}/UtilJava.jar" basedir="${UtilJava.tmp}">
+			<include name="**" />
+			<exclude name="**/.depend" />
+			<fileset dir="${UtilJava.src}">
+				<include name="**/*.java" />
+			</fileset>
+		</jar>
+	</target>
+</project>
+

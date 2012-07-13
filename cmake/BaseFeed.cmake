@@ -1,0 +1,3 @@
+FILE( GLOB BUILD_SRC_CPP_SOURCE "${XNS_ROOT_DIR}/feed/base_feed/*.cc" )
+
+ADD_LIBRARY( "BaseFeed" ${BUILD_SRC_CPP_SOURCE})

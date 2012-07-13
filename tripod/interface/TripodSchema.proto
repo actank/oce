@@ -1,0 +1,39 @@
+package com.renren.tripod;
+
+/* ClusterInfo is stored in /info */
+message ClusterInfo {
+	required int32 blocksize = 1;
+	required int32 replica = 2;
+}
+
+/* NodeInfo is stored in /{node_id}/info */
+enum NodeCategoryEnum {
+	META = 0;
+	READ = 1;
+	WRITE = 2;
+	LOAD = 3;
+}
+
+enum NodeTypeEnum {
+	DUMMY = 0;
+	MEMCACHED = 1;
+	ICE = 2;
+}
+
+message NodeInfo {
+	required NodeCategoryEnum category = 1;
+	required NodeTypeEnum type = 2;
+	required string config = 3;
+}
+
+/* NodeStatus is stored in /{node_id}/status */
+enum NodeStatusEnum {
+	OFFLINE = 0;
+	UPGRADING = 1;
+	ONLINE = 2;
+}
+
+message NodeStatus{
+	required NodeStatusEnum status = 1;
+}
+

@@ -1,0 +1,10 @@
+package xce.talk;
+
+message MemcUser {
+  required int32 id = 1;
+  optional string name = 2;
+	optional string status_original = 3;
+	optional string status_shifted = 4;
+	optional string headurl = 5;
+	optional string tinyurl = 6;
+}

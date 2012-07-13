@@ -1,0 +1,29 @@
+package xce.feed;
+
+message PbPhotoContent {
+  required int64  photo  = 1;
+  required string url = 2;
+  required string title = 3;
+  required string  albumname= 4;
+  required int32  ownerid= 5;
+  repeated int32  taguser  = 6;
+}
+
+message PbPhotoRankInfo {
+  required int64  photo  = 1;
+  required int32  clickcount = 2;
+  required int32 commentcount = 3;
+  required int32 tagcount = 4;
+  required int32 time = 5;
+}
+
+
+
+message PbContentItem {
+  required  int64  photoid  = 1;
+  required  int32  ownerid  = 2;
+}
+
+message PbPhotoSeq {
+  repeated PbContentItem  contentItem = 1;
+}

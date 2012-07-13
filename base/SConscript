@@ -1,0 +1,28 @@
+Import('env')
+# Import('cpp_')
+# print cpp_
+base = env.StaticLibrary('base', 
+  source = ['asyncall.cc',
+          'atomicops-internals-x86.cc',
+          'baseasync.cc',
+          'common.cc',
+          'doobs_hash.cc',
+          'jdbcurl.cc',
+          'logrotate.h',
+          'logging.cc',
+          'md5.cc',
+          'messagequeue.cc',
+          'mkdirs.cc',
+          'network.cc',
+          'once.cc',
+          'pathops.cc',
+          'pcount.cc',
+          'signals.cc',
+          'startuplist.cc',
+          'stringdigest.cc',
+          'stringencode.cc',
+          'thread.cc',
+          'threadpool.cc'])
+
+to_export = {'base': base}
+Return('to_export')

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fangles>
+	<replys>
+		<reply id="1" desc="XX回复 你的新鲜事 新鲜事标题" prefix="在" sufix="回复你" title="" />
+		<reply id="2" desc="XX回复 你的图片图片标题" prefix="在" sufix="回复你"	 title="" />
+		<reply id="4" desc="XX回复 你的相册 相册标题" prefix="在" sufix="回复你" title="" />
+		<reply id="8" desc="XX回复 你在XX圈子的帖子标题" prefix="在"	sufix="回复你" title="" />
+		<reply id="16" desc="XX在你的留言簿留言（标题就是 留言）" prefix="给你"	sufix="" title="留言了" />
+		<reply id="32" desc="XX回你在XX的新鲜事的评论" prefix="在"	sufix="回复你" title="" />
+		<reply id="33" desc="XX回复了你的分享XXX" prefix="回复了你的分享" sufix="" title="" />
+		<reply id="34" desc="XX回复了你的分享XXX" prefix="回复了你的分享" sufix="" title="" />
+		
+		<reply id="35" desc="XX在集市信息中给你留言" prefix="在" sufix="给你留言" title="" />
+		<reply id="36" desc="XX在集市信息中给你留言" prefix="在" sufix="回复你" title="" />
+		
+		<reply id="37" desc="XXX 邀请您加入加油中国全民传活动" prefix="邀请您加入" sufix="活动" title="" />
+		
+		<reply id="38" desc="XXX送了一个百事个性护照给你，快去看看吧" prefix="" sufix="" title="" />
+		
+		<reply id="39" desc="XXX在投票XXX回复了你" prefix="在投票" sufix="回复了你" title="" />
+
+		<reply id="40" desc="XXX推荐了你的影评XXX" prefix="推荐了你的影评" sufix="" title="" />
+		<reply id="41" desc="***向你发起约会邀请，快来看看吧！" prefix="向你发起约会邀请，" sufix="" title="" />
+		<reply id="42" desc="***邀请你加入广州移动新学院，丰富礼品等你拿。" prefix="邀请你加入" sufix="，丰富礼品等你拿。" title="" />
+		<reply id="43" desc="×××邀请你参加“卫衣狂show”，送衣服、送U盘！" prefix="邀请你参加“" sufix="”，送衣服、送U盘！" title="" />
+		<reply id="44" desc="***送了一个“我是封面女郎”给你，快去看看！" prefix="送了一个“" sufix="”给你，快去看看！" title="" />
+		
+		<reply id="45" desc="XXX 完成了 你对TA的点名" prefix="完成了" sufix="" title="" />
+		<reply id="46" desc="XXX 评价了你的点名回答" prefix="" sufix="" title="" />
+		<reply id="47" desc="XXX 在 张虎/你对曾亚麟的点名 中回复你 " prefix="在" sufix="中回复你" title="" />
+		
+		<reply id="49" desc="****邀请你一起畅玩梦幻,看图说话！" prefix="邀请你" sufix="" title="" />
+		<reply id="50" desc="xxx参与了英特尔迅驰科技风尚大赛，邀请你去为他投票，快去看看吧！" prefix="参与了" sufix="，邀请你去为他投票，快去看看吧！" title="" />
+		<reply id="51" desc="***邀你一起横扫饥饿，活力连赢！快去看看……" prefix="邀你一起横扫饥饿，活力连赢！" sufix="" title="" />
+		<reply id="52" desc="XXX邀请你参加多力多滋一起飙，快来秀出你的态度吧！" prefix="邀请你参加" sufix="，快来秀出你的态度吧！" title="" />
+		<reply id="53" desc="***邀请你在“校内我最MAN”活动中为他投票，他最MAN！" prefix="邀请你在“&lt;a href='http://realman.xiaonei.com'&gt;校内我最MAN&lt;/a&gt;”活动中" sufix="，他最MAN！" title="" />
+		<reply id="54" desc="***邀你加入欧莱雅校园科学之星评选！快去看看……" prefix="邀你加入欧莱雅校园科学之星评选！" sufix="" title="" />
+
+		<reply id="55" desc="***邀请你参加洁婷Mini教主大赛，奖品不断惊喜不断。" prefix="邀请你参加" sufix="，奖品不断惊喜不断。" title="" />
+		<reply id="56" desc="***邀请你给TA投票，支持好友获取洁婷大礼包。" prefix="邀请你" sufix="，支持好友获取洁婷大礼包。" title="" />
+		
+		<reply id="57" desc="***有麻烦了，请你为TA的奇多豹提供奇多草莓能量，否则后果……" prefix="有麻烦了，" sufix="，否则后果……" title="请你为TA的奇多豹提供奇多草莓能量" />
+		<reply id="58" desc="XXX邀请你回答他在迪士尼圣诞季追寻你活动中留下的问题，快去看看吧。" prefix="邀请你回答他在迪士尼圣诞季追寻你活动中留下的问题，" sufix="。" title="快去看看吧" />
+		<reply id="59" desc="XXX邀请您加入“DELL新年新本新生活团购会”，快去看看吧！" prefix="邀请您加入“DELL新年新本新生活团购会”，" sufix="!" title="快去看看吧" />
+		<reply id="60" desc="***送了一个心享乐事成给你，快去看看……" prefix="送了一个心享乐事成给你，" sufix="" title="" />		
+		<reply id="61" desc="神秘的TA送给你一张“MOTO情人节私密贺卡”，快去看看吧！" prefix="送给你一张“" sufix="”，快去看看吧！" title="" />
+		<reply id="62" desc="XXX 在 [XXX相册名] 回复你" prefix="在" sufix="回复你" title="" />
+		<reply id="63" desc="XXX 回复了你的留言" prefix="" sufix="" title="" />
+		<reply id="64" desc="XX回复  你在 A 的图片的评论" prefix="在"		sufix="回复你" title="" />
+		<reply id="65" desc="***送你一张“斗硬能量卡”，快去看看吧！" prefix="送你一张“" sufix="”，快去看看吧！" title="" />
+		<reply id="128" desc="XX回复 你在  A 的相册的评论" prefix="在"	sufix="回复你" title="" />
+		<reply id="256" desc="XX在你在小圈子名 的评论" prefix="在" sufix="回复你" title="" />
+		<reply id="512" desc="XX回复你在A的留言簿的" prefix="" sufix="" title="回复了你的留言" />
+	  	<reply id="1024" desc="XX回复 你在XX圈子的留言" prefix="在你的社团" sufix="回复你" title="留言了" />
+		<reply id="2048" desc="XX回复 你在XX圈子的留言" prefix="" sufix="" title="回复你的社团留言" />
+		<reply id="4096" desc="XX回复 你在XX圈子的活动" prefix="在" sufix="回复你" title="" />
+		<reply id="8192" desc="XX回复 你在XX圈子的帖子" prefix="在" sufix="回复你" title="" />
+		<reply id="16384" desc="XX回复 你在XX班的留言" prefix="在" sufix="回复你" title="" />
+		<reply id="32768" desc="XX回复 在club XX回复你" prefix="在" sufix="回复你" title="" />
+		<reply id="65536" desc="XX回复 在club XX回复你" prefix="在" sufix="回复你" title="" />
+		<reply id="65538" desc="公开礼物" prefix="" sufix="" title="" />
+		<reply id="65540" desc="匿名礼物" prefix="" sufix="" title="" />
+		<reply id="65541" desc="影评回复" prefix="在影评 -" sufix="回复你" title="" /> 
+  		<reply id="65542" desc="影评回复" prefix="在影评 -" sufix="回复你" title="" />
+  		<reply id="65543" desc="活动回复" prefix="在活动 -" sufix="回复你" title="" /> 
+  		<reply id="65544" desc="活动回复" prefix="在活动 -" sufix="回复你" title="" />
+  		<reply id="65545" desc="活动相册回复" prefix="在活动相册 -" sufix="回复你" title="" /> 
+  		<reply id="65546" desc="活动相册回复" prefix="在活动相册 -" sufix="回复你" title="" />
+  		<reply id="65547" desc="状态回复" prefix="" sufix="" title="回复了你的状态" />
+  		<reply id="65549" desc="状态二级回复" prefix="在状态 " sufix=" 中回复了你" title="" />
+  		<reply id="65552" desc="状态二级回复" prefix="在状态 " sufix=" 中回复了你" title="" />
+  		<reply id="65553" desc="状态全部回复" prefix="在状态 " sufix=" 中回复了大家" title="" />
+  		<reply id="65550" desc="魔法礼物 公开" prefix="" sufix="" title="" />
+  		<reply id="65551" desc="魔法礼物 匿名" prefix="" sufix="" title="" />
+	</replys>
+
+	<attentions>
+		<attention id="1" desc="改资料" prefix="修改资料" sufix="" title="" />
+		<attention id="2" desc="发布新鲜事" prefix="发表日志" sufix="" title="" />
+		<attention id="4" desc="回复照片" prefix="评论照片" sufix="" title="" />
+		<attention id="8" desc="加新朋友" prefix="加了一个新朋友" sufix="" title="" />
+		<attention id="16" desc="上传图片" prefix="上传照片" sufix="" title="" />
+		<attention id="32" desc="回复日志" prefix="评论日志" sufix="" title="" />
+		<attention id="33" desc="回复分享" prefix="评论分享" sufix="" title="" />
+		<attention id="34" desc="回复分享" prefix="评论分享" sufix="" title="" />
+		
+		<attention id="35" desc="回复集市" prefix="" sufix="" title="" />
+		<attention id="36" desc="回复集市" prefix="" sufix="" title="" />
+		
+		<attention id="64" desc="新个人留言  包括 回复留言" prefix="" sufix="" title="留言" />
+		<attention id="128" desc="发新贴子" prefix=" 发表" sufix="" title="" />
+		<attention id="256" desc="回复帖子" prefix="回复" sufix="" title="" />				
+		<attention id="512" desc="评论图片" prefix="回复" sufix="" title="" />
+		<attention id="1024" desc="加圈子" prefix="加入群"   sufix=""			title="" />
+		<attention id="2048" desc="修改头像" prefix="修改头像"   sufix=""			title="" />
+		<attention id="4096" desc="修改状态" prefix="在" sufix=""			title="" />
+		<attention id="8192" desc="分享日志" prefix="分享日志" sufix=""			title="" />
+		<attention id="16384" desc="分享相片" prefix="分享照片" sufix=""			title="" />
+		<attention id="32786" desc="分享帖子" prefix="分享帖子" sufix=""			title="" />
+		<attention id="65572" desc="分享个人主页" prefix="分享主页" sufix=""			title="" />	
+		<attention id="131144" desc="分享广场帖子" prefix="分享帖子" sufix=""			title="" />
+		<attention id="262288" desc="广场帖子" prefix="广场发帖" sufix=""			title="" />	
+		<attention id="524576" desc="广场回复帖子" prefix="回复广场发帖" sufix=""			title="" />
+		<attention id="1049152" desc="校园通安装通知" prefix="成为"   sufix="的用户了"			title="" />
+		<attention id="1049154" desc="公开礼物" prefix="收到礼物"   sufix=""			title="" />
+		<attention id="1049156" desc="匿名礼物" prefix="收到礼物"   sufix=""			title="" />
+		<attention id="1049158" desc="猫游记" prefix="加入游戏"   sufix=""			title="" />
+		<attention id="1049159" desc="回复影评" prefix="回复影评" sufix="" title="" />
+		<attention id="1049160" desc="活动回复" prefix="活动回复" sufix="" title="" />
+		<attention id="1049161" desc="活动相册回复" prefix="活动相册回复" sufix="" title="" />
+		<attention id="1049162" desc="活动回复" prefix="活动回复" sufix="" title="" />
+	</attentions>
+
+	<groups>
+		<group id="1" desc="A在XX小圈子发帖帖子标题" prefix="发表" sufix="" title="" />
+		<group id="2" desc="A在xx小圈子上传图 图片标题" prefix="上传图片" sufix="" title="" />
+		<group id="4" desc="A在xx小圈子评论图片图片标题（帖子)" prefix="回复" sufix="" title="" />
+		<group id="8" desc="A在xx小圈子回帖帖子标题" prefix="回复" sufix="" title="" />
+	  <group id="128" desc="A在xx社团发帖标题" prefix="在社团发表" sufix="" title="" />			
+	</groups>
+	
+	<classes>
+		<class id="1" desc="加入班级" prefix="加入" sufix=""	title="" />
+		<class id="2" desc="班级留言" prefix="留言" sufix="" title="" />
+		<class id="4" desc="申请加入班级" prefix="申请加入" sufix="" title="" />
+		<class id="8" desc="公告修改" prefix="公告修改" sufix="" title="" />
+		<class id="16" desc="发表日志" prefix="发表日志" sufix="" title="" />
+		<class id="32" desc="上传照片" prefix="上传照片" sufix="" title="" />
+		<class id="64" desc="分享日志" prefix="分享日志" sufix="" title="" />
+		<class id="128" desc="分享相片" prefix="分享相片" sufix="" title="" />
+		<class id="256" desc="分享个人主页" prefix="分享主页" sufix="" title="" />
+		<class id="512" desc="分享帖子" prefix="分享帖子" sufix="" title="" />
+		<class id="1024" desc="班级上传照片" prefix="上传照片" sufix="" title="" />
+		<class id="2048" desc="校园通安装通知" prefix="成为" sufix="的用户了" title="" />
+	</classes>
+	
+</fangles>

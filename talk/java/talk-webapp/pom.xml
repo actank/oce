@@ -1,0 +1,84 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.xiaonei</groupId>
+	<artifactId>xiaonei-talk-webapp</artifactId>
+	<version>1.0-SNAPSHOT</version>
+
+	<build>
+		<resources>
+			<resource>
+				<directory>src/main/java</directory>
+				<includes>
+					<include>**/*.properties</include>
+					<include>**/*.xml</include>
+					<include>**/*.java</include>
+				</includes>
+			</resource>
+		</resources>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+					<fork>true</fork>
+					<verbose>true</verbose>
+					<encoding>UTF-8</encoding>
+					<compilerArguments>
+						<sourcepath>${project.basedir}/src/main/java</sourcepath>
+					</compilerArguments>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<configuration>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<parent>
+		<groupId>com.xiaonei</groupId>
+		<artifactId>xiaonei-root-pom</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.xiaonei</groupId>
+			<artifactId>xiaonei-api-component</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.xiaonei.xce</groupId>
+			<artifactId>oce-adapter</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.xiaonei.xce</groupId>
+			<artifactId>oce-dbjavapool</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.xiaonei.xce</groupId>
+			<artifactId>oce-logger</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.xiaonei.xce</groupId>
+			<artifactId>oce-util</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.xiaonei.xce</groupId>
+			<artifactId>oce-passport</artifactId>
+		</dependency>
+
+	</dependencies>
+
+
+
+</project>

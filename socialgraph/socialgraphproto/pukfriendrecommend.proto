@@ -1,0 +1,17 @@
+package xce.socialgraph;
+
+option java_package = "com.xiaonei.xce.socialgraph.proto";
+option java_outer_classname = "PeopleYouMayKnow";
+
+message PukFriendRecommend {
+	optional int32 timestamp = 1;
+
+	message CommonFriend {
+		required int32 userId = 2;
+		optional int32 weight = 3;
+		optional int32 shareCount = 4;
+		repeated int32 shares = 5;	
+	}
+	
+	repeated CommonFriend CommonFriendSeq = 6;
+}

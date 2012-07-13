@@ -1,0 +1,30 @@
+
+
+
+如何新加一位开发用户
+
+1: 
+用kerberos以root身份登录到10.22.202.47
+2:
+luseradd -d /data/new_user_name new_user_name
+3:
+在/data/new_user_name目录中建立.k5login文件,并写入new_user的kerberos帐号名
+4:
+new_user登录到10.22.202.47上checkout工程
+git clone xce@10.22.202.47:/var/www/cell/cell.git
+5:
+生成slice文件,这步以后会不用,清辉马上搞定
+cp cell/cxx/socialgraph/doc/slice2cppSlice.sh ~/
+sh slice2cppSlice.sh
+6:建立64位一个软连接
+cd /cell/crash
+ln -s libbreakpad64.fPIC.a libbreakpad.a
+7:进入socialgraph目录运行
+scons -u .
+就可以开发啦
+
+
+祝大家开发愉快~~
+
+
+李勇  liyong@opi-corp.com    

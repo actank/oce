@@ -1,0 +1,173 @@
+
+	struct SGAction : public BaseAction {
+		bool Match(const std::string& url) const {
+			return boost::starts_with(url, "/cwf_test");
+
+			//    return url == "/cwf_test";
+		}
+
+		cwf::HttpStatusCode Process(Request* req, Response* res) {
+
+			std::stringstream ss;
+
+			try {
+				const std::string& message = req->query("message");
+
+
+				ss << message << "<br/>";
+
+				const std::string& postMessage = req->form("p");
+
+				ss << postMessage << "<br/>";
+
+
+				xce::usercache::UserCacheManagerPrx prx = xce::CachedUserCacheAdapter(0);
+				xce::usercache::UserCacheData3Map map;
+				MyUtil::IntSeq ids;
+				ids.push_back(27640369); 
+				ids.push_back(286162347); 
+				map = prx->getUserCacheMap3(ids);
+
+				ss << map[27640369]->id << "|"<< map[27640369]->name << "|" << map[286162347]->id << "|" << map[286162347]->name;
+
+
+
+				std::string host("10.3.17.102");
+				int port = 11211;
+				memcache::Memcache memcache(host, port);
+
+				std::string key("FB_27640369");
+				std::vector<char> value;
+				memcache.get(key, value);
+
+				ss << "<br/>value.size():" << value.size();
+
+
+			} catch (std::exception& e) {
+				LOG(INFO) << e.what();
+			} catch (...) {
+				LOG_F(WARNING) << "Unknown Exception";
+			}
+
+			static const std::string kDefaultContentType("text/html; charset=utf-8");
+			res->header().set_status_code(cwf::HC_OK, "OK");
+			res->header().Add(cwf::HH_CONTENT_TYPE, kDefaultContentType);
+			res->OutputHeader();
+
+
+			res->WriteRaw(ss.str());
+			//    res->WriteRaw("<h1>from sg action  hello  let's get to it!</h1>");
+
+			return cwf::HC_OK;
+		}
+	};
+
+	struct TemplateAction : public BaseAction {
+		bool Match(const std::string& url) const {
+			//			return url == "/cwf_tpl";
+			return boost::starts_with(url, "/cwf_tpl");	
+		}
+
+		cwf::HttpStatusCode Process(Request* req, Response* res) {
+
+			try {
+				LOG(INFO) << "enter TemplateAction::Process method:" << req->method();
+				
+
+				const std::string& host_id = req->form("host");
+				int id = boost::lexical_cast<int>(host_id);
+
+				memcache::Memcache memcache(std::string("10.3.17.102"), 11211);
+				std::vector<char> data;
+				
+				std::stringstream ss_key;
+				ss_key << "FB_" << id;
+					
+				memcache.get(ss_key.str(), data);
+
+				FriendBirthdays fbs;
+				if (!data.empty()) {
+					fbs.ParseFromArray(data.data(), data.size());
+				
+					MyUtil::IntSeq ids;
+					
+					for (int index; index < fbs.friend_birthdays_size(); ++index) {
+						const FriendBirthday& fb = fbs.friend_birthdays(index);
+						ids.push_back(fb.id());	
+					}
+					xce::usercache::UserCacheManagerPrx prx = xce::CachedUserCacheAdapter(0);
+					xce::usercache::UserCacheData3Map map;
+					map = prx->getUserCacheMap3(ids);
+					
+					LOG(INFO) << "map.size():" << map.size();
+					for (int i = 0; i < ids.size(); ++i) {
+						int id = ids[i];
+						if (map.find(id) != map.end()) {
+							LOG(INFO) << id << "|" << map[id]->name << "|" << map[id]->tinyUrl;
+						}	
+					}
+
+					static const std::string kDefaultContentType("text/html; charset=utf-8");
+					res->header().set_status_code(cwf::HC_OK, "OK");
+					res->header().Add(cwf::HH_CONTENT_TYPE, kDefaultContentType);
+					res->OutputHeader();
+					
+					ctemplate::TemplateDictionary dict("cwf_tpl");
+					for (int i = 0; i < ids.size(); ++i) {
+						int id = ids[i];
+						if (map.find(id) != map.end()) {
+							ctemplate::TemplateDictionary* sub_dict = dict.AddSectionDictionary("PEOPLE");
+							sub_dict->SetIntValue("ID", map[id]->id);
+							sub_dict->SetValue("NAME", map[id]->name);
+						}	
+					}
+					
+				
+					ctemplate::Template * tpl = ctemplate::Template::GetTemplate(
+							"tpl/test.tpl", ctemplate::STRIP_WHITESPACE);
+					if (tpl) {
+						std::string out;
+						tpl->Expand(&out, &dict);
+						res->WriteRaw(out);
+					}
+	
+				}
+				/*
+				if (map.find(id) != map.end()) {
+					static const std::string kDefaultContentType("text/html; charset=utf-8");
+					res->header().set_status_code(cwf::HC_OK, "OK");
+					res->header().Add(cwf::HH_CONTENT_TYPE, kDefaultContentType);
+					res->OutputHeader();
+
+					ctemplate::TemplateDictionary dict("cwf_tpl");
+					//.. set values...
+					//dict.SetValue("URL", "too");
+					std::stringstream ss;
+					ss << map[id]->id;
+					dict.SetValue("TINY_URL_PREFIX", "http://hdn.xnimg.cn/photos/");
+					dict.SetValue("ID", ss.str());
+					dict.SetValue("NAME", map[id]->name);
+					dict.SetValue("TINY_URL", map[id]->tinyUrl);
+
+					LOG(INFO) << "ID:" << ss.str();
+					LOG(INFO) << "NAME:" << map[id]->name;
+					LOG(INFO) << "TINY_URL:" << map[id]->tinyUrl;
+			
+
+					ctemplate::Template * tpl = ctemplate::Template::GetTemplate(
+							"tpl/test.tpl", ctemplate::STRIP_WHITESPACE);
+					if (tpl) {
+						std::string out;
+						tpl->Expand(&out, &dict);
+						res->WriteRaw(out);
+					}
+				}
+				*/
+
+			} catch (...) {
+				LOG_F(WARNING) << "Unknown Exception";
+			}
+
+			return cwf::HC_OK;
+		}
+	};

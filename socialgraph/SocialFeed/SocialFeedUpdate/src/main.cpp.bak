@@ -1,0 +1,299 @@
+#include "SocialFeed.h"
+#include "FriendFetcher.h"
+#include "TaskManager.h"
+
+using namespace com::xiaonei::xce;
+using namespace MyUtil;
+
+const int TASK_LEVEL_READ_FRIENDS = 1;
+FriendFetcher* friendFetcher = NULL;
+
+class ReadFriendTask : public MyUtil::Task
+{
+	public:
+		ReadFriendTask(int uid, vector<USERID>& friends,
+				::Ice::Int level=TASK_LEVEL_READ_FRIENDS):
+			MyUtil::Task(level), _friends(friends) {
+				_uid = uid;
+			}
+		virtual void handle()
+		{
+			IceUtil::RWRecMutex::WLock lock(_mutex);
+			//map<USERID,vector<USERID> >::iterator iter = _userFriends.find(_uid);
+			fprintf(stderr, "uid=%d, size=%ld\n", _uid, _friends.size());
+					//iter == _userFriends.end() ? "true" : "false");
+			//assert(iter == _userFriends.end());
+
+			//vector<USERID> temp;
+			//pair<map<USERID,vector<USERID> >::iterator, bool> result =
+			//	_userFriends.insert(make_pair<USERID,vector<USERID> >(_uid, temp));
+			//assert(result.second);
+			//iter = result.first;
+
+			//friendFetcher->Read(_uid, temp/*iter->second*/);
+		}
+	private:
+		int _uid;
+		vector<USERID>& _friends;
+		IceUtil::RWRecMutex _mutex;
+};
+
+// 函数声明
+void SigRoutine(int dunno);
+time_t Begin();
+time_t Endup();
+
+int CreateSecondLayer(map<USERID,vector<USERID> >& secondLayer);
+int CreateFirstLayer(map<USERID,vector<USERID> >& firstLayer,
+		const map<USERID,vector<USERID> >& secondLayer);
+int CreateSocailFeed(vector<SocialFeed>& feeds,
+		USERID uid, const vector<USERID>& changeFriends,
+		const map<USERID,vector<USERID> >& firstLayer,
+		const map<USERID,vector<USERID> >& secondLayer);
+
+int ReadFriendLists(const map<USERID,vector<USERID> >& secondLayer,
+		map<USERID,vector<USERID> >& userFriends)
+{
+	TaskManager::instance().config(TASK_LEVEL_READ_FRIENDS, ThreadPoolConfig(0, 1));
+	int task_size = 0;
+	long wait = 0;
+	long count = 0;
+
+	for (map<USERID,vector<USERID> >::const_iterator iter = secondLayer.begin();
+			iter != secondLayer.end(); ++iter)
+	{
+		if (++count % 1000 == 0)
+			fprintf(stderr, "%ld / % ld\n", count, secondLayer.size());
+
+		pair<map<USERID,vector<USERID> >::iterator, bool> result =
+			userFriends.insert(make_pair<USERID,vector<USERID> >(iter->first, vector<USERID>()));
+		TaskManager::instance().execute(
+				new ReadFriendTask(iter->first, result.first->second));
+
+		while ((task_size=TaskManager::instance().size(TASK_LEVEL_READ_FRIENDS))>10000)
+		{
+			wait+=10;
+			sleep(10);
+			fprintf(stderr, "sleep %ld second. left %d tasks.\r", wait, task_size);
+		}
+	}
+	return 0;
+}
+
+int main(int argc, char* argv[])
+{
+	time_t start = Begin();
+
+	map<USERID,vector<USERID> > secondLayer;
+	CreateSecondLayer(secondLayer);
+	fprintf(stderr, "sizeof secondLayer = %ld\n", secondLayer.size());
+
+	map<USERID,vector<USERID> > userFriends;
+	ReadFriendLists(secondLayer, userFriends);
+	return 0;
+
+	map<USERID,vector<USERID> > firstLayer;
+	CreateFirstLayer(firstLayer, secondLayer);
+	fprintf(stderr, "sizeof firstLayer = %ld\n", firstLayer.size());
+
+	for (map<USERID,vector<USERID> >::const_iterator firstIter = firstLayer.begin();
+			firstIter != firstLayer.end(); ++firstIter)
+	{
+		vector<SocialFeed> feeds;
+		CreateSocailFeed(feeds, firstIter->first, firstIter->second, firstLayer, secondLayer);
+		// print feeds
+		if (firstIter->first == 239737004 ||
+				firstIter->first == 27640369 ||
+				firstIter->first == 238111132 ||
+				firstIter->first == 285340707 ||
+				firstIter->first == 237767538 ||
+				firstIter->first == 19875
+			 )
+		{
+			fprintf(stderr, "uid = %d :\n", firstIter->first);
+			for (vector<SocialFeed>::const_iterator iter = feeds.begin();
+					iter != feeds.end(); ++iter)
+			{
+				iter->Print();
+			}
+			getchar();
+		}
+	}
+
+	time_t end = Endup();
+	printf("time used %ld second\n", end-start);
+	return 0;
+}
+
+// SigRoutine {{{
+void SigRoutine(int sig)
+{
+	switch (sig)
+	{
+		case 1:
+			printf("Get a signal -- SIGHUP \n");
+			break;
+		case 2:
+			printf("Get a signal -- SIGINT \n");
+			break;
+		case 3:
+			printf("Get a signal -- SIGQUIT \n");
+			break;
+	}
+
+	Endup();
+	exit(0);
+}// }}}
+
+time_t Begin() // {{{
+{
+	signal(SIGHUP, SigRoutine); // 下面设置三个信号的处理方法
+	signal(SIGQUIT, SigRoutine);
+	signal(SIGINT, SigRoutine);
+	//fprintf(stderr, "\033[?25l");  // 隐藏stderr光标
+	friendFetcher = new FriendFetcher;
+
+	return time(NULL);
+}// }}}
+time_t Endup() //{{{
+{
+	fprintf(stderr, "\ncleaning jobs ... OK\n");
+	delete friendFetcher;
+	//fprintf(stderr, "\033[?25h");  // 恢复stderr光标
+	return time(NULL);
+}// }}}
+
+int CreateSocailFeed(vector<SocialFeed>& feeds,
+		USERID uid, const vector<USERID>& changeFriends,
+		const map<USERID,vector<USERID> >& firstLayer,
+		const map<USERID,vector<USERID> >& secondLayer)
+{
+	map<USERID,vector<USERID> >::const_iterator secondIter;
+	map<USERID,vector<USERID> > degree2;
+
+	// 计算二度好友（此时包含好友）排序
+	for (vector<USERID>::const_iterator cfIter = changeFriends.begin();
+			cfIter != changeFriends.end(); ++cfIter)
+	{
+		secondIter = secondLayer.find(*cfIter);
+		assert(secondIter != secondLayer.end());
+		for (vector<USERID>::const_iterator thirdIter = secondIter->second.begin();
+				thirdIter != secondIter->second.end(); ++thirdIter)
+		{
+			map<USERID,vector<USERID> >::iterator iter = degree2.find(*thirdIter);
+			if (iter == degree2.end())
+			{
+				pair<map<USERID,vector<USERID> >::iterator, bool> result =
+					degree2.insert(make_pair<USERID,vector<USERID> >(*thirdIter, vector<USERID>()));
+				iter = result.first;
+			}
+			iter->second.push_back(*cfIter);
+		}
+	}
+
+	// 过滤好友及自己，合并
+	vector<USERID> friendlist;
+	friendFetcher->Read(uid, friendlist);
+	set<USERID> setFriends(friendlist.begin(), friendlist.end());
+
+	map<vector<USERID>,vector<USERID> > revfeeds;
+	for (map<USERID,vector<USERID> >::const_iterator iter = degree2.begin();
+			iter != degree2.end(); ++iter)
+	{
+		map<vector<USERID>,vector<USERID> >::iterator revIter = revfeeds.find(iter->second);
+		if (revIter == revfeeds.end())
+		{
+			pair<map<vector<USERID>,vector<USERID> >::iterator, bool> result =
+				revfeeds.insert(make_pair<vector<USERID>,vector<USERID> >(
+							iter->second, vector<USERID>()));
+			revIter = result.first;
+		}
+		revIter->second.push_back(iter->first);
+	}
+
+	// 计算TopN
+	for (map<vector<USERID>,vector<USERID> >::const_iterator iter = revfeeds.begin();
+			iter != revfeeds.end(); ++iter)
+	{
+		SocialFeed feed(iter->second, iter->first);
+		feeds.push_back(feed);
+	}
+	sort(feeds.begin(), feeds.end(), SocialFeedComp());
+
+	// 按照offerfriend排序，及去除block feed
+	// TODO
+	return 0;
+}
+
+int CreateSecondLayer(map<USERID,vector<USERID> >& secondLayer)
+{
+	const char* fname = "../data/addfriend.recently";
+	FILE* fp = fopen(fname, "rt");  // addfriend.recently test
+	assert(fp!=NULL);
+	int uid = 0;
+	int fid = 0;
+	long line = 0;
+	map<USERID,vector<USERID> >::iterator iter;
+
+	while (!feof(fp))
+	{
+		if (++line % 100000 == 0)
+			fprintf(stderr, "%ld\r", line);
+		fscanf(fp, "%d\t%d\n", &uid, &fid);
+		//fprintf(stderr, "<%d><%d>\n", uid, fid);
+		//-----------------------------
+		iter = secondLayer.find(uid);
+		if (iter == secondLayer.end())
+		{
+			pair<map<USERID,vector<USERID> >::iterator, bool> result =
+				secondLayer.insert(make_pair<USERID,vector<USERID> >(uid, vector<USERID>()));
+			iter =result.first;
+		}
+		iter->second.push_back(fid);
+		//-----------------------------
+		iter = secondLayer.find(fid);
+		if (iter == secondLayer.end())
+		{
+			pair<map<USERID,vector<USERID> >::iterator, bool> result =
+				secondLayer.insert(make_pair<USERID,vector<USERID> >(fid, vector<USERID>()));
+			iter =result.first;
+		}
+		iter->second.push_back(uid);
+	}
+	fprintf(stderr, "\n");
+	fclose(fp);
+	return 0;
+}
+
+int CreateFirstLayer(map<USERID,vector<USERID> >& firstLayer,
+		const map<USERID,vector<USERID> >& secondLayer)
+{
+	map<USERID,vector<USERID> >::iterator firstIter;
+	vector<USERID> friendlist;
+	long line = 0;
+
+	for (map<USERID,vector<USERID> >::const_iterator iter = secondLayer.begin();
+			iter != secondLayer.end(); ++iter)
+	{
+		if (++line % 100 == 0)
+			fprintf(stderr, "%ld\r", line);
+		friendlist.clear();
+		friendFetcher->Read(iter->first, friendlist);
+		for (vector<USERID>::const_iterator fidIter = friendlist.begin();
+				fidIter != friendlist.end(); ++fidIter)
+		{
+			//fprintf(stderr, "%d,", *fidIter);
+			firstIter = firstLayer.find(*fidIter);
+			if (firstIter == firstLayer.end())
+			{
+				pair<map<USERID,vector<USERID> >::iterator, bool> result =
+					firstLayer.insert(make_pair<USERID,vector<USERID> >(*fidIter, vector<USERID>()));
+				firstIter =result.first;
+			}
+			firstIter->second.push_back(iter->first);
+		}
+		//getchar();
+	}
+	return 0;
+}
+

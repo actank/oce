@@ -1,0 +1,52 @@
+#PROJECT (DjLoggingServer)
+
+import os,time
+
+env = Environment(CC = 'g++', CCFLAGS = '-Wall -O3')
+
+print '***************** LIB *****************'
+
+DJSERVER_DIR = os.path.abspath( os.path.join(os.path.abspath('.'),'..') )
+TRUNK_DIR = os.path.abspath( os.path.join(DJSERVER_DIR,'../../..') )
+LOGGINGSERVER_DIR = os.path.abspath( os.path.join(DJSERVER_DIR,'..') )
+THIRDLIB_DIR = '/data/home/xiang.ye/programs'
+
+print 'DEBUG: '+DJSERVER_DIR
+print 'DEBUG: '+TRUNK_DIR
+print 'DEBUG: '+LOGGINGSERVER_DIR
+print 'DEBUG: '+THIRDLIB_DIR
+
+cpppath = [
+	os.path.join(THIRDLIB_DIR,'jsoncpp-src-0.5.0/include'),
+	os.path.join(THIRDLIB_DIR,'boost/include'),
+	os.path.join(THIRDLIB_DIR,'log4cplus/include'),
+	os.path.join(LOGGINGSERVER_DIR,'include'),
+	TRUNK_DIR
+]
+
+libs = [
+	'log4cplus',
+	'boost_thread',
+	'json_linux-gcc-4.1.2_libmt'
+]
+
+libpath = [
+	os.path.join(THIRDLIB_DIR,'jsoncpp-src-0.5.0/libs/linux-gcc-4.1.2'),
+	os.path.join(THIRDLIB_DIR,'boost/lib'),
+	os.path.join(THIRDLIB_DIR,'log4cplus/lib')
+]
+
+env.Append(CPPPATH=cpppath)
+env.Append(LIBS=libs)
+env.Append(LIBPATH=libpath)
+
+print '**************** SCONS ****************'
+
+src_file=[
+	os.path.join(DJSERVER_DIR,'src/main.cc'),
+	os.path.join(TRUNK_DIR,'base/url.cc'),
+	os.path.join(TRUNK_DIR,'base/port.cc')
+]
+
+env.Program( target='djloggingserver.'+time.strftime('%Y-%m-%d_%H_%M',time.localtime(time.time())), source=src_file )
+

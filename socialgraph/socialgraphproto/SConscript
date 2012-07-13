@@ -1,0 +1,14 @@
+Import('env')
+Import('cpp_')
+
+socialgraphproto = env.StaticLibrary('socialgraphproto',
+  source = [
+    				env.Protoc('#/socialgraph/socialgraphproto/friendcluster.proto'),
+    				env.Protoc('#/socialgraph/socialgraphproto/item.proto'),
+    				env.Protoc('#/socialgraph/socialgraphproto/pukfriendrecommend.proto'),
+            ],
+  LIBS = [ 'protobuf', 'pthread' ])
+
+to_export = {'socialgraphproto': socialgraphproto}
+Return('to_export')
+

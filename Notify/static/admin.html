@@ -1,0 +1,396 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link href="./base.css" rel="stylesheet" type="text/css" media="all" />
+<script type="text/javascript">
+
+function new_schema(){
+   window.showModalDialog('edit-schema.html', -1,"dialogWidth:800px; dialogHeight:700px; center:no; resizable:1; edge:sunken"); 
+}
+
+function edit_schema(id){
+   window.showModalDialog('edit-schema.html',id,"dialogWidth:1200px; dialogHeight:700px; center:no; resizable:1; edge:sunken"); 
+}
+
+function getXhr()
+{
+  return XMLHttpRequest();
+}
+
+var ApplyRequest = {
+  xhr : getXhr(),
+  callback : function(r) {
+    var el = document.getElementById('apply_result');
+    if( r.readyState == 4 ) {
+      var rcode = eval('(' + r.responseText + ')');
+      if(rcode == 0)
+      {
+        el.style.color = 'green';
+        el.innerHTML = ' : success.';
+      }
+      else
+        el.innerHTML = ' : error - ' + r.responseText;
+    } else {
+      el.style.color = 'blue';
+      el.innerHTML = ' : reloading ...';
+    }
+  },
+  start : function() {
+    var r = this.xhr;
+    var url = "/apply.tpl?";
+    r.open('GET', url, true);
+    r.onreadystatechange = function() { 
+      try{
+        ApplyRequest.callback(r);
+      }catch(e){
+        alert('apply all error : ' + e);
+      }
+    };
+    r.send('');
+  }
+}
+
+var ID_COL = 0;
+var TYPE_COL = 1;
+var NAME_COL = 2;
+var HOME_SWITCH_COL = 3;
+var DISPLAY_COL = 4;
+var MERGE_COL= 5;
+var BIGTYPE_COL = 6;
+
+var EDIT_COL = 7;
+var REMOVE_COL = 8;
+
+var SchemaList = {
+  xhr : getXhr(),
+  tr_map : {},
+  load : function() {
+    var url = "/getallschema.tpl";
+    var r = this.xhr;
+    r.open('GET', url, true);
+    r.onreadystatechange = function() { 
+      if(r.readyState == 4)
+        try{
+          SchemaList.onLoadReady(r);
+        }catch(e){
+          alert('加载失败，请确保已经登录renren.com : ' + e);
+        }
+    };
+    r.send('');
+  },
+
+  onLoadReady : function(r) {
+    var datas = eval('(' + r.responseText + ')');
+    var table = document.getElementById("schema_table");
+    var display_html;
+    for(var i = 0; i < datas.length; i++) {
+      var tr = document.createElement("tr");
+      table.appendChild(tr);
+      var id = datas[i]['id'];
+      this.tr_map[id] = tr;
+
+      tr.innerHTML = '<td>' + datas[i]['id'] + '</td>' +
+        '<td><input type="text" size="10" disabled="true" value="' + datas[i]['type'] + '" /> <a href="#nogo">修改</a></td>' +
+        '<td>' + datas[i]['name'] + '</td>' +
+        '<td><a href="#nogo"></a></td>' +
+        '<td></td>' +
+        '<td></td>' +
+        '<td width="140"></td>' +
+        '<td>' +
+          '<a  href="#nogo" onclick="javascript:edit_schema(' + id + ')">编辑</a>' +
+        '</td>' +
+        '<td><a href="#nogo">删除</a></td>';
+
+      var el = tr.childNodes[TYPE_COL];
+      var input = tr.firstChild;
+      el.lastChild.onclick = function() {
+        var _id = id;
+        return function() {
+          var input = this.parentNode.firstChild;
+
+          if(input.disabled)
+          {
+            input.disabled = false;
+            this.innerHTML = '保存';
+            input.focus();
+          }
+          else
+          {
+            SchemaList.saveSchemaType(_id, input.value);
+          }
+        };
+      }();
+
+      var b = datas[i]['display'];
+      this.showDisplayItem(tr, id, b);
+      b = datas[i]['home_visible'];
+      this.showHomeSwitchItem(tr, id, b);
+      b = datas[i]['merge'];
+      this.showMergeItem(tr, id, b);
+
+      var bigtype = datas[i]['bigtype'];
+      this.showBigtype(tr, id, bigtype);
+
+      el = tr.childNodes[REMOVE_COL];
+
+      el.onclick = function() {
+        var i = id;
+        return function(){
+          SchemaList.remove(i);
+        };
+      }();
+    }
+  },
+  saveSchemaType : function(id, type) {
+    var url = "/setschematype.tpl?id=" + id + "&type=" + type;
+    var r = this.xhr;
+    r.open('GET', url, true);
+    r.onreadystatechange = function() { 
+      if(r.readyState == 4)
+        SchemaList.onSaveTypeReady(r, id, type);
+    };
+    r.send('');
+  },
+  onSaveTypeReady : function(r, schemaid, type)
+  {
+    try{
+      var res = eval('(' + r.responseText + ')');
+      if(res >= 0)
+      {
+        var tr = this.tr_map[schemaid].childNodes[TYPE_COL];
+        var input = tr.firstChild;
+        alert('schema 类型修改成功');
+        input.disabled = true;
+        tr.lastChild.innerHTML = '修改';
+      } else {
+        alert('保存schema类型失败');
+      }
+    }catch(e){
+      alert('保存schema类型失败');
+    }
+  },
+
+ showMergeItem : function(tr, id, b) { 
+      var el = tr.childNodes[MERGE_COL];
+      if(b)
+        el.innerHTML = '合并 <a href="#nogo">不合并</a>';
+      else
+        el.innerHTML = '不合并 <a href="#nogo">合并</a>';
+
+      el.lastChild.onclick = function() {
+        SchemaList.setMerge(id, b ? 0 : 1);
+      }
+  },
+
+  setMerge : function(schemaid, merge) {
+    var url = "/setschemamerge.tpl?id=" + schemaid + "&merge=" + merge;
+    var r = this.xhr;
+    r.open('GET', url, true);
+    r.onreadystatechange = function() { 
+      if(r.readyState == 4)
+        try{
+          SchemaList.onSetMergeReady(r, schemaid);
+        }catch(e){
+          alert('set merge schema error : ' + e);
+        }
+    };
+    r.send('');
+  },
+
+  onSetMergeReady : function(r, schemaid) {
+    var res = eval('(' + r.responseText + ')');
+    if(res >= 0)
+    {
+      var tr = this.tr_map[schemaid]; 
+      this.showMergeItem(tr, schemaid, res);
+    }
+    else
+    {
+      alert('设定失败 id = ' + schemaid + ', 建议刷新页面' );
+    }
+  },
+
+  
+ showBigtype : function(tr, id, bigtype) {
+      var el = tr.childNodes[BIGTYPE_COL];
+      el.innerHTML = '<select> <option value="0">未设定</option> <option value="1">提醒</option> <option value="2">请求</option> <option value="3">通知</option> </select> <a href="#nogo">save</a>';
+      el.firstChild.value = bigtype;
+      el.lastChild.onclick = function() {
+        var bt =  el.firstChild.value;
+        SchemaList.setBigtype(id, bt);
+      }
+ },
+  
+  setBigtype : function(schemaid, bigtype) {
+    var url = "/setschema-bigtype.tpl?id=" + schemaid + "&bigtype=" + bigtype;
+    var r = this.xhr;
+    r.open('GET', url, true);
+    r.onreadystatechange = function() { 
+      if(r.readyState == 4)
+        try{
+          SchemaList.onSetBigtypeReady(r, schemaid);
+        }catch(e){
+          alert('set schema bigtype error : ' + e);
+        }
+    };
+    r.send('');
+  },
+
+  onSetBigtypeReady : function(r, schemaid) {
+    var res = eval('(' + r.responseText + ')');
+    if(res > 0)
+    {
+      // var tr = this.tr_map[schemaid]; 
+      // this.showMergeItem(tr, schemaid, res);
+      alert('bigtype 更新成功');
+    }
+    else
+    {
+      alert('设定bigtype失败. 类型id=' + schemaid + ', 建议刷新页面后重新操作' );
+    }
+  },
+
+  showHomeSwitchItem : function(tr, id, b) {
+      var el = tr.childNodes[HOME_SWITCH_COL];
+      if(b)
+        el.innerHTML = '显示 <a href="#nogo">隐藏</a>';
+      else
+        el.innerHTML = '未显示 <a href="#nogo">显示</a>';
+
+      el.lastChild.onclick = function() {
+        SchemaList.homeSwitch(id, b ? 0 : 1);
+      }
+  },
+
+  showDisplayItem : function(tr, id, b) { 
+      var el = tr.childNodes[DISPLAY_COL];
+      if(b)
+        el.innerHTML = '生效 <a href="#nogo">禁用</a>';
+      else
+        el.innerHTML = '未生效 <a href="#nogo">启用</a>';
+
+      el.lastChild.onclick = function() {
+        SchemaList.setDisplay(id, b ? 0 : 1);
+      }
+  },
+
+  setDisplay : function(schemaid, display) {
+    var url = "/setschemadisp.tpl?id=" + schemaid + "&display=" + display;
+    var r = this.xhr;
+    r.open('GET', url, true);
+    r.onreadystatechange = function() { 
+      if(r.readyState == 4)
+        try{
+          SchemaList.onSetDisplayReady(r, schemaid);
+        }catch(e){
+          alert('remove schema error : ' + e);
+        }
+    };
+    r.send('');
+  },
+
+  onSetDisplayReady : function(r, schemaid) {
+    var res = eval('(' + r.responseText + ')');
+    if(res >= 0)
+    {
+      var tr = this.tr_map[schemaid]; 
+      this.showDisplayItem(tr, schemaid, res);
+    }
+    else
+    {
+      alert('设定失败 id = ' + schemaid + ', 建议刷新页面' );
+    }
+  },
+
+  homeSwitch : function(schemaid, homevisible) {
+    var url = "/setschema-home-visible.tpl?id=" + schemaid + "&visible=" + homevisible;
+    var r = this.xhr;
+    r.open('GET', url, true);
+    r.onreadystatechange = function() { 
+      if(r.readyState == 4)
+        try{
+          SchemaList.onHomeSwitchReady(r, schemaid);
+        }catch(e){
+          alert('set schema home visibility error : ' + e);
+        }
+    };
+    r.send('');
+
+  },
+
+  onHomeSwitchReady : function(r, schemaid) {
+    var res = eval('(' + r.responseText + ')');
+    if(res >= 0)
+    {
+      var tr = this.tr_map[schemaid]; 
+      this.showHomeSwitchItem(tr, schemaid, res);
+    }
+    else
+    {
+      alert('提交失败 id = ' + schemaid + ', 建议刷新页面' );
+    }
+  },
+  remove : function(schemaid) {
+    if(!confirm('确定删除 schema ' + schemaid + ' 吗？'))
+      return;
+
+    var url = "/delschema.tpl?id=" + schemaid;
+    var r = this.xhr;
+    r.open('GET', url, true);
+    r.onreadystatechange = function() { 
+      if(r.readyState == 4)
+        try{
+          SchemaList.onRemoveReady(r, schemaid);
+        }catch(e){
+          alert('remove schema error : ' + e + ' code:' + r.status);
+        }
+    };
+    r.send('');
+  },
+  onRemoveReady : function(r, schemaid) {
+    var res = eval('(' + r.responseText + ')');
+    if(res >= 0)
+    {
+      var table = document.getElementById("schema_table");
+      alert('删除成功' + this.tr_map[schemaid]);
+      table.removeChild(this.tr_map[schemaid]);
+      delete this.tr_map[schemaid];
+    }
+    else
+    {
+      alert('删除失败 id = ' + schemaid);
+    }
+  }
+}
+
+</script>
+
+<title>Notify模板管理</title>
+</head>
+<body>
+
+<a href="#nogo" onclick="javascript:ApplyRequest.start();">apply to online service</a>
+&nbsp; <span id="apply_result" ></span>
+
+<br>
+<hr/>
+<a href="#nogo" onclick="javascript:new_schema()"/>添加schema</a> &nbsp; <br /> 
+<table border="1" id="schema_table" bgcolor="#EFF2FA">
+   <tr bgcolor="#c3d9ff">
+     <td width="20">schema id</td>
+     <td width="160">业务类型id</td>
+     <td width="120">schema name</td>
+     <td width="100">主页显示</td>
+     <td width="100">是否已生效</td>
+     <td width="100">是否合并</td>
+     <td width="100"> bigtype </td>
+     <td width="40"></td>
+     <td width="40"></td>
+   </tr>
+</table>
+
+<script type="text/javascript">
+  SchemaList.load();
+</script>
+</body>
+</html>

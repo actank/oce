@@ -1,0 +1,9 @@
+<icegrid>
+	<application name="TourApp">
+                <include file="tour.xml" />
+		<node name="Node1">
+			<server-instance template="TourTemp" DefaultHost="127.0.0.1" LogLevel="DEBUG" />
+		</node>
+	</application>
+</icegrid>
+

@@ -1,0 +1,12 @@
+package xce.distcache.buddycache;
+
+message BuddyData 
+{
+  repeated int32 friend = 1;
+}
+
+message FriendData
+{
+  required int32 size = 1;
+  repeated int32 friend = 2;
+}

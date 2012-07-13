@@ -1,0 +1,18 @@
+
+MACRO (GENRANDOM_UUID uuid)
+	FILE(READ "/proc/sys/kernel/random/uuid" tuuid)
+	STRING(REGEX REPLACE "[\r\n]" "" uuid "${tuuid}")
+ENDMACRO (GENRANDOM_UUID uuid)
+
+MACRO(GENERATE_ARCHIVE_EACH prefix sources)
+	foreach(source_each ${sources})
+		GET_FILENAME_COMPONENT( source_each_name ${source_each} NAME_WE )
+		ADD_LIBRARY( ${prefix}${source_each_name} ${source_each} )
+		#MESSAGE(STATUS "DEBUG: ARGC=${ARGC}")
+		if(${ARGC} GREATER 2)
+			ADD_DEPENDENCIES( ${prefix}${source_each_name} ${ARGN} )
+		endif(${ARGC} GREATER 2)
+		#MESSAGE(STATUS "DEBUG: GENERATE_ARCHIVE_EACH ${prefix}${source_each_name}")
+	endforeach(source_each)
+	ADD_LIBRARY( ${prefix} ${sources} )
+ENDMACRO(GENERATE_ARCHIVE_EACH)

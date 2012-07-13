@@ -1,0 +1,36 @@
+#ifndef MESSAGETYPE_H_
+#define MESSAGETYPE_H_
+
+namespace com {
+namespace xiaonei {
+namespace talk {
+namespace util {
+enum MessageType {
+	PRESENCE_COMMON,
+	PRESENCE_OFFLINE,
+	MESSAGE,
+	SYSTEM_MESSAGE,
+	OFFLINE_MESSAGE,
+	IQ_GET,
+	IQ_SET,
+	IQ_RESULT,
+	IQ_ERROR,
+	NOTIFY_MESSAGE,
+	NOTIFY2_MESSAGE,
+	OTHER,
+	GROUPCHAT_MESSAGE,
+	FEED_STATUS,
+	PHONE_NOTIFY,
+	MUC_MESSAGE,
+	MUC_PRESENCE
+};
+}
+;
+}
+;
+}
+;
+}
+;
+
+#endif /*MESSAGETYPE_H_*/

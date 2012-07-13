@@ -1,0 +1,1 @@
+{{#self}}{{#ghost}}done{{/ghost}}{{/self}}

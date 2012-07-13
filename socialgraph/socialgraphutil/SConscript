@@ -1,0 +1,40 @@
+Import('env')
+Import('cpp_')
+Import('boost_libs')
+
+socialgraphutil = env.StaticLibrary('socialgraphutil', 
+  source = [
+            'zkclient.cc',
+						'mcclient.cc',
+            'algostuff.cc',
+            'mc_adapter.cc',
+            'constants.cc',
+           	Glob('./calculator/*.cc'), 
+           	Glob('./calculator/component/*.cc')
+ 						],
+	LIBS = [
+          'memcached',
+					'zookeeper_mt',
+					'boost_libs',
+					cpp_['xceadapter'],
+          cpp_['base'], 
+					cpp_['arch'], 
+					cpp_['dbpool']
+  ])
+
+
+
+to_export = {'socialgraphutil': socialgraphutil}
+Return('to_export')
+
+
+
+import os
+for test_source in Glob('*_test.cc'):
+  cwd = os.getcwd()
+  exe_name = test_source.name.split('.')[0]
+  env.Program(exe_name, 
+              source = [test_source, cwd + '/libsocialgraphutil.a'], 
+              LIBS = ['pthread', 'memcached', 'zookeeper_mt', 'log4cplus',
+                      'json_linux-gcc-4.1.2_libmt',boost_libs, 
+                      cpp_['base'], cpp_['xceadapter']])

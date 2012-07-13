@@ -1,0 +1,122 @@
+#include <iostream>
+#include <vector>
+#include <map>
+#include <string>
+#include <boost/algorithm/string.hpp>
+#include <boost/lexical_cast.hpp>
+
+using namespace std;
+
+typedef std::map<std::string, std::string> StringMap;
+typedef std::map<std::string, std::vector<std::string> > VectorMap;
+
+enum LogicType { CONDITION, TWO_WAY_CONDITION, LOOP, HASSIMILAR};
+
+inline int ParseFeedStr(std::string& feed_str) {
+  std::vector<std::string> feed_str_vec;
+  boost::split(feed_str_vec, feed_str, boost::is_any_of("\t"), boost::token_compress_off);
+
+/* 
+  if (feed_str_vec.size != 2) {
+    cout << "error." << endl;
+    return -1;
+  
+  }
+*/
+ 
+  std::vector<std::string>::size_type feed_vec_len = feed_str_vec.size(); 
+  std::string feed_logic_str = feed_str_vec[feed_vec_len - 1];
+
+  cout << "feed_vec_len:" << feed_vec_len << "  logic_str:" << feed_logic_str << endl;
+ 
+  StringMap body;
+  VectorMap ls; 
+
+  if (feed_vec_len < 2 || feed_vec_len % 2 != 1) {
+    cout << "ERROR  !" << endl;
+    return -1;  
+  }
+
+  std::string last_key;
+  std::multimap<std::string, std::string> multi_map;
+  typedef std::multimap<std::string, string>::size_type sz_type;
+
+  for (int i = 0; i < feed_vec_len - 1; i += 2) {
+    multi_map.insert(make_pair(feed_str_vec[i], feed_str_vec[i+1]));
+    //cout << i << ":" << feed_str_vec[i] << " " << feed_str_vec[i+1] << endl;
+  } 
+ 
+  typedef multimap<std::string, string>::iterator multi_it; 
+  multi_it it = multi_map.begin();
+
+  cout << "while begin." << endl;
+  while (it != multi_map.end()) {
+
+    std::string key = it->first;
+    sz_type sz = multi_map.count(key);
+    pair<multi_it, multi_it> pos = multi_map.equal_range(key);
+
+    body.insert(make_pair(it->first,it->second)); 
+    it++;
+
+    if (sz > 1) {
+      std::vector<std::string> ls_value;
+      while(pos.first != pos.second) {
+        ls_value.push_back(pos.first->second); 
+        ++pos.first;
+      }
+      ls.insert(make_pair(key, ls_value));
+      it = pos.second;
+    }        
+
+  }
+
+  
+  
+  /* 
+  for (std::map<std::string, std::string>::iterator it = body.begin(); it != body.end(); it++) {
+    cout << "map:" << endl;
+    cout << it->first << " " << it->second << endl;
+  }
+
+  for (std::map<std::string, std::vector<std::string> >::iterator it = ls.begin(); it != ls.end(); it++) {
+    cout << "ls:" << endl;
+    cout << it->first << " " ; 
+    for (std::vector<std::string>::iterator it2 = it->second.begin(); it2 != it->second.end(); it2++) {
+      cout << *it2 << "|";
+    }
+    cout << endl;
+  } 
+  */ 
+
+  std::vector<std::string> logic_vec; 
+  boost::split(logic_vec, feed_logic_str, boost::is_any_of("#"), boost::token_compress_off);
+
+  std::string logic_type_str = logic_vec[0];
+  int logic_type = -1;
+  try {
+    logic_type = boost::lexical_cast<int>(logic_type_str);
+  } catch (boost::bad_lexical_cast& e) {
+    cout << e.what();
+  } 
+ 
+  switch (logic_type) {
+    CONDITION:
+      
+    TOW_WAY_CONDITION:
+    LOOP:
+    HASSIMILAR:
+    default:
+  } 
+    
+   
+  return 0;
+
+
+}
+
+int main(void) {
+   std::string input="a\t11\tb\t22\tccc\t33333\ta\t\tb\t55\tllll";
+
+   return ParseFeedStr(input);
+}

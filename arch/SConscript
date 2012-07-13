@@ -1,0 +1,18 @@
+#/arch
+
+Import('env')
+Import('cpp_')
+
+env.PrependUnique(CPPPATH=env['SLICECSLICEPATH'])
+env.PrependUnique(CPPPATH='.')
+
+arch = env.StaticLibrary('arch', 
+  source = [
+            env.Slicec('#/UtilSlice/slice/DbDescriptor.ice'),
+						'service.cc',
+            'site_xiaonei.cc'
+						],
+  LIBS = [cpp_['base']])
+
+to_export = {'arch': arch}
+Return('to_export')

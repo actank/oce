@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<!DOCTYPE database SYSTEM "http://db.apache.org/torque/dtd/database_3_1.dtd"[]>
+<instances name="mop_hi_tools_master" defaultIdMethod="native" package="mop.hi.om">
+	<instance type="singler" name="feed" timestamp="2007-10-17 15:45:00" >
+		<server type="mysql" database="feed" host="10.2.7.72" port="4408" user="fbuser" password="4fb0u1y" wrflag="3" charset="UTF-8" priority="" />		
+	</instance>	
+	<instance type="router" name="feed_route" timestamp="2007-10-17 15:45:00" >
+		<route instance="feed" pattern=".*"/>		
+	</instance>	
+	
+</instances>
+

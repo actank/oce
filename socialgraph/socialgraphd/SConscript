@@ -1,0 +1,32 @@
+Import('env')
+Import('all_libs')
+Import('cpp_')
+
+env.PrependUnique(CPPPATH=env['SLICECSLICEPATH'])
+sgd_env=env.Clone(LINKFLAGS='-Wl,--rpath=/usr/local/distcache/lib -Wl,--rpath=/usr/local/xce/lib -Wl,--rpath=/opt/Ice-3.3.1/lib64 -Wl,--whole-archive %s -Wl,--no-whole-archive' % cpp_['cwf'][0])
+
+sgd = sgd_env.Program('socialgraphd', 
+  source = [
+		 'headurl.cc', 
+     'base_action.cc', 
+     'action4.cc',
+     'register.cc'
+  ],
+	LIBS = [ 
+           cpp_['fcgi'],
+           cpp_['cwf'],
+					 cpp_['arch'], 
+					 cpp_['dbpool'], 
+					 cpp_['xceadapter'],
+					 cpp_['socialgraphutil'],
+           cpp_['base'],
+           cpp_['socialgraphproto'],
+           cpp_['cwfmain'],
+					 'zookeeper_mt',
+           'log4cplus', 
+           'ctemplate',
+           'protobuf',
+			     'memcached',
+	         all_libs
+  ])
+

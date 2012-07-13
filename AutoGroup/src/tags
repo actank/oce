@@ -1,0 +1,107 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.6	//
+AutoGroupingI	AutoGroupingI.cpp	/^AutoGroupingI::AutoGroupingI():THRESHOLD1(0.66),THRESHOLD2(0.8),THRESHOLD3(0.5),THRESHOLD4(0.55),NUMBER(2)$/;"	f	class:AutoGroupingI
+AutoGroupingI	AutoGroupingI.h	/^class AutoGroupingI : virtual public AutoGrouping$/;"	c
+ExistingLabelCount	ExistingLabelCount.cpp	/^ExistingLabelCount::ExistingLabelCount(int host)$/;"	f	class:ExistingLabelCount
+ExistingLabelCount	ExistingLabelCount.h	/^class ExistingLabelCount{$/;"	c
+GROUPLABEL_EXISTINGLABEL_COUNT	ExistingLabelCount.h	2;"	d
+GROUPLABEL_GROUPCOUNTELEMENT_H	GroupCountElement.h	2;"	d
+GROUPLABEL_GROUPCOUNTMAP_H	GroupCountMap.h	2;"	d
+GROUPLABEL_GROUPLABEL_H	GroupLabel.h	2;"	d
+GROUPLABEL_NETWORKCOUNT_H	NetworkCount.h	2;"	d
+GROUPLABEL_STRINGCOUNTMAP_H	StringCountMap.h	2;"	d
+GROUPLABEL_STRINGINT_H	StringInt.h	2;"	d
+GROUPLABEL_USERBASICCOUNT_H	UserBasicCount.h	2;"	d
+GroupCountElement	GroupCountElement.cpp	/^GroupCountElement::GroupCountElement(vector<string> &nameList)$/;"	f	class:GroupCountElement
+GroupCountElement	GroupCountElement.h	/^class GroupCountElement {$/;"	c
+GroupCountMap	GroupCountMap.cpp	/^GroupCountMap::GroupCountMap()$/;"	f	class:GroupCountMap
+GroupCountMap	GroupCountMap.h	/^class GroupCountMap {$/;"	c
+GroupLabel	GroupLabel.h	/^class GroupLabel{$/;"	c
+Label	GroupLabel.cpp	/^void GroupLabel::Label(const vector<int> &userlist, int host, vector<StringInt> & res)$/;"	f	class:GroupLabel
+NUMBER	AutoGroupingI.h	/^	const int NUMBER;   \/\/控制输出阈值  2$/;"	m	class:AutoGroupingI
+NetworkCount	NetworkCount.cpp	/^NetworkCount::NetworkCount(const vector<int> &userIdList)$/;"	f	class:NetworkCount
+NetworkCount	NetworkCount.h	/^class NetworkCount{$/;"	c
+StringCountMap	StringCountMap.cpp	/^StringCountMap::StringCountMap()$/;"	f	class:StringCountMap
+StringCountMap	StringCountMap.h	/^class StringCountMap {$/;"	c
+StringInt	StringInt.cpp	/^StringInt::StringInt(string n, int c)$/;"	f	class:StringInt
+StringInt	StringInt.h	/^class StringInt {$/;"	c
+THRESHOLD1	AutoGroupingI.h	/^	const float THRESHOLD1;  \/\/好友归属阈值 0.66$/;"	m	class:AutoGroupingI
+THRESHOLD2	AutoGroupingI.h	/^	const float THRESHOLD2; \/\/连通率 0.8$/;"	m	class:AutoGroupingI
+THRESHOLD3	AutoGroupingI.h	/^	const float THRESHOLD3; \/\/连通图之间的相似度  0.5$/;"	m	class:AutoGroupingI
+THRESHOLD4	AutoGroupingI.h	/^	const float THRESHOLD4; \/\/最终的连通图的连通率，用来删除坏点 0.55 $/;"	m	class:AutoGroupingI
+UserBasicCount	UserBasicCount.cpp	/^UserBasicCount::UserBasicCount(const vector<int> &userIdList)$/;"	f	class:UserBasicCount
+UserBasicCount	UserBasicCount.h	/^class UserBasicCount{$/;"	c
+accountFriends	AutoGroupingI.cpp	/^void AutoGroupingI::accountFriends(map<int, vector<int> >& group)$/;"	f	class:AutoGroupingI
+accountNumber	AutoGroupingI.cpp	/^int AutoGroupingI::accountNumber(int* members)$/;"	f	class:AutoGroupingI
+accountOutputRelationship	AutoGroupingI.cpp	/^int AutoGroupingI::accountOutputRelationship(int member, vector<int>& groupMember)$/;"	f	class:AutoGroupingI
+addFriendsToGroup	AutoGroupingI.cpp	/^map<int, vector<int> > AutoGroupingI::addFriendsToGroup(map<int, vector<int> >& group)$/;"	f	class:AutoGroupingI
+backupGroup	AutoGroupingI.cpp	/^map<int, vector<int> > AutoGroupingI::backupGroup(map<int, vector<int> >& group)$/;"	f	class:AutoGroupingI
+cnt	StringInt.h	/^	int cnt;$/;"	m	class:StringInt
+compare	GroupLabel.cpp	/^static int compare(const vector<StringInt> & countList, int i, int j)$/;"	f	file:
+compare	GroupLabel.cpp	/^static int compare(const vector<vector<StringInt> > & countList, int i, int j)$/;"	f	file:
+count	GroupCountElement.h	/^	       int count;$/;"	m	class:GroupCountElement
+countCity	UserBasicCount.cpp	/^void UserBasicCount::countCity(const vector<int> &userIdList, vector<StringInt> &res)$/;"	f	class:UserBasicCount
+countElementarySchool	NetworkCount.cpp	/^void NetworkCount::countElementarySchool(const vector<int> &userList, vector<StringInt> &res)$/;"	f	class:NetworkCount
+countForMost	GroupCountMap.h	/^		int countForMost;\/\/相应的人数$/;"	m	class:GroupCountMap
+countHighSchool	NetworkCount.cpp	/^void NetworkCount::countHighSchool(const vector<int> &userList, vector<StringInt> &res)$/;"	f	class:NetworkCount
+countJuniorHighSchool	NetworkCount.cpp	/^void NetworkCount::countJuniorHighSchool(const vector<int> &userList, vector<StringInt> &res)$/;"	f	class:NetworkCount
+countLabel	ExistingLabelCount.cpp	/^void ExistingLabelCount::countLabel(const vector<int> &friendsList, vector<StringInt> &res)$/;"	f	class:ExistingLabelCount
+countMap	GroupCountMap.h	/^		map<string, GroupCountElement> countMap;$/;"	m	class:GroupCountMap
+countStringMost	StringCountMap.h	/^	int countStringMost;    \/\/相应的次数$/;"	m	class:StringCountMap
+countUniv	NetworkCount.cpp	/^void NetworkCount::countUniv(const vector<int> &userList, vector<StringInt> &res)$/;"	f	class:NetworkCount
+countWorkplace	NetworkCount.cpp	/^void NetworkCount::countWorkplace(const vector<int> &userList, vector<StringInt> &res)$/;"	f	class:NetworkCount
+deleteFriendsFromGroup	AutoGroupingI.cpp	/^map<int, vector<int> > AutoGroupingI::deleteFriendsFromGroup(map<int, vector<int> >& group, map<int, vector<int> >& originalGroup, const float& Threshold, const int signal)$/;"	f	class:AutoGroupingI
+disp	GroupCountElement.cpp	/^void GroupCountElement::disp()$/;"	f	class:GroupCountElement
+disp	GroupCountMap.cpp	/^void GroupCountMap::disp()$/;"	f	class:GroupCountMap
+disp	NetworkCount.cpp	/^void NetworkCount::disp()$/;"	f	class:NetworkCount
+disp	StringCountMap.cpp	/^void StringCountMap::disp()$/;"	f	class:StringCountMap
+disp	StringInt.cpp	/^void StringInt::disp()$/;"	f	class:StringInt
+dispRes	GroupLabel.cpp	/^void GroupLabel::dispRes(vector<StringInt> &res, const char *s)$/;"	f	class:GroupLabel
+existingLabel	GroupLabel.cpp	/^void GroupLabel::existingLabel(const vector<int> &userlist, \\$/;"	f	class:GroupLabel
+existingLabelMap	ExistingLabelCount.h	/^	map<int, vector<string> > existingLabelMap;$/;"	m	class:ExistingLabelCount
+friendsAccount	AutoGroupingI.h	/^	int friendsAccount;$/;"	m	class:AutoGroupingI
+friendsGraph	AutoGroupingI.h	/^	int **friendsGraph;$/;"	m	class:AutoGroupingI
+friendsNumber	AutoGroupingI.h	/^	int friendsNumber;$/;"	m	class:AutoGroupingI
+friendsRate	AutoGroupingI.h	/^	float friendsRate;$/;"	m	class:AutoGroupingI
+generateNewGroup	AutoGroupingI.cpp	/^map<int, vector<int> > AutoGroupingI::generateNewGroup(map<int, vector<int> >& group)$/;"	f	class:AutoGroupingI
+getFriends	AutoGroupingI.cpp	/^void AutoGroupingI::getFriends(const int& userId)$/;"	f	class:AutoGroupingI
+getMostCount	GroupCountMap.cpp	/^void GroupCountMap::getMostCount(vector<StringInt> &res)$/;"	f	class:GroupCountMap
+getPureGroup	AutoGroupingI.cpp	/^map<int, vector<int> > AutoGroupingI::getPureGroup()$/;"	f	class:AutoGroupingI
+groupAccount	AutoGroupingI.h	/^	int groupAccount;$/;"	m	class:AutoGroupingI
+groupRate	AutoGroupingI.cpp	/^float AutoGroupingI::groupRate(const Ice::Current &)$/;"	f	class:AutoGroupingI
+grouping	AutoGroupingI.cpp	/^TotalGroup AutoGroupingI::grouping(int userId, const Ice::Current &)$/;"	f	class:AutoGroupingI
+groupingNumbers	AutoGroupingI.cpp	/^int AutoGroupingI::groupingNumbers(const Ice::Current &)$/;"	f	class:AutoGroupingI
+initialize	AutoGroupingI.cpp	/^void MyUtil::initialize()$/;"	f	class:MyUtil
+insert	GroupCountMap.cpp	/^void GroupCountMap::insert(string &indexName, vector<string> &elementNames, \\$/;"	f	class:GroupCountMap
+insert	StringCountMap.cpp	/^void StringCountMap::insert(string &stringname)$/;"	f	class:StringCountMap
+itemMaxValue	GroupLabel.cpp	/^static int itemMaxValue(const vector<StringInt> & countList)$/;"	f	file:
+itemMaxValue	GroupLabel.cpp	/^static int itemMaxValue(const vector<vector<StringInt> > & countList)$/;"	f	file:
+name	StringInt.h	/^	string name;$/;"	m	class:StringInt
+nameForMost	GroupCountMap.h	/^		string nameForMost;	\/\/拥有最多人的univID$/;"	m	class:GroupCountMap
+networkLabel	GroupLabel.cpp	/^void GroupLabel::networkLabel(const vector<int> &userList, StringInt & res)$/;"	f	class:GroupLabel
+networkObjectMap	NetworkCount.h	/^		map<int, NetworkBigObjectNPtr> networkObjectMap;$/;"	m	class:NetworkCount
+outputFriends	AutoGroupingI.cpp	/^void AutoGroupingI::outputFriends(map<int, vector<int> >& group)$/;"	f	class:AutoGroupingI
+sortFriends	AutoGroupingI.cpp	/^void AutoGroupingI::sortFriends()$/;"	f	class:AutoGroupingI
+sortInsideFriends	AutoGroupingI.cpp	/^void AutoGroupingI::sortInsideFriends(int* membersVolum)$/;"	f	class:AutoGroupingI
+sortOutputMember	AutoGroupingI.cpp	/^void AutoGroupingI::sortOutputMember(map<int, vector<int> >& group)$/;"	f	class:AutoGroupingI
+stringCountMapList	GroupCountElement.h	/^	       vector<StringCountMap> stringCountMapList;$/;"	m	class:GroupCountElement
+stringForMost	StringCountMap.h	/^	string stringForMost;  \/\/计数最多的字符串$/;"	m	class:StringCountMap
+stringMap	StringCountMap.h	/^	map<string,int> stringMap;$/;"	m	class:StringCountMap
+tempUserId	AutoGroupingI.h	/^	int tempUserId;$/;"	m	class:AutoGroupingI
+testdisp	ExistingLabelCount.cpp	/^void ExistingLabelCount::testdisp()$/;"	f	class:ExistingLabelCount
+totalFriends	AutoGroupingI.cpp	/^int AutoGroupingI::totalFriends(const Ice::Current &)$/;"	f	class:AutoGroupingI
+totalgroup	AutoGroupingI.h	/^	TotalGroup totalgroup;   \/\/最终要返回的分组结果$/;"	m	class:AutoGroupingI
+ungroupingFriends	AutoGroupingI.cpp	/^void AutoGroupingI::ungroupingFriends(const vector<int>& accountMembers)$/;"	f	class:AutoGroupingI
+ungroupingMember	AutoGroupingI.h	/^	Group ungroupingMember;$/;"	m	class:AutoGroupingI
+ungroupingMembers	AutoGroupingI.cpp	/^Group AutoGroupingI::ungroupingMembers(const Ice::Current &)$/;"	f	class:AutoGroupingI
+ungroupingNumber	AutoGroupingI.h	/^	int ungroupingNumber;$/;"	m	class:AutoGroupingI
+ungroupingNumbers	AutoGroupingI.cpp	/^int AutoGroupingI::ungroupingNumbers(const Ice::Current &)$/;"	f	class:AutoGroupingI
+uniteSameGroup	AutoGroupingI.cpp	/^map<int, vector<int> > AutoGroupingI::uniteSameGroup(map<int, vector<int> >& group, const float& Threshold)$/;"	f	class:AutoGroupingI
+update	GroupCountElement.cpp	/^void GroupCountElement::update(vector<string> &nameList, int increasement)$/;"	f	class:GroupCountElement
+userBasicLabel	GroupLabel.cpp	/^void GroupLabel::userBasicLabel(const vector<int> &userlist,\\$/;"	f	class:GroupLabel
+userBasicMap	UserBasicCount.h	/^	map<int, map<string, string> > userBasicMap;$/;"	m	class:UserBasicCount
+userFriend	AutoGroupingI.h	/^	vector<int> userFriend;$/;"	m	class:AutoGroupingI

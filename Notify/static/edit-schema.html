@@ -1,0 +1,667 @@
+<html>
+<head>
+<link href="./base.css" rel="stylesheet" type="text/css" media="all" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<script type="text/javascript">
+
+function getXhr()
+{
+  return XMLHttpRequest();
+}
+
+var TPL_SEPERATOR = '__tpl_seperator_xyz_';
+
+var schema_index=0;
+var schema_id = -1;
+if(window.dialogArguments > 0)
+{
+  schema_id = window.dialogArguments;
+}
+
+
+//var schema_id = 1001;
+//var template_index=0;
+var key_count = 5; // 默认的schema key_count值.
+
+var template_count=0;
+var g_view_id = 0;
+
+function tpl_keys(template){
+  var reg = /\{\{[a-zA-Z0-9_:\-=]+\}\}/g;
+  var matchList = template.match(reg);  
+  if(matchList==null){
+    //alert("模板中没有key可以匹配");
+    return null;
+  }
+  for(var i=0;i < matchList.length ; i++){
+    matchList[i] = matchList[i].substr(2, matchList[i].length - 4);
+  }
+  return matchList;
+}
+
+function findKeys(index, comments){
+  var tpl = document.getElementById("tpl"+index).value;
+  if(tpl == ""){
+    return;
+  }
+  var matchList = tpl_keys(tpl);
+  if(matchList==null){
+    alert("no match");
+    return;
+  }
+  var text = "";
+  for(var i=0;i < matchList.length ; i++){
+    var t = matchList[i];
+    if(comments==null){
+      text += t + ":<input type='text' style='width:150px' id='" + t + index + "'/ ><br/>";
+    }else{
+      text += t + ":<input type='text' style='width:150px' id='" + t + index + "' value='" + comments[t] + "'/ ><br/>";
+    }
+  }
+  var odiv = document.getElementById("keys"+index);
+  odiv.innerHTML = text;
+}
+
+function create_table(i){
+  var form = document.createElement("form");
+  form.setAttribute("id", ""+i);
+  form.innerHTML = "<table border='1' id='global_table' bgcolor=#EFF2FA>" +
+      "<tr bgcolor=#D9E1F7>" +
+      "<td width='20'>type</td>" +
+      "<td width='20'>name</td>" +
+      "<td width='20'>version</td>" +
+      "<td width='200'>template</td>" +
+      "<td width='200'>keys comment</td>" +
+      "<td width='300'>example</td>" +
+      "<td width='300'></td>" +
+      "</tr>"+
+      "<tr bgcolor=#D9E1F7>"+
+      "<td width='80'></td>"+
+      "<td width='200'>view</td>" +
+      "<td width='200'>template</td>" +
+      "<td width='200'>using key</td>" +
+      "</tr>";
+  document.body.appendChild(form);
+  return document.getElementById("global_table");
+}
+
+function insert_row(table, type, name, ver, data, comments){
+  var r = document.createElement("tr");
+  table.appendChild(r);
+  var index = r.rowIndex;
+  r.innerHTML = 
+    "<td><input type='text' style='width:50px' id='type" + index + "' value='" + type + "' /></td>"+ 
+    "<td><input type='text' width='20' id='name" + index + "' value='" + name + "' /></td>"+
+    "<td><input type='text' width='20' id='version" + index + "' value='" + ver + "' /></td>"+ 
+    "<td><textarea cols='50' rows='5' id='tpl" + index + "' onchange='javascript:findKeys(" + index + ")'>" + data + "</textarea></td>" +
+    "<td><div id='keys" + index + "'>input comments</div></td>" +
+    "<td>example:</td>" +
+    "<td><input type='button' width='10' value='edit' onclick='javascript:edit(" + index + ")'/>" +
+    "<br/><input type='button' width='10' value='save' onclick='javascript:add_tpl(" + index + ")'/></td>";
+  findKeys(index, comments);
+}
+
+function insert_rows(table, datas){
+  for(var i=0; i<datas.length; i++){
+    insert_row(table, datas[i]['type'], datas[i]['name'], datas[i]['ver'], datas[i]['data'], datas[i]['comments'])
+  }
+}
+
+function add_tpl(index){
+  
+  var type = document.getElementById("type"+index).value;
+  var name = document.getElementById("name"+index).value;
+  var ver = document.getElementById("version"+index).value;
+  var tpl = document.getElementById("tpl"+index).value;
+  if(type=="" || name=="" || tpl==""){
+    alert("null");    
+    return;
+  }
+  var keys = tpl_keys(tpl);
+  var pars = new Array();  
+  for(i in keys){
+    var tmp = keys[i] + "=";
+    var v = document.getElementById(keys[i]+index).value;
+    if(v==""){
+      alert("comments is incomplete");
+      retrun;    
+    }
+    tmp += v;
+    pars.push(tmp);
+  }
+  request_add_tpl(type, name, ver, tpl, pars);
+}
+
+function save_template_ok(){
+  if(req.readyState == 4){
+    var da = eval('(' + req.responseText + ')');
+    alert(req.responseText);
+  } 
+}
+
+
+function delete_template_ok(){
+  if(req.readyState == 4){
+    var da = eval('(' + req.responseText + ')');
+    alert(req.responseText);
+  } 
+}
+
+var req = XMLHttpRequest();
+var req_sch = XMLHttpRequest();
+
+
+function Schema(id){
+  this.id = id;
+
+  this.xhr = getXhr();
+
+  this.load = function(id) {
+    if(id)
+      this.id = id;
+
+    var url = '/getschema.tpl?id=' + this.id;
+    var r = this.xhr;
+    r.open('GET', url, true);
+    var o = this;
+    r.onreadystatechange = function() { 
+      o.onLoadReady();
+    };
+    r.send('');
+  };
+}
+
+Schema.prototype.addKey = function() {
+  var r = document.createElement("tr");
+  document.getElementById("schema_table").appendChild(r);
+  r.innerHTML = "<td width='20'></td><td width='20'></td><td width='20'></td>"+
+          "<td onchange=on_change()>"+
+          "<input type='text' width='30' id='key_" + key_count + "' />"+
+          "</td>"+
+          "<td>"+
+          "<input type='text' width='30' id='val_" + key_count + "' />"+
+          "</td>"+
+          "<td>"+
+          "<input type='button' width='10' value='delete key' onclick='javascript:delete_key(this)'/>"+
+          "</td>";
+   //r.onclick = 
+   key_count = key_count+1;
+}
+
+Schema.prototype.save = function() {
+  var ek, ev;
+  var name = document.getElementById("schema_name").value;
+  var prop = "";
+  var i = 0;
+  while(true){
+    ek = document.getElementById("key_" + i);
+    if(!ek) break;
+    ev = document.getElementById("val_" + i);
+    if(!ev || ev.value.length <= 0) {
+      alert(ek.value + " 必须有参数说明");
+      return;
+    }
+    if(prop == "")
+      prop = ek.value + "\t" + ev.value;
+    else
+      prop += "\t" + ek.value + "\t" + ev.value;
+    ++i;
+  }
+
+  var url = "/addschema.tpl?id=" + this.id + "&name=" + name;
+  var r = this.xhr;
+  var o = this;
+  r.open('POST', url, true);
+  r.onreadystatechange = function() {
+    o.onSaveReady();
+  }
+
+  r.send(encodeURIComponent(prop));
+}
+
+Schema.prototype.onSaveReady = function() {
+  var r = this.xhr;
+  if(r.readyState == 4) {
+    try{
+      var id = eval('(' + r.responseText + ')');
+      if(id < 0) {
+        alert("can not save");
+      } else {
+        schema_id = id;
+        this.id = id;
+        alert("save ok : " + id);
+        //schema_obj.load(id);
+      }
+    }catch(e){
+      alert('on_save_schema exception : ' + e);
+    }
+  }
+}
+
+Schema.prototype.onLoadReady = function() {
+   var r = this.xhr;
+   if(r.readyState != 4)
+     return;
+  
+  var da;
+  try{
+    da = eval('(' + r.responseText + ')');
+  } catch(e) {
+    alert('load schema error : ' + e);
+    return;
+  }
+  var schema_id = da[0];
+  var schema_name = da[1];
+  var schema_data = da[2];
+  document.title = 'schema ' + schema_id + ' ' + schema_name + ' 模板编辑'; 
+
+  var table = document.getElementById("schema_table");
+  var attrs = schema_data.split("\t");
+
+  if(attrs.length % 2)
+  {
+    alert('schema data error.');
+    return;
+  }
+
+  key_count = attrs.length / 2;
+
+  var el = document.getElementById('schema_id');
+  el.innerHTML = schema_id;
+  el = document.getElementById('schema_name');
+  el.value = schema_name;
+
+  while(table.rows.length > key_count + 1) 
+  {
+    table.deleteRow(table.rows.length - 1);
+  }
+
+  for(var i = 0; i < key_count; ++i)
+  {
+    el = document.getElementById('key_' + i);
+    if(el)
+    {
+      el.value = attrs[2 * i];
+      el = document.getElementById('val_' + i);
+      if(i > 4) //小于4的时候，显示默认的
+        el.value = attrs[2 * i + 1];
+    } else {
+      var r = table.insertRow(-1);
+      r.innerHTML = '<td width="20"></td><td width="20"></td><td width="20"></td>'+
+             '<td >' + 
+                '<input type="text" width="50" id="key_' + i + '" readonly="readonly"' +
+                   'value="' + attrs[i * 2] + '" />' +
+             '</td>' +
+             '<td>' +
+                '<textarea rows="3" cols="40" id="val_' + i + '" >' + 
+                  attrs[i*2+1] +
+                '</textarea>' +
+             '</td>';
+    }
+  }
+
+  // 加载完 schema 信息之后， 再加载template信息
+  request_get_template(schema_id);
+}
+
+var schema_obj = new Schema(schema_id);
+
+function request_get_template(id){
+  var url = "/gettplstr.tpl?schemaid="+id;
+   req.open('GET', url, true);
+   req.onreadystatechange = show_template;
+   req.send(''); 
+}
+
+
+function request_save_template(view,tpl){
+   if(schema_id == -1){
+     alert("save schema first");
+    return ;
+   }
+   var url = "/addtpl.tpl?schemaid="+schema_id+"&view="+view;
+   req.open('POST', url, true);
+   req.onreadystatechange = save_template_ok;
+
+   req.send(encodeURIComponent(tpl));
+}
+
+
+
+function request_delete_template(view){
+   if(schema_id == -1){
+     alert("save schema first");
+    return ;
+   }
+   var url = "/deltpl.tpl?schemaid="+schema_id+"&view="+view;
+   req.open('GET', url, true);
+   req.onreadystatechange = delete_template_ok;
+   req.send('');
+}
+
+
+function request_add_tpl(type, name, ver, data, comments){
+  var url = '/addtpl.tpl?type='+type+'&name='+name+'&data='+data+'&ver='+ver;
+  for(i in comments){
+    url += '&cmt_'+comments[i];
+  }
+  req.open('GET', url, true);
+  req.onreadystatechange = httpcallback;
+  req.send('');
+        
+}
+
+function on_get_tpl(){
+  if(req.readyState == 4){
+          try{
+                var o = eval('(' + req.responseText + ')');
+      insert_rows(table, o);
+    }catch(e){
+                alert(e);
+          }
+  }
+}
+
+function show_template(){
+  if(req.readyState == 4){
+    try{
+      var table = document.getElementById("template_table");
+
+      for(var v in tpl_map)
+      {
+        table.removeChild(tpl_map[v]);
+        delete tpl_map[v];
+      }
+
+      var txt = req.responseText;
+
+      var res = txt.split(TPL_SEPERATOR);
+      for(var i=0; i<res.length; ++i)
+      {
+        var j = res[i].indexOf(',');
+        if(j < 0) continue;
+        var view = res[i].substr(0,j);
+        var tpl = res[i].substr(j+1);
+        create_template(view,tpl);
+      }
+
+      on_change();
+    }catch(e){
+      alert(e);
+    }
+  }   
+}
+
+
+function httpcallback(){
+  if(req.readyState == 4){
+        try{
+    alert(req.responseText);
+        }catch(e){
+            alert(e);
+        }
+    }
+
+}
+
+
+function delete_key(r){
+   var i=r.parentNode.parentNode.rowIndex;
+   document.getElementById("schema_table").deleteRow(i);
+   on_change();
+}
+
+
+
+function on_change(){
+  var arr = new Array();
+  var i = 0;
+  while(true)
+  {
+    var el = document.getElementById("key_" + i++);
+    if(!el || !el.value)
+      break;
+    var v = el.value;
+    for(var k = 0; k < arr.length; ++k){
+       if(arr[k] == v){
+         alert("key duplicate : " + v);
+         return;
+       }
+     }
+     arr.push(v);
+  }
+
+  for(var v in tpl_map) {
+    check_template(v,arr);
+  }
+}
+
+function new_schema_key(){
+  var r = document.createElement("tr");
+  document.getElementById("schema_table").appendChild(r);
+  r.innerHTML = "<td width='20'></td><td width='20'></td><td width='20'></td>"+
+          "<td onchange=on_change()>"+
+          "<input type='text' width='30' id='key_" +key_count+"' />"+
+          "</td>"+
+          "<td>"+
+          "<input type='text' width='30' id='val_" +key_count+"' />"+
+          "</td>"+
+          "<td>"+
+          "<input type='button' width='10' value='delete key' onclick='javascript:delete_key(this)'/>"+
+          "</td>";
+   ++key_count;
+}
+
+function save_template(tplid){
+  var view = document.getElementById("view_"+tplid).value;
+  var tpl = document.getElementById("tpl_"+tplid).value;
+
+  request_save_template(view,tpl);
+}
+
+
+function delete_template(view_id){
+  request_delete_template(view_id);
+  document.getElementById("template_table").removeChild(tpl_map[view_id]);
+  delete tpl_map[view_id];
+}
+
+
+function check_template(view_id, key_defined){
+  var keydef = document.getElementById("checkKey_" + view_id);
+  keydef.innerHTML = "";
+  var tpl = document.getElementById("tpl_" + view_id).value;
+  var keyList = tpl_keys(tpl);
+  if(keyList == null)
+  {
+    keyList = [];
+  }
+
+  var allpass = true;
+  for(var k=0; k<keyList.length; ++k){
+    var h = 0;
+    var cur_key = keyList[k];
+    var pos = cur_key.indexOf(':');
+    if(pos > 0) {
+      cur_key = cur_key.substr(0, pos);
+    }
+
+    for(; h < key_defined.length; ++h){
+      if(cur_key == key_defined[h]){
+          break;
+      }
+    }
+
+    // 域字段不做检查
+    if(cur_key == 'domain' 
+	|| cur_key == 'notify_id'
+	|| cur_key == 'fromid'
+	|| cur_key == 'fromname'
+	|| cur_key == 'link'
+	|| cur_key == 'title'
+	|| cur_key == 'app_time'
+	)
+    {
+      keydef.innerHTML = keydef.innerHTML + '</br><font color="blue">'+ keyList[k]+' -> 不指定</font>';
+      continue;
+    }
+
+    if(h == key_defined.length){
+      keydef.innerHTML = keydef.innerHTML + "</br><font color=red>"+ keyList[k]+" -> undefined</font>";
+      allpass = false;
+    } else {
+      keydef.innerHTML = keydef.innerHTML + "</br><font color=green>"+keyList[k]+" -> defined</font>";
+    }
+  }
+  if(true || allpass){
+    keydef.innerHTML = keydef.innerHTML + 
+        "<td><input type='button' width='10' value='save' onclick='javascript:save_template("+view_id+")'/><br/>"; 
+  }
+  keydef.innerHTML = keydef.innerHTML + 
+    "<td><input type='button' width='10' value='delete' onclick='javascript:delete_template("+view_id+")'/><br/>"; 
+}
+
+var tpl_map = {}
+var VIEW_ID_COL = 0;
+
+function on_tpl_id_change(src_id) {
+  var el = document.getElementById("view_"+src_id);
+  var dst_id = el.value;
+  for(var v in tpl_map)
+  {
+    if(v == dst_id)
+    {
+      alert(dst_id + ' 已经存在，请尝试其他id');
+      el.value = src_id;
+      return false;
+    }
+  }
+
+  alert(dst_id + ' 模板被删除，请及时保存新的模板id');
+  var tpl = document.getElementById("tpl_"+src_id).value;
+  create_template(dst_id, tpl);
+  on_change();
+  delete_template(src_id);
+  return true;
+}
+
+function create_template(view, tpl){
+  if(view == null)
+    view = g_view_id;
+
+  var r = document.createElement("tr");
+  tpl_map[view] = r;
+  document.getElementById("template_table").appendChild(r);
+  var index = r.rowIndex;
+
+  r.innerHTML = '<td>'+
+      '<input type="text" width="30" onchange="on_tpl_id_change(' + view + ');" id="view_' + view + '" value="' + view + '"/>' +
+    "</td>"+
+    "<td>" +
+      '<textarea rows="10" cols="60" onchange="on_change();" id="tpl_' + view + '" >' +
+        tpl +
+      '</textarea>'+
+    '</td>'+
+    '<td id=checkKey_' + view + ' ></td>';
+
+  var v = parseInt(view);
+  if(g_view_id <= v)
+    g_view_id  = v + 1;
+}
+
+</script>
+
+<title>模板管理页面</title>
+</head>
+<body>
+
+
+<br>
+<hr/>
+<table border="1" id="schema_table" bgcolor="#EFF2FA">
+  <tr bgcolor="#c3d9ff">
+     <td width="20">data schema</td>
+     <td width="20">schema id</td>
+     <td width="20">name</td>
+     <td width="160">key</td>
+     <td width="320">comment</td>
+     <td>
+        <a href="#nogo" onclick="javascript:schema_obj.save()">save schema</a><br/>
+        <a href="#nogo" onclick="javascript:new_schema_key()">new schema key</a><br/>
+     </td>
+   </tr>
+   <tr>
+     <td width="20"></td>
+     <td><span id="schema_id">待定</span></td>
+     <td><input type="text" width="20" id="schema_name"/></td>
+     <td><input type="text" width="50" id="key_0" readonly="readonly" value="source" /></td></td>
+     <td>
+       <textarea rows="3" cols="40" id="val_0" readonly="readonly">源ID，指被回复的本体在其业务中的流水号，如回复日志时，source为日志的ID，此ID用于删除时的去重</textarea>
+     </td>
+   </tr>
+   <tr>
+     <td width="20"></td>
+     <td width="20"></td>
+     <td width="20"></td>
+     <td><input type="text" width="50" id="key_1" readonly="readonly" value="owner" /></td>
+     <td>
+       <textarea rows="3" cols="40" id="val_1" readonly="readonly">源的所有者UserID，指被回复的本体的所有者，如回复日志时，owner为日志的主人的UserID</textarea>
+     </td>
+   </tr>
+   <tr>
+     <td width="20"></td>
+     <td width="20"></td>
+     <td width="20"></td>
+     <td><input type="text" width="50" id="key_2" readonly="readonly" value="from" /></td>
+     <td>
+       <textarea rows="3" cols="40" id="val_2" readonly="readonly">发送回复（或通知）者的UserID，如A回复B的日志，则From为A的UserId</textarea>
+     </td>
+   </tr>
+
+   <tr>
+     <td width="20"></td>
+     <td width="20"></td>
+     <td width="20"></td>
+     <td><input type="text" width="50" id="key_3" readonly="readonly" value="type" /></td>
+     <td>
+       <textarea rows="3" cols="40" id="val_3" readonly="readonly">回复或通知的类型，如所有日志的回复为同一个类型</textarea>
+     </td>
+   </tr>
+   <tr>
+     <td width="20"></td>
+     <td width="20"></td>
+     <td width="20"></td>
+     <td><input type="text" width="50" id="key_4" readonly="readonly" value="time" /></td>
+     <td>
+       <textarea rows="3" cols="40" id="val_4" readonly="readonly">发送回复（或通知）时间,unix时间格式</textarea>
+     </td>
+   </tr>
+</table>
+<br/>
+<hr/>
+<span style="color:#080">
+view 0 是新留言及回复的模板， view 1 是webpager的模板, view 2 是手机的模板, <br/>
+view 3 和 view 4 是 app 的模板, view 5 是人人桌面的模板, view 6 是手机客户端的<br/>
+模板, view 7 是 APNS的模板,view 12 是邮件提醒模板, view 15 是手机平台模板
+</span><br/>
+<a href="#nogo" onclick="javascript:create_template()">添加新模板</a> &nbsp; 
+<br/>
+<table border="1" id="template_table" bgcolor="#EFF2FA">
+  <tr bgcolor="#D9E1F7">
+    <td width="20">view</td>
+    <td width="200">template</td>
+    <td width="200">using keys</td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+if (schema_id > 0)
+{
+  schema_obj.load();
+}
+</script>
+
+</body>
+</html>
+

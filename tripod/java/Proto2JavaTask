@@ -1,0 +1,29 @@
+#!/bin/bash
+PROTO_GENDIR="../java/target/generated/proto"
+if [ $PROTO_HOME"x" != "x" ]
+then
+  PROTO_CMD_JAVA="$PROTO_HOME/bin/protoc --java_out=$PROTO_GENDIR/java"
+else
+  PROTO_CMD_JAVA="/usr/local/distcache-dev/bin/protoc --java_out=$PROTO_GENDIR/java"
+fi
+PROTO_LIST=$(cd ../interface && find -name "*.proto")
+
+mkdir -p $PROTO_GENDIR/java
+
+cd ../interface
+for PRO in $PROTO_LIST
+do
+  echo "Generating $PRO "
+  $PROTO_CMD_JAVA $PRO
+  if [ $? -ne 0 ]
+	then
+		exit 1
+	fi
+  $PROTO_CMD_JAVA $PRO
+  if [ $? -ne 0 ]
+	then
+		exit 1
+	fi
+done
+
+exit 0

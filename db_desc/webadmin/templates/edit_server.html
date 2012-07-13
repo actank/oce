@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>xiyangyang</title>
+<script LANGUAGE="JavaScript">
+/*
+function center(event) {
+  console.info("2:"+event.keyCode);
+  if (event.keyCode)
+    return true;
+  else
+    return true;
+
+};*/
+
+function limit_numb(event) {
+
+  //console.info("0:"+event.keyCode);
+  if(event.keyCode==13)
+   event.keyCode =9;
+  else if(event.keyCode == 8)// || event.keyCode ==127)
+    return;
+  else if(event.keyCode<48 || event.keyCode>57)
+  {
+    //console.info(event.keyCode);
+    return false;
+  
+  return true;}
+};
+
+function select_change() {
+   var x = document.forms["editform"].wrflag;
+   if (x.selectedIndex != 0) {
+    var y = document.forms["editform"].umber;
+    y.value = "1";
+    y.readOnly = true;
+  } else {
+    var y = document.forms["editform"].umber;
+    y.readOnly = false;
+
+  }
+
+};
+
+function init() {
+  select_change();
+};
+</script>
+</head>
+
+<body onload = "init()">
+<div class="login-panel">
+<div class="inner">
+<div class="innertop">
+	
+{% if insert %}
+  <h3>server属性:</h3>
+{% else %}
+  <h3>server属性:</h3>
+{% end %}
+
+<style type="text/css">
+input[readonly]{
+  background-color:#ebebe4;
+}
+</style>
+  
+{%if error_info%}<h4 style="color:red">出错了:{{error_info}}</h4>{%end%}
+
+<form action="/edit_server" method="post" name="editform">
+{% if not insert %}
+  <label for="type">id</label><input type="text" name="id" value="{{server.id}}" readonly=""/><br/>
+{% end %}
+
+  <label for="type">type</label><input type="text" id="type" name="type"
+                            value="{%if server%}{{server.type}}{%else%}{%if insert%}mysql{%end%}{%end%}"/><br/>
+  <label for="database">database</label><input type="text" id="database" name="database" 
+                            value="{%if server%}{{server.database}}{%end%}"/><br/>
+  <label for="host">host</label><input type="text" id="host" name="host" 
+                            value="{%if server%}{{server.host}}{%end%}"/><br/>
+  <label for="port">port</label><input type="text" id="port" name="port" 
+                           value="{%if server%}{{server.port}}{%else%}{%if insert%}3306{%end%}{%end%}"/><br/>
+  <label for="user">user</label><input type="text" id="user" name="user" 
+                          value="{%if server%}{{server.user}}{%else%}{%if insert%}xndev{%end%}{%end%}"/><br/>
+  <label for="password">password</label><input type="text" id="password" name="password" maxlength="20"
+                          value="{%if server%}{{server.password}}{%else%}{%if insert%}mima{%end%}{%end%}"/><br/>
+  <label for="wrflag">wrflag</label><select  name="wrflag" onchange="select_change()">
+                       <option value= "r" {%if server and server.wrflag=='r'%}selected=""{%end%}>r</option>
+                       <option value= "w" {%if server and server.wrflag=='w'%}selected=""{%end%}>w</option>
+                       <option value= "wr" {%if server and server.wrflag=='wr'%}lected=""{%end%}>wr</option>
+                                     </select><br/>
+  <label for="charset">charset</label><input type="text" id="charset" name="charset" 
+                         value="{%if server%}{{server.charset}}{%else%}{%if insert%}utf8{%end%}{%end%}"/><br/>
+  <label for="priority">priority</label><input type="text" id="priority" name="priority" 
+                         value="{%if server%}{{server.priority}}{%end%}"/><br/>
+{% if insert %}
+  <input type="hidden" name= "instance_name" value={{instance_name}} />
+  <input type="hidden" name="insert" value="true" />
+  <label for="umber">份数</label><input type="text" id="umber" name="umber" value= "1" {%if not insert%}readOnly=""{%end%}
+                      onKeyPress000="return limit_numb(event)" onKeyDown="return limit_numb(event)"/>
+  <input type="submit" value="添加"/>
+{% else %}
+  <input type="submit" value="修改"/>
+{% end %}
+ <a href= "/">返回</a>
+ 
+{{ xsrf_form_html() }} 
+</form>
+
+</body>
+</html> 

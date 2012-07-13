@@ -1,0 +1,149 @@
+<?xml version="1.0"?>
+<project name="XiaoNeiOceCommons" basedir="../..">
+	<target name="packUtilJar" depends="UtilSlice,UtilJava">
+		<exec dir="${build.dir}" executable="./genInfo.sh" output="${build.target}/oce-util.version">
+			<arg line="${basedir}" />
+		</exec>
+		<jar destfile="${build.release}/oce-util.jar" compress="true" level="9">
+			<zipfileset src="${build.target}/UtilSlice.jar" />
+			<zipfileset src="${build.target}/UtilJava.jar" />
+			<fileset dir="${build.target}" includes="oce-util.version" />
+		</jar>
+	</target>
+	<target name="packOceJar" depends="OceSlice,OceJavaAdapter,packDbJar">
+		<exec dir="${build.dir}" executable="./genInfo.sh" output="${build.target}/oce-adapter.version">
+			<arg line="${basedir}" />
+		</exec>
+		<jar destfile="${build.release}/oce-adapter.jar" compress="true" level="9">
+			<zipfileset src="${build.target}/OceSlice.jar" />
+			<zipfileset src="${build.target}/OceAdapter.jar" />
+			<fileset dir="${build.target}" includes="oce-adapter.version" />
+		</jar>
+	</target>
+	<target name="packDbJar" depends="DbJavaPool,packUtilJar">
+		<exec dir="${build.dir}" executable="./genInfo.sh" output="${build.target}/oce-dbjavapool.version">
+			<arg line="${basedir}" />
+		</exec>
+		<jar destfile="${build.release}/oce-dbjavapool.jar" compress="true" level="9">
+			<zipfileset src="${build.target}/DbJavaPool.jar" />
+			<fileset dir="${build.target}" includes="oce-dbjavapool.version" />
+		</jar>
+	</target>
+	<target name="packLoggerJar" depends="XceLogger,packUtilJar">
+		<exec dir="${build.dir}" executable="./genInfo.sh" output="${build.target}/oce-logger.version">
+			<arg line="${basedir}" />
+		</exec>
+		<jar destfile="${build.release}/oce-logger.jar" compress="true" level="9">
+			<zipfileset src="${build.target}/XceLogger.jar" />
+			<fileset dir="${build.target}" includes="oce-logger.version" />
+		</jar>
+	</target>
+
+	<target name="OceJavaAdapter" depends="OceSlice,packLoggerJar,packUtilJar,packDbJar">
+		<echo message="compiling OceJavaAdapter" />
+		<!--
+		<delete dir="${OceAdapter.tmp}" />
+		-->
+		<mkdir dir="${OceJavaAdapter.tmp}" />
+        <javac destdir="${OceJavaAdapter.tmp}" debug="${java.debug}" debuglevel="${java.debuglevel}" encoding="UTF-8" optimize="${optimize}" deprecation="${java.deprecation}">
+			<classpath path="${build.release}/oce-util.jar" />
+			<classpath path="${build.release}/oce-logger.jar" />
+			<classpath path="${build.release}/oce-dbjavapool.jar" />
+			<classpath path="${build.target}/OceSlice.jar" />
+            <classpath refid="project.class.path" />
+            <src path="${OceJavaAdapter.src}"/>
+        </javac>
+		<jar jarfile="${build.target}/OceAdapter.jar" basedir="${OceJavaAdapter.tmp}">
+			<include name="**" />
+			<exclude name="**/.depend" />
+			<fileset dir="${OceJavaAdapter.src}">
+				<include name="**/*.java" />
+			</fileset>
+		</jar>
+	</target>
+
+	<target name="OceJavaAdapterTester" depends="packOceJar,packUtilJar,packDbJar">
+		<echo message="compiling OceJavaAdapterTester" />
+		<mkdir dir="${OceJavaAdapterTester.tmp}" />
+        <javac destdir="${OceJavaAdapterTester.tmp}" debug="${java.debug}" debuglevel="${java.debuglevel}" encoding="UTF-8" optimize="${optimize}" deprecation="${java.deprecation}">
+			<classpath path="${build.release}/oce-util.jar" />
+			<classpath path="${build.release}/oce-dbjavapool.jar" />
+			<classpath path="${build.release}/oce-adapter.jar" />
+            <classpath refid="project.class.path" />
+            <src path="${OceJavaAdapterTester.src}"/>
+        </javac>
+		<jar jarfile="${build.target}/OceAdapterTester.jar" basedir="${OceJavaAdapterTester.tmp}">
+			<include name="**" />
+			<exclude name="**/.depend" />
+			<fileset dir="${OceJavaAdapterTester.src}">
+				<include name="**/*.java" />
+			</fileset>
+		</jar>
+	</target>
+
+	<target name="OceSlice.check">
+		<condition property="needsRebuild">
+			<not>
+				<uptodate>
+					<srcfiles dir="${OceSlice.src}" includes="*.ice" />
+					<compositemapper>
+						<mapper type="merge" to="${build.target}/OceSlice.jar"/>
+					</compositemapper>
+				</uptodate>
+			</not>
+		</condition>
+	</target>
+	<target name="OceSlice" depends="UtilSlice,OceSlice.check" if="needsRebuild">
+		<echo message="compiling OceSlice to Java" />
+		<mkdir dir="${OceSlice.tmp}/java" />
+		<slice2java outputdir="${OceSlice.tmp}/java">
+			<includepath>
+				<pathelement path="${ICE.slice}" />
+				<pathelement path="${UtilSlice.src}" />
+				<pathelement path="${OceSlice.src}" />
+			</includepath>
+			<fileset dir="${OceSlice.src}" includes="*.ice" />
+		</slice2java>
+        <javac destdir="${OceSlice.tmp}/java" debug="${java.debug}" debuglevel="${java.debuglevel}" encoding="UTF-8" optimize="${optimize}" deprecation="${java.deprecation}">
+            <classpath refid="project.class.path" />
+			<classpath path="${build.target}/UtilSlice.jar" />
+            <src path="${OceSlice.tmp}/java"/>
+        </javac>
+		<jar jarfile="${build.target}/OceSlice.jar" basedir="${OceSlice.tmp}/java">
+			<include name="**" />
+			<exclude name="**/.depend" />
+		</jar>
+	</target>
+
+	<target name="DbJavaPool" depends="packUtilJar">
+		<mkdir dir="${DbJavaPool.tmp}" />
+        <javac destdir="${DbJavaPool.tmp}" debug="${java.debug}" debuglevel="${java.debuglevel}" encoding="UTF-8" optimize="${optimize}" deprecation="${java.deprecation}">
+            <classpath refid="project.class.path" />
+			<classpath path="${build.release}/oce-util.jar" />
+            <src path="${DbJavaPool.src}"/>
+        </javac>
+		<jar jarfile="${build.target}/DbJavaPool.jar" basedir="${DbJavaPool.tmp}">
+			<include name="**" />
+			<exclude name="**/.depend" />
+			<fileset dir="${DbJavaPool.src}" includes="**/*.java" />
+		</jar>
+	</target>
+
+	<target name="XceLogger" depends="packUtilJar">
+		<mkdir dir="${XceLogger.tmp}" />
+        <javac destdir="${XceLogger.tmp}" debug="${java.debug}" debuglevel="${java.debuglevel}" encoding="UTF-8" optimize="${optimize}" deprecation="${java.deprecation}">
+            <classpath refid="project.class.path" />
+			<classpath path="${build.release}/oce-util.jar" />
+            <src path="${XceLogger.src}"/>
+        </javac>
+		<jar jarfile="${build.target}/XceLogger.jar" basedir="${XceLogger.tmp}">
+			<include name="**" />
+			<exclude name="**/.depend" />
+			<fileset dir="${XceLogger.src}" includes="**/*.java" />
+		</jar>
+	</target>
+</project>
+<!--
+vim:ts=4
+-->
+

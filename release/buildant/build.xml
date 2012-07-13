@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<project name="XiaoNei" default="package" basedir="../..">
+	<property environment="env"/>
+	<property file="release/buildant/build.properties" />
+	
+	<import file="${build.dir}/declare.xml" />
+	<import file="${build.dir}/util.xml" />
+	<import file="${build.dir}/ocecommons.xml" />
+	<import file="${build.dir}/oceservices.xml" />
+
+	<target name="clean">
+		<delete dir="${build.tmp}" />
+	</target>
+
+	<target name="package" depends="declare,jars">
+		<echo message="Finished." />
+	</target>
+	
+	<target name="declare">
+		<echo message="Declaring common tasks and variables" />
+		<antcall target="DeclareSlice" inheritall="true" />
+	</target>
+
+	<target name="util" depends="declare">
+		<echo message="Compiling Util" />
+		<antcall target="UtilJava" inheritall="true" />
+	</target>
+
+	<target name="jars" depends="declare">
+		<echo message="Packing jar files to target" />
+		<antcall target="packDbJar" inheritall="true" />
+		<antcall target="packUtilJar" inheritall="true" />
+		<antcall target="packOceJar" inheritall="true" />
+		<antcall target="packLoggerJar" inheritall="true" />
+	</target>
+
+</project>
+

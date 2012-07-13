@@ -1,0 +1,119 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.renren</groupId>
+  <artifactId>AdHotPush</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <name>AdHotPush</name>
+  <url>http://maven.apache.org</url>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <parent>
+    <artifactId>xiaonei-root-pom</artifactId>
+    <groupId>com.xiaonei</groupId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+  
+
+  <dependencies>
+    <dependency>
+      <groupId>com.xiaonei.xce</groupId>
+      <artifactId>oce-slice</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.xiaonei.xce</groupId>
+      <artifactId>oce-adapter</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.zeroc</groupId>
+      <artifactId>Ice</artifactId>
+      <version>3.3.1-PATCHED</version>
+    </dependency>
+
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <version>5.1.14</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>opensymphony</groupId>
+      <artifactId>quartz</artifactId>
+      <version>1.6.5</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>net.paoding</groupId>
+      <artifactId>paoding-rose-jade</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.xiaonei</groupId>
+      <artifactId>xiaonei-datasource4jade</artifactId>
+    </dependency>
+    
+    <dependency>
+      <groupId>com.xiaonei</groupId>
+      <artifactId>xiaonei-xoa-message-client</artifactId>
+      <version>1.0-sns-SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+  <build>
+    <finalName>ad-hot-push</finalName>
+    <resources>
+      <resource>
+        <directory>src/main/java</directory>
+        <includes>
+          <include>**/*.java</include> 
+        </includes>
+      </resource>
+    </resources>
+
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.6</source> 
+          <target>1.6</target>
+          <fork>true</fork>
+          <verbose>true</verbose>
+          <encoding>UTF-8</encoding>
+          <compilerArguments>
+            <sourcepath>${project.basedir}/src/main/java</sourcepath>
+          </compilerArguments>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifestEntries>
+              <Rose>applicationContext,DAO</Rose>
+            </manifestEntries>
+          </archive>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>
+

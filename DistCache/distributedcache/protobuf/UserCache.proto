@@ -1,0 +1,13 @@
+package oce.usercache;
+
+message UserCacheData {
+	required int32 id = 1;
+	optional int32 status = 2;
+	optional int32 univ = 3;
+	optional int32 state = 4;
+	optional int32 level = 5;
+	optional int32 gender = 6;
+	optional int32 online = 7;
+	optional string name = 8;
+	optional string tinyUrl = 9;
+}

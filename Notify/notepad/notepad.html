@@ -1,0 +1,610 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+    <meta name="Description" content="人人网校内是一个真实的社交网络，联络你和你周围的朋友。加入人人网校内你可以:联络朋友，了解他们的最新动态；和朋友分享相片、音乐和电影；找到老同学，结识新朋友；用照片和日志记录生活,展示自我。" />
+    <meta name="Keywords" content="Xiaonei,Renren,校内,大学,同学,同事,白领,个人主页,博客,相册,群组,社区,交友,聊天,音乐,视频,校园,人人,人人网" />
+    <title>在线记事本</title>
+    <style type="text/css" title="">
+      h4{font-size:12px;margin:0;padding:0;font-weight:normal}
+      ul{list-style:none;margin:0;padding:0}
+      a:link, a:visited {color:#005EAC;text-decoration:none;outline:none}
+      .client_container{font-size:12px;margin:0;padding:0;clear:both;display:block}
+      .popup_bg{position:absolute;left:140px;z-index:3;top:88px;background:url(http://xnimg.cn/imgpro/bg/desk-popup.png) no-repeat;height:116px;width:280px;}
+      .popup_bg p{margin:0;padding:0;line-height:20px;}
+      .popup-content{height:62px;padding:30px 30px 10px 65px;position:relative;}
+      .popup-btn{position:absolute;right:20px;bottom:0;}
+      .popup-btn button{background:url(http://xnimg.cn/imgpro/button/desk-btn.png) no-repeat;height:23px;width:69px;border:none;margin-right:10px;}
+      .popup-closed{position:absolute;right:12px;top:12px;background:url(http://xnimg.cn/imgpro/chat/notify-close.gif) no-repeat ;height:7px;width:7px;}
+      .subjects-list{border:1px solid #A4C0E9;float:left;width:170px;}
+      .subjects-list p{background:#EAEEF9;margin:0;height:20px;line-height:22px;padding:5px;}
+      .subjects-list ul{height:318px;overflow:auto;}
+      .subjects-list li{background:#F9F9F9;padding:8px 5px 0;border-bottom:1px solid #EEE;cursor:pointer;}
+      .subjects-list li:hover,.subjects-list li.hover{background:#FBFBFB;}
+      .subjects-list li:active,.subjects-list li.active{background:#F5F5F5;}
+      .subjects-time{color:#888;padding:4px 20px 2px;}
+      .main{margin-left:10px;float:left;}
+      .maincontent{width:340px;height:310px;border:1px solid #A4C0E9;}
+      .book-icon{background:url(http://xnimg.cn/imgpro/chat/book.png) no-repeat 0 0;margin-right:5px;height:16px;width:14px;vertical-align:text-bottom;}
+      .book-content{float:left}
+      .closed{float:right;background:url(http://xnimg.cn/imgpro/chat/notify-close.gif) no-repeat ;height:7px;width:7px;text-indent:-9999em;display:none;}
+      .contents{border:3px solid #F0F2F7;height:293px;width:324px;font-size:12px;padding:5px;word-wrap: break-word;word-break:break-all;overflow-x:hidden;overflow-y:auto}
+      .btn{margin:10px 2px 0 0;width:340px;text-align:center}
+      .newbtn{float:left;height:27px;line-height:27px;width:79px;display:inline-block;background:url(http://xnimg.cn/imgpro/button/client1.png) no-repeat;}
+      a:hover.newbtn{background-position:0 -27px;}
+      a:active.newbtn{background-position:0 -54px;}
+      .savebtn{float:right;height:27px;line-height:27px;width:56px;display:inline-block;background:url(http://xnimg.cn/imgpro/button/client2.png) no-repeat;}
+      a:hover.savebtn{background-position:0 -27px;}
+      a:active.savebtn{background-position:0 -54px;}
+      .clearfix:after{content:".";display:block;height:0;clear:both;visibility:hidden}
+      .clearfix{display:inline-block}
+      .clearfix{display:block}
+
+    </style>
+<script type="text/javascript">
+String.prototype.trim= function() 
+{ 
+    //return this.replace(/([\s]*)|([\s]*$)/g, ""); 
+    return this.replace(/[\s]+/g, " "); 
+}
+function getXhr()
+{
+    try { return new XMLHttpRequest(); } catch (e) 
+    {
+      try { return new ActiveXObject('microsoft.xmlhttp'); } 
+      catch (e) {
+        try { return new ActiveXObject('msxml2.xmlhttp'); } catch (e) {}
+      }
+    }
+    return null;
+}
+
+function getCookie(name)
+{
+  var results = document.cookie.match( '(^|;) ?' + name + '=([^;]*)(;|$)');
+  if(results)
+    return decodeURIComponent(results[2]);
+  return null;
+}
+function getLoginUin() {
+  var uin = getCookie('id');
+  if(!uin)
+    uin = getCookie('hostid');
+  if(!uin)
+    uin = getCookie('userid');
+  if(!uin)
+  {
+    var kl = getCookie('kl');
+    if(kl)
+    {
+      var i = kl.lastIndexOf('_');
+      uin = kl.substring(i+1, kl.length);
+    }
+  }
+  return uin;
+}
+
+function formatFill(src, len) {
+  var dst = src.toString();
+  while(dst.length < len)
+    dst = '0' + dst;
+  return dst;
+}
+function getTimeString(d) {
+  return d.getFullYear() + '-' + formatFill(d.getMonth() + 1, 2) + '-' + formatFill(d.getDate(), 2)
+         +   ' ' + formatFill(d.getHours(), 2) + ':' + formatFill(d.getMinutes(), 2) 
+}
+
+var Notepad = {
+  xhr : getXhr(),
+  focus_index : 0,
+  is_dirty : false,
+  notes : [],
+  max_count : 50,
+  max_len : 8,
+
+  create_item : function(note_id, index) {
+    var note = this.notes[index];
+
+    var item = document.createElement('li');
+    item.className = 'clearfix';
+
+    var subject = note.content;
+    subject = subject.trim();
+
+    if (subject.length > this.max_len) {
+      subject = subject.substr(0, this.max_len - 1);
+      subject += '...';
+    } else if (subject.length <= 0) {
+      subject = '无主题';
+    }
+
+    var d = new Date(note.updatetime * 1000);
+
+    item.innerHTML = '<a class="closed" href="#nogo">关闭</a>' 
+                       + '<div class="book-content">'
+                       + '<h4><img src="http://xnimg.cn/a.gif" class="book-icon" />'
+                       +   '<span id="subject_' + note.id + '">' + subject + '</span>'
+                       + '</h4>'
+                       + '<div class="subjects-time">'
+                       +  getTimeString(d)
+                       + '</div>'
+                       + '</div>';
+
+ item.onmouseup = function(e) {
+  return false;
+  if(!e) e = windown.event;
+  //alert(e.button);
+  if(e.button == 2)
+    return false;
+  return e.button != 2;
+}
+
+//return e.button != 2;
+    item.onmouseover=function() {
+      this.className+=" hover";
+      this.getElementsByTagName("a")[0].style.display="block";
+    }
+    item.onmouseout=function() {
+      this.className=this.className.replace(" hover", "");
+      this.getElementsByTagName("a")[0].style.display="";
+    }
+    //item.onclick=function() {
+    item.onclick = function() {
+      var idx = index;
+      return function() {
+        this.className += " active";
+        Notepad.switch_focus(idx);
+        return false;
+      };
+    }();
+
+    item.firstChild.onclick = function() {
+        var idx = index;
+        return function(e) {
+	  if (!e) var e = window.event;
+	  e.cancelBubble = true;
+	  if (e.stopPropagation) {
+            e.stopPropagation();
+          }
+          Notepad.remove_note(idx);
+          return false;
+        };
+      }();
+    return item;
+  },
+
+  save_callback : function(idx, r) {
+    if( r.readyState != 4 )
+      return;
+    var rcode;
+    try {
+      rcode = eval('(' + r.responseText + ')');
+    } catch(e){
+      this.alert('保存失败');
+      return;
+    }
+
+    var note = this.notes[idx];
+    if (note) {
+      note.item.lastChild.lastChild.innerHTML = getTimeString(new Date());
+      if (note.id == 0) {
+        this.notes[idx].id = rcode;
+        var el = document.getElementById('subject_0');
+        el.id = 'subject_' + rcode;
+      }
+    }
+
+    if (this.save_and_create) {
+      this.save_and_create = false;
+      Notepad._create_note();
+      Notepad.sync_count();
+    }
+  },
+
+  save_note : function(idx) {
+    var  el = document.getElementById('notecontent');
+    var id = this.notes[idx].id;
+
+    var r = this.xhr;
+
+    this.sync_input_to_note();
+    this.is_dirty = false;
+
+    var url = "/add.note?id=" + id + "&owner=" + getLoginUin();
+    r.open('POST', url, true);
+    r.onreadystatechange = function() { 
+      if(r.readyState != 4)
+        return;
+      var _idx = idx;
+      try{
+        Notepad.save_callback(_idx, r);
+      }catch(e){
+        Notepad.alert('保存失败 : ' + e);
+      }
+    };
+
+    var post_body = "subject=";
+    if (el.value.length > this.max_len) {
+      post_body += encodeURIComponent(el.value.substr(0, this.max_len - 1));
+      post_body += '...';
+    } else {
+      post_body += el.value;
+    }
+
+    post_body += "&content=";
+    post_body += encodeURIComponent(el.value);
+    r.send(post_body);
+  },
+
+  show_dlg_bg : function() {
+    var div = document.createElement('div');
+    document.body.appendChild(div);
+    with(div.style) {
+      position = 'absolute';
+      top = 0;
+      left = 0;
+      width = '100%';
+      height = '100%';
+      backgroundColor = '#004';
+      opacity = 0.1;
+      filter = 'alpha(opacity="0.1")';
+      zIndex = 2;
+    }
+    this.dlg_bground = div;
+  },
+  hide_dlg_bg : function() {
+    document.body.removeChild(this.dlg_bground);
+    this.dlg_bground = null;
+  },
+
+  hide_alert: function() {
+    var el = document.getElementById('notepad_container');
+    el.removeChild(this.alert_dlg);
+    this.alert_dlg = null;
+    this.hide_dlg_bg(); 
+  },
+  alert : function(title) {
+    if (this.alert_dlg)
+      return;
+    this.show_dlg_bg(); 
+
+    div = document.createElement('div');
+    div.className = 'popup_bg';
+    div.innerHTML = '<div class="popup-content">'
+                    +  '<a href="#nogo" class="popup-closed"></a>'
+                    +  '<p>' + title + '</p>'
+                    +  '<div class="popup-btn">'
+                    +  '<button id="confirm_yes">确定</button>'
+                    + '</div>'
+                    + '</div>';
+
+    var el = document.getElementById('notepad_container');
+    el.appendChild(div);
+
+    el =  document.getElementById('confirm_yes');
+    el.onclick = function() {
+      Notepad.hide_alert();
+    }
+
+    el = div.getElementsByTagName('a');
+    el = el[0];
+    el.onclick = function() {
+      Notepad.hide_alert();
+    }
+
+    this.alert_dlg = div;
+  },
+  hide_confirm : function() {
+    var el = document.getElementById('notepad_container');
+    el.removeChild(this.confirm_dlg);
+    this.confirm_dlg = null;
+    this.hide_dlg_bg(); 
+  },
+  confirm : function(title, yes_callback, no_callback) {
+    if (this.confirm_dlg)
+      return;
+
+    this.show_dlg_bg(); 
+
+    div = document.createElement('div');
+    div.className = 'popup_bg';
+    div.innerHTML = '<div class="popup-content">'
+                    +  '<a href="#nogo" class="popup-closed"></a>'
+                    +  '<p>' + title + '</p>'
+                    +  '<div class="popup-btn">'
+                    +  '<button id="confirm_yes">是</button>'
+                    +  '<button id="confirm_no">否</button>'
+                    + '</div>'
+                    + '</div>';
+
+    var el = document.getElementById('notepad_container');
+    el.appendChild(div);
+
+    el =  document.getElementById('confirm_yes');
+    el.onclick = function() {
+      Notepad.hide_confirm();
+      if (yes_callback)
+        yes_callback();
+    }
+    el =  document.getElementById('confirm_no');
+    el.onclick = function() {
+      Notepad.hide_confirm();
+      if (no_callback)
+        no_callback();
+    }
+
+    el = div.getElementsByTagName('a');
+    el = el[0];
+    el.onclick = function() {
+      Notepad.hide_confirm();
+    }
+
+    this.confirm_dlg = div;
+  },
+
+  create_note : function() {
+    var note_list = document.getElementById('subjects_list');
+    if (note_list.childNodes.length >= this.max_count) {
+      this.alert('新建失败, 最多支持' + this.max_count + '条'); 
+      return;
+    }
+    if (this.is_dirty) {
+       var idx = this.focus_index;
+       this.confirm('当前主题未保存. 是否保存?', 
+             function(){
+               Notepad.save_and_create = true;
+               Notepad.save_note(idx);
+             },
+             function(){
+               Notepad._create_note();
+               Notepad.sync_count();
+             } );
+    } else {
+       this._create_note();
+       this.sync_count();
+    }
+  },
+
+  _create_note : function(id) {
+    this.is_dirty = true;
+    var el = document.getElementById('notecontent');
+    el.disabled = false;
+
+    var note = this.notes[this.focus_index];
+    if (note && note.id == 0) {
+      note.content = '';
+      this.show_note(this.focus_index);
+      this.sync_input_to_note();
+    } else {
+      var note = {'id' : 0, 'updatetime' : (new Date()).getTime() / 1000, 'owner' : 0, 'content' : ''};
+      var idx = this.notes.length;
+      this.notes[idx] = note;
+      var item = this.create_item(0, idx);
+      this.notes[idx].item = item;
+    
+      var note_list = document.getElementById('subjects_list');
+      if (note_list.firstChild) {
+        note_list.insertBefore(item, note_list.firstChild);
+      } else {
+        note_list.appendChild(item);
+      }
+      this.show_note(idx);
+    }
+  },
+  max_words : 2000,
+  init_texarea : function() {
+    var el = document.getElementById('notecontent');
+    
+    var f = function() {
+      Notepad.is_dirty = true;
+      var max = Notepad.max_words;
+      if (this.value.length > max) {
+        Notepad.alert('最多输入' + max.toString() + '个字符');
+        this.value = this.value.substr(0, max);
+        return false;
+      }
+    }
+    el.onkeypress = f;
+    el.onchange = f;
+  },
+
+  remove_callback : function(idx, r) {
+    var note_list = document.getElementById('subjects_list');
+    note_list.removeChild(this.notes[idx].item);
+
+    if(note_list.childNodes.length <= 0) {
+      var el = document.getElementById('notecontent');
+      el.value = '';
+      el.disabled = true;
+      this.is_dirty = false;
+      this.focus_index = 0;
+    } else {
+      var focus = idx + 1;
+      while(!this.notes[focus] && focus < this.notes.length) {
+        focus ++;
+      }
+      if (!this.notes[focus]) {
+        focus = idx - 1;
+        while(!this.notes[focus] && focus >= 0) {
+          focus --;
+        }
+      }
+      this.switch_focus(focus);
+    }
+    this.notes[idx] = null;
+
+    this.sync_count();
+  },
+
+  remove_note : function(idx) {
+    if(this.is_dirty && (idx != this.focus_index)) {
+      this.alert('请先保存当前记录');
+      return;
+    }
+    this.confirm('确定要删除该主题吗?', function() {
+          Notepad._remove_note(idx);
+        });
+  },
+  _remove_note : function(idx) {
+    this.is_dirty = false;
+    if (!this.notes[idx]) {
+      return;
+    }
+
+    var r = this.xhr;
+    var id = this.notes[idx].id;
+
+    var url = "/remove.note?id=" + id + "&owner=" + getLoginUin();
+    r.open('GET', url, true);
+    r.onreadystatechange = function() {
+        if(r.readyState != 4)
+          return;
+        var _idx = idx;
+        Notepad.remove_callback(_idx, r);
+      };
+    r.send('');
+  },
+
+  get_callback : function(r) {
+    if( r.readyState != 4 )
+      return;
+    var notes = eval('(' + r.responseText + ')');
+    this.notes = notes;
+
+    var note_list = document.getElementById('subjects_list');
+    if (notes.length == 0) {
+      this.create_note();
+      return;
+    }
+    for(var i = 0; i < notes.length; ++i) {
+      var item = this.create_item(notes[i].id, i);
+
+      notes[i].item = item;
+      note_list.appendChild(item);
+      this.sync_count();
+    }
+    this.show_note(0);
+  },
+
+  sync_count : function() {
+    var note_list = document.getElementById('subjects_list');
+    var count = note_list.childNodes.length;
+    //this.alert(count);
+
+    var el = document.getElementById('cur_count');
+    el.innerHTML = count;
+  },
+  sync_input_to_note : function() {
+    if(!this.notes[this.focus_index])
+      return;
+    //this.is_dirty = true;
+    var txt = document.getElementById('notecontent').value;
+    var note = this.notes[this.focus_index];
+    note.content = txt;
+    var el =  document.getElementById('subject_' + this.notes[this.focus_index].id);
+    txt = txt.trim();
+    if (txt.length > this.max_len) {
+      txt = txt.substr(0, this.max_len - 1);
+      txt += '...';
+    } else if (txt.length == 0) {
+      txt += '无主题';
+    }
+    
+    if (el.innerText) {
+      el.innerText = txt;
+    } else if (el.textContent){
+      el.textContent = txt;
+    }
+  },
+  remove_unsaved_note : function() {
+    var idx = this.focus_index;
+    if (this.notes[idx].id != 0)
+      return;
+
+    var note_list = document.getElementById('subjects_list');
+    note_list.removeChild(this.notes[idx].item);
+    this.notes[idx] = null;
+    this.sync_count();
+  },
+  switch_focus : function(note_index) {
+    if (note_index == this.focus_index) {
+      return;
+    }
+    var focus = this.focus_index;
+    if (this.is_dirty) {
+       this.confirm('当前主题已修改. 是否保存?', 
+             function(){
+               Notepad.save_note(focus);
+               var i = note_index;
+               Notepad.show_note(i);
+             }, 
+             function(){
+               var i = note_index;
+               Notepad.remove_unsaved_note();
+               Notepad.show_note(i);
+               Notepad.is_dirty = false;
+             });
+    } else {
+      this.show_note(note_index);
+    }
+  },
+  show_note : function(note_index) {
+    var el = document.getElementById('notecontent');
+    this.focus_index = note_index;
+
+    el.value = this.notes[note_index].content;
+    el.focus();
+  },
+  get_notes : function(id) {
+    var r = this.xhr;
+    if (!id)
+      id = 0;
+
+    var url = "/get.note?id=" + id + "&owner=" + getLoginUin() + '&r=' + (new Date()).getTime();
+    r.open('GET', url, true);
+    r.onreadystatechange = function() { 
+      try{
+        Notepad.get_callback(r);
+      }catch(e){
+        Notepad.alert('获取列表失败');
+      }
+    };
+    r.send('');
+  }
+}
+
+window.onbeforeunload = confirmExit;
+function confirmExit()
+{
+  if (Notepad.is_dirty) {
+	return "您的当前记录未保存! 建议保存后退出."
+  }
+}
+</script>
+
+  </head>
+  <body>
+    <div id="notepad_container" class="client_container">
+      <div class="subjects-list">
+        <ul id="subjects_list"></ul>
+        <p>最多在线保存50条[<span id="cur_count">0</span>/50]</p>
+      </div>
+      <div id="" class="main">
+
+        <div  class="maincontent">
+          <textarea id="notecontent" class="contents">写点什么吧...</textarea>
+        </div>
+        <div class="btn clearfix">
+          <a href="#nogo" class="newbtn" onclick="Notepad.create_note();">新建笔记</a><a href="#nogo" onclick="Notepad.save_note(Notepad.focus_index);" class="savebtn">保存</a>
+        </div>
+      </div>
+    </div>
+
+<script type="text/javascript">
+Notepad.get_notes();
+Notepad.init_texarea();
+</script>
+</body>
+</html>

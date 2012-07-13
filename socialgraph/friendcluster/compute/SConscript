@@ -1,0 +1,32 @@
+Import('env')
+Import('all_libs')
+Import('cpp_')
+
+env.PrependUnique(CPPPATH=env['SLICECSLICEPATH'])
+sgd_env=env.Clone(LINKFLAGS='-Wl,--whole-archive %s -Wl,--no-whole-archive' % cpp_['base'][0])
+
+friendclustercompute = env.Program('friendclustercompute',
+  source = [
+    'main.cc',
+    'computethread.cc'
+  ],
+  LIBS = [
+           'log4cplus', 
+					 'json_linux-gcc-4.1.2_libmt',
+		       'memcached',
+           'ctemplate',
+					 'zookeeper_mt',
+	         all_libs, 
+           cpp_['base'],
+           cpp_['socialgraphproto'],
+					 cpp_['dbpool'], 
+					 cpp_['socialgraphutil'],
+					 cpp_['arch'], 
+					 cpp_['xceadapter']
+	])
+ 
+
+ # LIBS = [ all_libs, cpp_['arch'], cpp_['dbpool'], cpp_['db_cxx_pool'], cpp_['base'], cpp_['util_slice'], cpp_['oce_slice'] , cpp_['ice_ext'], cpp_['util_cxx'],cpp_['dist_cache'], cpp_['replica_cluster'], cpp_['xceadapter'], cpp_['socialgraphproto'],cpp_['socialgraphutil'], 'protobuf', 'pthread', 'memcached', 'zookeeper_mt', 'log4cplus', 'tcmalloc_and_profiler'])
+
+
+

@@ -1,0 +1,25 @@
+package xce.feed;
+
+message PbFeedData {
+	required int64 feed = 1;		// type and stype 都在ID的高位指定
+	required int64 source = 2;  //可以考虑不要
+	required int32 actor = 3;
+	required int32 type = 4;	// 包含 NewsMergeType(2位), MiniMergeType(2位), ReplyType(2位), 空两位，其余24位为type 和 Stype通过mod 100确定大类和小类
+	required string xml = 7;
+	required int32 time = 5;
+	required int32 weight = 6; 	//高8位暂时无用,次高8位为baseWeightId, 低16位为
+}
+
+message PbFeedReply{
+	required int64 oldReplyId = 1;
+	required string oldReply = 4;
+	required int64 newReplyId = 2;
+	required string newReply = 5;
+	required int32 count = 3;
+}
+
+message PbFeedContent {
+  required PbFeedData data = 1;
+  required PbFeedReply reply = 2;
+}
+

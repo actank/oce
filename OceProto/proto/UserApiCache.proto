@@ -1,0 +1,25 @@
+package xce.distcache.userapicache;
+
+message UserApiCacheData 
+{
+	required int64 id = 1;
+	optional int32 status = 2;
+	optional int32 state = 3;
+	optional int32 level = 4;
+	optional int32 auth = 5;
+	optional int32 statusconfig = 6;
+	optional int32 basicconfig = 7;
+	optional int32 stage = 8;
+	optional int32 univ = 9;
+	optional int32 birthyear = 10;
+	optional int32 birthmonth = 11;
+	optional int32 birthday = 12;
+	optional string homeprovince = 13;
+	optional string gender = 14;
+	optional string profileprivacy = 15;
+	optional string name = 16;
+	optional string homecity = 17;
+	optional string mainurl = 18;
+	optional string headurl = 19;
+	optional string tinyurl = 20;
+}

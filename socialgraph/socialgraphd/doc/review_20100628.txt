@@ -1,0 +1,32 @@
+
+一
+	所有的头文件,proto文件在命名时全小写这样符合unix规范
+	例如:原来的FriendBirthday.proto文件应该正确地命名为friendbirthday.proto
+
+二
+	我们的.h与.cc文件中要引入的其它头文件,都应该带有工程名
+	例如#include "socialgraph/base_action.h" 不应该是#include "base_action.h",虽然后者可以编译过去(因为你在socialgraph工程目录下)
+	但是不是好习惯,这样的好处是其它developer可以第一时间看到更加多的信息,同时避免歧义
+三
+	如果自定义头文件中有一些类或对象方法,比如XXXAction类对象方法Match,实现非常少,就一行代码,这样的实现应该写在头文件中,好处也是让其它developer	 第一时间看到更加多的信息
+四
+	在头文件中,不应该使用using namespace XXX;应该使用完整路径
+五
+	developer应该明确知道头文件的包含结构,比如a.h已经包含了b.h,自己的c.h虽然用到a.h&b.h,但不应该显示包含b.h,只需要包含a.h即可
+  这样做的优点不光光使我们的结构清晰,更加重要的提高编译的速度(非常重要)
+六
+	如果已经在socialgraph目录上开发了,action的类名不应该是像这样SGXXXAction,就应该为XXXAction,类名此时不需要加上SG的工程名
+  ps:不要做多余的事儿!
+七
+	在.cc文件中实现自己的.h定义,也不应该用using namespace xxx;(自己的名字空间),应该如下 
+	namespace xxx {
+		//类方法的实现...
+	}
+八
+  developer应该知道自己调用的api将会抛出什么样的异常,在一个大的逻辑方法中,不应该用一个大的try catch块,不同的小逻辑应该用多个try catch
+九
+	大对象分配内存时,应该分配到heap区,不应该在stack区
+	ps:如果是怕忘记delete,优先选用boost的智能指针,比如scoped_ptr或者shared_ptr
+十
+	要写gtest单元测试	
+	

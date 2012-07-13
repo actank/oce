@@ -1,0 +1,18 @@
+package xce.socialgraph;
+
+option java_package = "com.xiaonei.xce.socialgraph.proto";
+option java_outer_classname = "GeneratedItems";
+
+message Item {
+	required int32 id = 1;
+	optional int32 field = 2;
+	optional string message = 3;
+	repeated int32 fields = 5;
+	repeated string messages = 6; 
+}
+
+message Items {
+  optional int32 timestamp = 7;
+	repeated Item items = 4;
+}
+

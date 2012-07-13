@@ -1,0 +1,92 @@
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8">
+   <meta http-equiv="Pragma" content="no-cache">
+   <link rel="stylesheet" type="text/css" href="static/style.css" />
+ <script LANGUAGE="JavaScript">
+function div_instance(content) { //style="visibility: hidden; width: 0px; height: 0px; border: 0px;"
+  var vid = '<h3>更新的instance: '+content.name + " 类型: "+ content.type+ " 更新时间: " + content.timestamp + '</h3>';
+  vid += '<div name="div_server">';
+
+  vid += '<table class="server_table" border="0" cellpadding="3" cellspacing="3">';
+    if (content.type == "singler") { 
+      vid += '<tr>' +
+        '<th>type</th>'+
+        '<th>db</th>'+
+        '<th>host</th>'+
+        '<th>port</th>'+
+        '<th>user</th>'+
+        '<th>passwd</th>'+
+        '<th>wrflag</th>'+
+        '<th>charset</th>'+
+      '</tr>';
+      if(content.wserver.type) {
+        vid += '<tr>'+
+          '<td>'+ content.wserver.type +'</td>'+
+          '<td>'+ content.wserver.database +'</td>'+
+          '<td>'+ content.wserver.host +'</td>'+
+          '<td>'+ content.wserver.port +'</td>'+
+          '<td>'+ content.wserver.user +'</td>'+
+          '<td>'+ content.wserver.password +'</td>'+
+          '<td>'+ 'w' +'</td>'+
+          '<td>'+ content.wserver.charset +'</td>'+
+      '</tr>';
+      }
+      //alert(content.rservers);
+      for (var i in content.rservers) {
+          var server = content.rservers[i];
+        vid += '<tr>'+
+          '<td>'+ server.type +'</td>'+
+          '<td>'+ server.database +'</td>'+
+          '<td>'+ server.host +'</td>'+
+          '<td>'+ server.port +'</td>'+
+          '<td>'+ server.user +'</td>'+
+          '<td>'+ server.password +'</td>'+
+          '<td>'+'r' +'</td>'+
+          '<td>'+ server.charset +'</td>'+
+      '</tr>';
+      }
+    } else { 
+      vid += '<tr>'+
+        '<th>expression</th>'+
+        '<th>instance</th>'+
+      '</tr>';
+      for (var i in content.routes) { 
+        var route = content.routes[i];
+        vid += '<tr>'+
+          '<td> '+ route.expression +' </td>'+
+          '<td> '+ route.instance +' </td>'+
+        '</tr>';
+      }
+   }
+  vid += '</table>'+
+      '</div>';
+
+return vid;
+  // self.document.write(pushletLayer);
+}
+    function ondata(content) {
+
+       var x = content;
+       if (x.name) {
+         //console.info("push instance:" + x.name)
+         var vid = div_instance(content);
+         //display.innerHTML += vid;
+         //console.info(vid);
+         document.body.innerHTML += vid;
+       } else {
+         //console.info("push message:" + x)
+         var s = "<div>" + content + "</div>";
+         //var dis = document.getElementById("display");
+         //dis.innerHTML += s;
+         document.body.innerHTML += s;
+       }
+       document.close();
+   }
+ </script>
+</HEAD>
+
+<BODY> 
+    <h1> 数据库配置更改发布 观察器</h1>
+  </BODY>
+</HTML>

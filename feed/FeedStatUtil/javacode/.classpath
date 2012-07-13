@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="/home/yejingwei/devel/hadoop/hadoop-0.21.0/hadoop-common-0.21.0.jar"/>
+	<classpathentry kind="lib" path="/home/yejingwei/devel/hadoop/hadoop-0.21.0/hadoop-common-test-0.21.0.jar"/>
+	<classpathentry kind="lib" path="/home/yejingwei/devel/hadoop/hadoop-0.21.0/hadoop-hdfs-0.21.0.jar"/>
+	<classpathentry kind="lib" path="/home/yejingwei/devel/hadoop/hadoop-0.21.0/hadoop-hdfs-0.21.0-sources.jar"/>
+	<classpathentry kind="lib" path="/home/yejingwei/devel/hadoop/hadoop-0.21.0/hadoop-hdfs-ant-0.21.0.jar"/>
+	<classpathentry kind="lib" path="/home/yejingwei/devel/hadoop/hadoop-0.21.0/hadoop-hdfs-test-0.21.0.jar"/>
+	<classpathentry kind="lib" path="/home/yejingwei/devel/hadoop/hadoop-0.21.0/hadoop-hdfs-test-0.21.0-sources.jar"/>
+	<classpathentry kind="lib" path="/home/yejingwei/devel/hadoop/hadoop-0.21.0/hadoop-mapred-0.21.0.jar"/>
+	<classpathentry kind="lib" path="/home/yejingwei/devel/hadoop/hadoop-0.21.0/hadoop-mapred-0.21.0-sources.jar"/>
+	<classpathentry kind="lib" path="/home/yejingwei/devel/hadoop/hadoop-0.21.0/hadoop-mapred-examples-0.21.0.jar"/>
+	<classpathentry kind="lib" path="/home/yejingwei/devel/hadoop/hadoop-0.21.0/hadoop-mapred-test-0.21.0.jar"/>
+	<classpathentry kind="lib" path="/home/yejingwei/devel/hadoop/hadoop-0.21.0/hadoop-mapred-tools-0.21.0.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

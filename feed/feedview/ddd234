@@ -1,0 +1,521 @@
+Index: table.inc
+===================================================================
+--- table.inc	(版本 21074)
++++ table.inc	(工作副本)
+@@ -146,10 +146,10 @@
+ {8183, WS_HOME, &DictBuilder::fill_connect_like},
+ {8184, WS_HOME, &DictBuilder::fill_gift_farm},
+ 
+-{2901, WS_HOME, &DictBuilder::fill_comment_blog},
+-{2902, WS_HOME, &DictBuilder::fill_comment_photo},
+-{2905, WS_HOME, &DictBuilder::fill_comment_photo},
+-{2906, WS_HOME, &DictBuilder::fill_comment_album},
++{2901, WS_HOME, NULL, &DictBuilder::fill_comment_blog},
++{2902, WS_HOME, NULL, &DictBuilder::fill_comment_photo},
++{2905, WS_HOME, NULL, &DictBuilder::fill_comment_photo},
++{2906, WS_HOME, NULL, &DictBuilder::fill_comment_album},
+ {2903, WS_HOME, &DictBuilder::fill_comment_message},
+ {2904, WS_HOME, &DictBuilder::fill_comment_video},
+ //{5201, WS_HOME, &DictBuilder::fill_superman},
+Index: expandfeed.cc
+===================================================================
+--- expandfeed.cc	(版本 21097)
++++ expandfeed.cc	(工作副本)
+@@ -548,131 +548,22 @@
+   m.insert(std::make_pair("vType", vType));
+ 
+ 
+-  
+-  /////////////////////////
+-  // 专门处理2901评论日志的赞信息，gid中传入的应该是blog_id
+-  if (2901 == WeiredType(feed->type).type) {
+-    LOG(INFO) << "--------------------------------------------------------------------";  
+-    std::string blog_id_str = fx->find("f_blog_id"); 
+-    LOG(INFO) << "bb: feedexpand.cc::Expand --> 2901 f_blog_id:" << blog_id_str;
+-    xce::ilikeit::GlobalIdPtr gid(new xce::ilikeit::GlobalId);
+-
+-    long blog_id = 0;
+-    try {
+-      blog_id = boost::lexical_cast<long>(blog_id_str);
+-    } catch (...) {
+-      LOG_F(WARNING) << "bb: feedexpand.cc::Expand -->2901 blog id cast error! blog_id_str:" << blog_id_str;
+-      return false;  
+-    } 
+-
+-    gid->id = blog_id;
+-    gid->type = kGlobalBlog;
+-
+-    ::xce::ilikeit::LikeInfoSeq likeseq;
+-    ::xce::ilikeit::GlobalIdSeq globalseq;
+-
+-    globalseq.push_back(gid);
+-    bool likeinfo_avaible = false;
+-    likeinfo_avaible = BuildZan(u->id(), globalseq, &likeseq);
+-
+-    likeinfo = 0;
+-    if (likeinfo_avaible) {
+-      likeinfo = likeseq[0].get();
+-    } else {
+-      likeinfo = 0;
+-    } 
+-    LOG(INFO) << "bb: likeinfo selfcount:" << likeinfo->selfCount << " " <<  likeinfo->totalCount;   
+-
+-  }
+-
+-// 专门处理2902 或者 2905 评论照片的赞信息，gid中传入的应该是f_album_photo_id
+-  if (2902 == WeiredType(feed->type).type || 2905 == WeiredType(feed->type).type) {
+-    LOG(INFO) << "--------------------------------------------------------------------";  
+-    std::string album_photo_id_str = fx->find("f_album_photo_id"); 
+-    LOG(INFO) << "pp: feedexpand.cc::Expand --> 2902 photo_id:" << album_photo_id_str;
+-    xce::ilikeit::GlobalIdPtr gid(new xce::ilikeit::GlobalId);
+-
+-    long album_photo_id = 0;
+-    try {
+-      album_photo_id = boost::lexical_cast<long>(album_photo_id_str);
+-    } catch (...) {
+-      LOG_F(WARNING) << "feedexpand.cc::Expand -->2902 album photo  id cast error! album_photo_id_str:" << album_photo_id_str;
+-      return false;  
+-    } 
+-
+-    gid->id = album_photo_id;
+-    gid->type = kGlobalPhoto;
+-
+-    ::xce::ilikeit::LikeInfoSeq likeseq;
+-    ::xce::ilikeit::GlobalIdSeq globalseq;
+-
+-    globalseq.push_back(gid);
+-    bool likeinfo_avaible = false;
+-    likeinfo_avaible = BuildZan(u->id(), globalseq, &likeseq);
+-
+-    likeinfo = 0;
+-    if (likeinfo_avaible) {
+-      likeinfo = likeseq[0].get();
+-    } else {
+-      likeinfo = 0;
+-    } 
+-    LOG(INFO) << "pp: likeinfo selfcount:" << likeinfo->selfCount << " " <<  likeinfo->totalCount;   
+-  }
+-
+-
+-// 专门处理2906评论相册的赞信息，gid中传入的应该是album_id
+-  if (2906 == WeiredType(feed->type).type) {
+-    LOG(INFO) << "--------------------------------------------------------------------";  
+-    std::string album_id_str = fx->find("f_album_id"); 
+-    LOG(INFO) << "aa: feedexpand.cc::Expand --> 2906 album_id:" << album_id_str;
+-    xce::ilikeit::GlobalIdPtr gid(new xce::ilikeit::GlobalId);
+-
+-    long album_id = 0;
+-    try {
+-      album_id = boost::lexical_cast<long>(album_id_str);
+-    } catch (...) {
+-      LOG_F(WARNING) << "feedexpand.cc::Expand -->2906 album id cast error! album_id_str:" << album_id_str;
+-      return false;  
+-    } 
+-
+-    gid->id = album_id;
+-    gid->type = kGlobalAlbum;
+-
+-    ::xce::ilikeit::LikeInfoSeq likeseq;
+-    ::xce::ilikeit::GlobalIdSeq globalseq;
+-
+-    globalseq.push_back(gid);
+-    bool likeinfo_avaible = false;
+-    likeinfo_avaible = BuildZan(u->id(), globalseq, &likeseq);
+-
+-    likeinfo = 0;
+-    if (likeinfo_avaible) {
+-      likeinfo = likeseq[0].get();
+-    } else {
+-      likeinfo = 0;
+-    } 
+-    LOG(INFO) << "aa: likeinfo selfcount:" << likeinfo->selfCount << " " <<  likeinfo->totalCount;   
+-  }
+-  ///////////////////////
+-
+-
+-
+-
+   // 处理 "赞"
+   if (likeinfo) {
+     int total = likeinfo->totalCount;
+     if (likeinfo->selfCount) {
+       total -= 1;// 去除自己
+       if (total < 0) {
+-        LOG_F(WARNING) << "bb: zan error total :" << total;
++        LOG_F(WARNING) << "zan error total :" << total;
+       }
+       //dict.ShowSection("selfzancount");
+       m.insert(std::make_pair("selfzancount", lexical_cast<std::string>(likeinfo->selfCount)));
+     }
+     //else 
+     //  dict.ShowSection("selfzancount_NOT");
+-    if (total > 0)
++    if (total > 0) {
+       m.insert(std::make_pair("totalzancount", lexical_cast<std::string>(total)));
++    }
+     //dict.SetIntValue("selfzancount", likeinfo->selfCount);
+     //dict.SetIntValue("totalzancount", total);
+   }
+Index: body.inc
+===================================================================
+--- body.inc	(版本 21097)
++++ body.inc	(工作副本)
+@@ -3191,8 +3191,9 @@
+   return true;
+ }
+ 
+-bool fill_comment_blog(const feed::FeedData *feed, FeedXml* fx, ctemplate::TemplateDictionary* dict) {
++bool fill_comment_blog(const feed::FeedData *feed, FeedXml* fx, ctemplate::TemplateDictionary* dict, cwf::User * u, WeiredSource source, int owner, const ilikeit::LikeInfo* likeinfo, const std::string & template_file, int index) {
+ 
++
+   std::string from_id = fx->find("f_from_id");
+   if (from_id.empty()) {
+     LOG(INFO) << "body.inc::fill_comment_blog  --> fill_comment_blog --> no blog publish feed.";
+@@ -3375,42 +3376,79 @@
+   If(fx, dict, "f_blog_photo_image","f_blog_photo_image");
+   If(fx, dict, "f_blog_music",NULL);
+   If(fx, dict, "isNewsFeed",NULL);
+-  IfElse(fx, dict, "selfzancount",NULL);
+ 
+-  
+-  std::string totalzancount_str = fx->find("totalzancount");
+-  std::string selfzancount_str = fx->find("selfzancount");
++////////////////////////////////////////////////////////////////////  
++ // 专门处理2901评论日志的赞信息，gid中传入的应该是blog_id
++  LOG(INFO) << "--------------------------------------------------------------------";  
++  StringMap & m = fx->body;
++  std::string blog_id_str = fx->find("f_blog_id"); 
++  LOG(INFO) << "bb: body --> 2901 f_blog_id:" << blog_id_str;
++  xce::ilikeit::GlobalIdPtr gid(new xce::ilikeit::GlobalId);
+ 
+-  LOG(INFO) << "bb: body --> total_str:" << totalzancount_str << "| self_str:" << selfzancount_str << "|";
+-
+-  int totalzancount = 0;
+-  int selfzancount = 0;
++  long blog_id = 0;
+   try {
+-    if (!totalzancount_str.empty()) {
+-      totalzancount = boost::lexical_cast<long>(totalzancount_str);
+-    }
+-    if (!selfzancount_str.empty()) {
+-      selfzancount = boost::lexical_cast<long>(selfzancount_str);
+-    }
++    blog_id = boost::lexical_cast<long>(blog_id_str);
+   } catch (...) {
+-    LOG_F(WARNING) << "bb: body.inc::fill_comment_blog --> totalzancount or selfzancount cast error!  totalzancount_str:" 
+-        << totalzancount_str << " selfzancount_str:" << selfzancount_str;
++    LOG_F(WARNING) << "bb: body -->2901 blog id cast error! blog_id_str:" << blog_id_str;
+     return false;
+   }
+ 
++  gid->id = blog_id;
++  gid->type = kGlobalBlog;
+ 
+-  LOG(INFO) << "bb: body.inc::fill_comment_blog --> totalzancount:" << totalzancount << " selfzancount:" << selfzancount;
++  ::xce::ilikeit::LikeInfoSeq likeseq;
++  ::xce::ilikeit::GlobalIdSeq globalseq;
+ 
+-  // 可能出现负数
+-  if (totalzancount < 0 || selfzancount < 0) {
+-    LOG_F(WARNING) << "bb: body.inc::fill_comment_blog --> totalzancount:" << totalzancount << " selfzancount:" << selfzancount;
+-    //totalzancount_str = "";
+-    //selfzancount_str = ""; 
+-    StringMap & m = fx->body;
+-    m.insert(std::make_pair("selfzancount", ""));
+-    m.insert(std::make_pair("totalzancount", ""));
++  globalseq.push_back(gid);
++  bool likeinfo_avaible = false;
++  likeinfo_avaible = BuildZan(u->id(), globalseq, &likeseq);
++
++  const ilikeit::LikeInfo* comment_likeinfo = 0;
++
++  //likeinfo = 0;
++  if (likeinfo_avaible) {
++    comment_likeinfo = likeseq[0].get();
+   } 
+- 
++
++  if (comment_likeinfo) {
++    LOG(INFO) << "bb: likeinfo selfcount:" << comment_likeinfo->selfCount << " " <<  comment_likeinfo->totalCount;
++  }
++///////////
++  // std::string totalzancount_str = fx->find("totalzancount");
++  // std::string selfzancount_str = fx->find("selfzancount");
++  //m.insert(std::make_pair("selfzancount", ""));
++  //m.insert(std::make_pair("totalzancount", ""));
++  m["selfzancount"] = "";
++  m["totalzancount"] = "";
++  dict->SetValue("selfzancount", "");
++  dict->SetValue("totalzancount", "");
++
++  // 处理 "赞"
++  if (comment_likeinfo) {
++    int total = comment_likeinfo->totalCount;
++    if (comment_likeinfo->selfCount) {
++      total -= 1;// 去除自己
++      if (total < 0) {
++        LOG_F(WARNING) << "bb: zan error total :" << total;
++      }
++      LOG(INFO) << "self str:" << lexical_cast<std::string>(comment_likeinfo->selfCount);
++      dict->SetIntValue("selfzancount", comment_likeinfo->selfCount);
++      m["selfzancount"] = lexical_cast<std::string>(comment_likeinfo->selfCount);
++    }
++
++    if (total > 0) {
++      //m.insert(std::make_pair("totalzancount", lexical_cast<std::string>(total)));
++      LOG(INFO) << "total str:" << lexical_cast<std::string>(total);
++      dict->SetIntValue("totalzancount",  total);
++      m["totalzancount"] = lexical_cast<std::string>(total);
++    }
++    //dict.SetIntValue("selfzancount", likeinfo->selfCount);
++    //dict.SetIntValue("totalzancount", total);
++  }
++
++  IfElse(fx, dict, "selfzancount",NULL);
++
++
+   return true;
+ }
+ 
+@@ -3429,7 +3467,7 @@
+   return true;
+ } */
+ 
+-bool fill_comment_photo(const feed::FeedData *feed, FeedXml* fx, ctemplate::TemplateDictionary* dict) {
++bool fill_comment_photo(const feed::FeedData *feed, FeedXml* fx, ctemplate::TemplateDictionary* dict, cwf::User * u, WeiredSource source, int owner, const ilikeit::LikeInfo* likeinfo, const std::string & template_file, int index) {
+   LOG(INFO) << "body.inc::fill_comment_photo --> feed id:" << feed->feed;
+   std::string from_id = fx->find("f_from_id");
+   if (from_id.empty()) {
+@@ -3613,50 +3651,80 @@
+   If(fx, dict, "f_photo_music",NULL);
+ */
+   If(fx, dict, "isNewsFeed",NULL);
+-  IfElse(fx, dict, "selfzancount",NULL);
+ 
+-  
+-  std::string totalzancount_str = fx->find("totalzancount");
+-  std::string selfzancount_str = fx->find("selfzancount");
+ 
+-  LOG(INFO) << "pp: self_str:" << selfzancount_str << "| total_str:" << totalzancount_str << "|";
++////////////////////////////////////////////////////////////////////  
++ // 专门处理2902评论照片的赞信息，gid中传入的应该是photo_id
++    LOG(INFO) << "--------------------------------------------------------------------";  
++    StringMap & m = fx->body;
++    std::string album_photo_id_str = fx->find("f_album_photo_id"); 
++    LOG(INFO) << "pp: body --> 2902 photo_id:" << album_photo_id_str;
++    xce::ilikeit::GlobalIdPtr gid(new xce::ilikeit::GlobalId);
+ 
+-  int totalzancount = 0;
+-  int selfzancount = 0;
+-  try {
+-    if (!totalzancount_str.empty()) {
+-      totalzancount = boost::lexical_cast<long>(totalzancount_str);
++    long album_photo_id = 0;
++    try {
++      album_photo_id = boost::lexical_cast<long>(album_photo_id_str);
++    } catch (...) {
++      LOG_F(WARNING) << "body -->2902 album photo  id cast error! album_photo_id_str:" << album_photo_id_str;
++      return false;
+     }
+-    if (!selfzancount_str.empty()) {
+-      selfzancount = boost::lexical_cast<long>(selfzancount_str);
++
++    gid->id = album_photo_id;
++    gid->type = kGlobalPhoto;
++
++    ::xce::ilikeit::LikeInfoSeq likeseq;
++    ::xce::ilikeit::GlobalIdSeq globalseq;
++
++    globalseq.push_back(gid);
++    bool likeinfo_avaible = false;
++    likeinfo_avaible = BuildZan(u->id(), globalseq, &likeseq);
++
++    const ilikeit::LikeInfo* comment_likeinfo = 0;
++    //likeinfo = 0;
++    if (likeinfo_avaible) {
++      comment_likeinfo = likeseq[0].get();
++    } 
++   
++    if (comment_likeinfo) {
++      LOG(INFO) << "pp: likeinfo selfcount:" << comment_likeinfo->selfCount << " " <<  comment_likeinfo->totalCount;
+     }
+-  } catch (...) {
+-    LOG_F(WARNING) << "body.inc::fill_comment_photo --> totalzancount or selfzancount cast error!  totalzancount_str:" 
+-        << totalzancount_str << " selfzancount_str:" << selfzancount_str;
+-    return false;
+-  }
+ 
++///////////
++  // std::string totalzancount_str = fx->find("totalzancount");
++  // std::string selfzancount_str = fx->find("selfzancount");
++  m["selfzancount"] = "";
++  m["totalzancount"] = "";
++  dict->SetValue("selfzancount", "");
++  dict->SetValue("totalzancount", "");
+ 
+-  LOG(INFO) << "pp: self:" << selfzancount << " total:" << totalzancount;
++  // 处理 "赞"
++  if (comment_likeinfo) {
++    int total = comment_likeinfo->totalCount;
++    if (comment_likeinfo->selfCount) {
++      total -= 1;// 去除自己
++      if (total < 0) {
++        LOG_F(WARNING) << "pp: zan error total :" << total;
++      }
++      LOG(INFO) << "self str:" << lexical_cast<std::string>(comment_likeinfo->selfCount);
++      m["selfzancount"] = lexical_cast<std::string>(comment_likeinfo->selfCount);
++      dict->SetIntValue("selfzancount", comment_likeinfo->selfCount);
++    }
+ 
+-  // 可能出现负数
+-  if (totalzancount < 0 || selfzancount < 0) {
+-    LOG_F(WARNING) << "body.inc::fill_comment_photo --> totalzancount:" << totalzancount << " selfzancount:" << selfzancount;
+-    //totalzancount_str = "";
+-    //selfzancount_str = ""; 
+-    StringMap & m = fx->body;
+-    m.insert(std::make_pair("selfzancount", ""));
+-    m.insert(std::make_pair("totalzancount", ""));
++    if (total > 0) {
++      m["totalzancount"] = lexical_cast<std::string>(total);
++      LOG(INFO) << "total str:" << lexical_cast<std::string>(total);
++      dict->SetIntValue("totalzancount",  total);
++    }
++  }
+ 
+-  } 
+-
++  IfElse(fx, dict, "selfzancount",NULL);
+   // write_del_no_assign_typeText
+   if (dict_delete_) 
+     dict_delete_->ShowSection("typeText_NOT");
+   return true;
+ }  
+ 
+-bool fill_comment_album(const feed::FeedData *feed, FeedXml* fx, ctemplate::TemplateDictionary* dict) {
++bool fill_comment_album(const feed::FeedData *feed, FeedXml* fx, ctemplate::TemplateDictionary* dict, cwf::User * u, WeiredSource source, int owner, const ilikeit::LikeInfo* likeinfo, const std::string & template_file, int index) {
+ 
+   LOG(INFO) << "body.inc::fill_comment_album --> feed id:" << feed->feed;
+   std::string from_id = fx->find("f_from_id");
+@@ -3753,10 +3821,11 @@
+ 
+ 
+   // write_totalCount3
+-  if (itotalCount> 3 && sphotoIDs != "")
++  if (itotalCount> 3 && sphotoIDs != "") {
+     dict->ShowSection("PHOTO_MORE");
+-    If(fx, dict, "isNewsFeed",NULL);
+-  IfElse(fx, dict, "selfzancount",NULL);
++  }
++
++  If(fx, dict, "isNewsFeed",NULL);
+   // 最新的回复信息
+   // std::string new_comment_from_id = fx->find("f_comment_from_id");
+   // std::string new_comment_from_name = fx->find("f_comment_from_name");
+@@ -3933,42 +4002,80 @@
+   If(fx, dict, "f_photo_music",NULL);
+ */
+   If(fx, dict, "isNewsFeed",NULL);
+-  IfElse(fx, dict, "selfzancount",NULL);
+ 
+-  
+-  std::string totalzancount_str = fx->find("totalzancount");
+-  std::string selfzancount_str = fx->find("selfzancount");
+ 
+-  LOG(INFO) << "aa: self_str:" << selfzancount_str << "| total_str:" << totalzancount_str << "|";
++////////////////////////////////////////////////////////////////////  
++ // 专门处理2906评论相册的赞信息，gid中传入的应该是album_id
++  LOG(INFO) << "--------------------------------------------------------------------";  
++  StringMap & m = fx->body;
+ 
+-  int totalzancount = 0;
+-  int selfzancount = 0;
++  std::string album_id_str = fx->find("f_album_id"); 
++  LOG(INFO) << "aa: body --> 2906 album_id:" << album_id_str;
++  xce::ilikeit::GlobalIdPtr gid(new xce::ilikeit::GlobalId);
++
++  long album_id = 0;
+   try {
+-    if (!totalzancount_str.empty()) {
+-      totalzancount = boost::lexical_cast<long>(totalzancount_str);
+-    }
+-    if (!selfzancount_str.empty()) {
+-      selfzancount = boost::lexical_cast<long>(selfzancount_str);
+-    }
++    album_id = boost::lexical_cast<long>(album_id_str);
+   } catch (...) {
+-    LOG_F(WARNING) << "body.inc::fill_comment_album --> totalzancount or selfzancount cast error!  totalzancount_str:" 
+-        << totalzancount_str << " selfzancount_str:" << selfzancount_str;
+-    return false;
+-  }
+-  
+-  LOG(INFO) << "aa: self:" << selfzancount << "  total:" << totalzancount; 
++    LOG_F(WARNING) << "body -->2906 album id cast error! album_id_str:" << album_id_str;
++    return false;  
++  } 
+ 
+-  // 可能出现负数
+-  if (totalzancount < 0 || selfzancount < 0) {
+-    LOG_F(WARNING) << "body.inc::fill_comment_album --> totalzancount:" << totalzancount << " selfzancount:" << selfzancount;
+-    //totalzancount_str = "";
+-    //selfzancount_str = ""; 
+-    StringMap & m = fx->body;
+-    m.insert(std::make_pair("selfzancount", ""));
+-    m.insert(std::make_pair("totalzancount", ""));
++  gid->id = album_id;
++  gid->type = kGlobalAlbum;
+ 
++  ::xce::ilikeit::LikeInfoSeq likeseq;
++  ::xce::ilikeit::GlobalIdSeq globalseq;
++
++  globalseq.push_back(gid);
++  bool likeinfo_avaible = false;
++  likeinfo_avaible = BuildZan(u->id(), globalseq, &likeseq);
++
++  const ilikeit::LikeInfo* comment_likeinfo = 0;
++  //likeinfo = 0;
++  if (likeinfo_avaible) {
++    comment_likeinfo = likeseq[0].get();
+   } 
+  
++  if (comment_likeinfo) {
++    LOG(INFO) << "aa: likeinfo selfcount:" << comment_likeinfo->selfCount << " " <<  comment_likeinfo->totalCount;   
++  }
++
++///////////
++  // std::string totalzancount_str = fx->find("totalzancount");
++  // std::string selfzancount_str = fx->find("selfzancount");
++  m["selfzancount"] = "";
++  m["totalzancount"] = "";
++  dict->SetValue("selfzancount", "");
++  dict->SetValue("totalzancount", "");
++
++  // 处理 "赞"
++  if (comment_likeinfo) {
++    int total = comment_likeinfo->totalCount;
++    if (comment_likeinfo->selfCount) {
++      total -= 1;// 去除自己
++      if (total < 0) {
++        LOG_F(WARNING) << "pp: zan error total :" << total;
++      }
++      //dict.ShowSection("selfzancount");
++      m["selfzancount"] = lexical_cast<std::string>(comment_likeinfo->selfCount);
++      LOG(INFO) << "self str:" << lexical_cast<std::string>(comment_likeinfo->selfCount);
++      dict->SetIntValue("selfzancount", comment_likeinfo->selfCount);
++
++    }
++    //else 
++    //  dict.ShowSection("selfzancount_NOT");
++    if (total > 0) {
++      m["totalzancount"] = lexical_cast<std::string>(total);
++      LOG(INFO) << "total str:" << lexical_cast<std::string>(total);
++      dict->SetIntValue("totalzancount",  total);
++    }
++    //dict.SetIntValue("selfzancount", likeinfo->selfCount);
++    //dict.SetIntValue("totalzancount", total);
++  }
++
++  IfElse(fx, dict, "selfzancount",NULL);
++ 
+   // write_del_no_assign_typeText
+   if (dict_delete_) 
+     dict_delete_->ShowSection("typeText_NOT");

@@ -1,0 +1,32 @@
+
+#include <iostream>
+#include "Util.h"
+#include "FriendUtils.h"
+
+using namespace MyUtil;
+using namespace std;
+using namespace com::xiaonei::service;
+
+int main(int argc, char* argv[]){
+	IntSeq a;
+	a.push_back(9999999);
+	a.push_back(254);
+	a.push_back(255);
+	a.push_back(256);
+	a.push_back(257);
+	a.push_back(1);
+	a.push_back(-1);
+	a.push_back(8888888);
+	a.push_back(4444444);
+	a.push_back(0);
+
+	string s = IntSeqSerialize::serialize(a);
+	cout << s << endl;
+	
+	IntSeq b = IntSeqSerialize::unserialize(s);
+	for(IntSeq::iterator it = b.begin();it != b.end();++it)
+	{
+		cout << *it << " ";
+	}
+	cout << endl;
+}

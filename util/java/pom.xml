@@ -1,0 +1,22 @@
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.xiaonei.xce</groupId>
+	<artifactId>oce-utils-parent</artifactId>
+	<packaging>pom</packaging>
+	<version>1.0-SNAPSHOT</version>
+	<description>oce-adapter.jar oce-dbjavapoo.jar oce-logger.jar oce-util.jar</description>
+	<url>http://labs.xiaonei.com</url>
+	<modules>
+		<module>OceDbjavapool</module>
+		<module>OceLogger</module>
+		<module>OceUtil</module>
+	</modules>
+	<distributionManagement>
+		<snapshotRepository>
+			<id>archiva.snapshots</id>
+			<name>snapshots</name>
+			<url>http://repos.d.xiaonei.com/nexus/content/repositories/snapshots</url>
+		</snapshotRepository>
+	</distributionManagement>
+</project>
+

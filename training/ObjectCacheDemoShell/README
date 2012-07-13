@@ -1,0 +1,36 @@
+This file should place in the following path
+/trunk/training/ObjectCacheDemoShell
+
+The executable file will search for lib files in the following paths
+$ICE_HOME/lib64
+/usr/local/xce/lib64/
+
+# cd build
+Compile the source files
+
+# ./make.sh
+This will generate a client and a server
+
+Run the server
+./server : create objects with default capacity (1000000) 
+./server size : create objects with giving capacity
+# ./server
+
+Run the client in another console with parameter as follow
+./client -load : load 1000000 objects
+./client -preload : preload 1000000 objects
+./client -reload : reload 1000000 objects
+./client -get : get sample email of objects
+./client -get id : get email by id, id should be an integer
+./client -set id email : set email of id, id should be an integer
+./client -touch : touch sample email of objects
+./client -touch id : touch email of id, id should be an integer
+
+When use preload or reload method, the task will be execute by taskmanager,
+so it will return before the task is finished.
+
+preload won't create object that already exist, while reload will.
+
+get will load missing object, and affect LRU queue, while touch won't
+
+

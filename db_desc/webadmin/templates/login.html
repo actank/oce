@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Login Page</title>
+	<style>
+*					{ margin: 0; padding: 0; }
+body				{ font-family: Georgia, serif; background: url(static/login-page-bg.jpg) top center no-repeat #c4c4c4; color: #3a3a3a;  }
+.clear				{ clear: both; }
+form				{ width: 406px; margin: 91px auto 0; }
+legend				{ display: none; }
+fieldset			{ border: 0; }
+label				{ width: 115px; text-align: right; float: left; margin: 0 10px 0 0; padding: 9px 0 0 0; font-size: 16px; }
+input				{ width: 220px; padding: 4px; margin: 0 0 10px 0; font-size: 18px;
+  					color: #3a3a3a; font-family: Georgia, serif;}
+input[type=checkbox]{ width: 20px; margin: 0; display: inline-block; }			  
+.button				{ background: url(static/button-bg.png) repeat-x top center; border: 1px solid #999;
+					  -moz-border-radius: 5px; padding: 5px; color: black; font-weight: bold;
+					  -webkit-border-radius: 5px; font-size: 13px;  width: 70px; }
+.button:hover		{ background: white; color: black; }
+	</style>
+</head>
+
+<body>
+<div id="hook-just-in-case" style="height: 90px;background: #2f2626 !important; text-align: center !important; color: white !important; font: 24px Georgia, Serif !important; position: relative; width: 100% !important; z-index: 10000 !important;">
+   <br />XCE Databse Descriptor WEB Admin
+</div>
+	<form action="/login?next={{ url_escape(request.uri) }}" method="post">
+		<fieldset>		
+			<legend>Log in</legend>
+			
+			<label for="login">Name</label>
+
+			<input type="text" name="username"/>
+			<div class="clear"></div>
+			
+			<label for="password">Password</label>
+			<input type="password" name="password"/>
+			<div class="clear"></div>
+			
+			<label for="remember_me" style="padding: 0;">Remember me?</label>
+			<input type="checkbox" style="position: relative; top: 3px; margin: 0; " checked/>			 
+			<div class="clear"></div>
+			<br />
+			
+			{{ xsrf_form_html() }}
+			<input type="submit" style="margin: -20px 0 0 287px;" class="button" name="commit" value="Log in"/>	
+		</fieldset>
+	</form>	
+</body>
+
+</html>
+
+
+
+
+<!--
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>xiyangyang</title>
+</head>
+
+<body>
+<div class="login-panel">
+<div class="inner">
+<div class="innertop"/>
+<h3>用户登录:</h3>
+
+<form action="/login?next={{ url_escape(request.uri) }}" method="post">
+
+<label for="username">用户名:</label><input type="text" name="username"/><br/>
+<label for="password">密码:</label><input type="password" name="password"/><br/>
+不能记住密码 <input type="submit" value="登录"/>
+{{ xsrf_form_html() }} 
+</form>
+
+</body>
+</html> 
+-->

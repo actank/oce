@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+	<!-- timeout = -1 表示永远都不超时
+		 timeout = 0  表示不Cache，每次都取最新的
+		 timeout > 0 表示Cache对应的秒数
+		
+		 has_extra_value = true 模板需要额外参数  false表示没有额外参数
+	
+	
+	
+		Content-Type: text/html;charset=UTF-8
+		Content-Type: text/css
+		Content-Type: application/x-javascript
+		Content-Type: image/gif
+		Content-Type: image/jpeg    jpg图片
+		Content-Type: image/png
+		Content-Type: application/xml
+		Content-Type: application/x-shockwave-flash
+		
+	-->
+	<page url="/test" file="/opt/XNTalk/etc/page_template/test.tpl" timeout='0' type="template" content_type="text/html;charset=UTF-8"/>
+	<page url="/test.css" file="/opt/XNTalk/etc/page_template/test.css" timeout='-1' type="text" content_type="text/css"/>
+	<page url="/test.css" file="/opt/XNTalk/etc/page_template/a.swf" timeout='-1' type="bin" content_type="application/x-shockwave-flash"/>
+</config>

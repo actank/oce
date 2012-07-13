@@ -1,0 +1,110 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<script type="text/javascript">
+
+
+var req = XMLHttpRequest();
+
+function on_get_schema(){
+	if(req.readyState == 4){
+        	try{
+            		var da = eval('(' + req.responseText + ')');
+			alert(da);
+			insert_rows(da);
+		}catch(e){
+            		alert(e);
+        	}
+	}
+}
+
+
+
+function request_get_schema(){
+	 var url = "/getallschema.tpl?";
+	 req.open('GET', url, true);
+	 req.onreadystatechange = on_get_schema;
+	 req.send('');
+}
+
+
+var req2 = XMLHttpRequest();
+function update_online_template(){
+	var url = "/apply.tpl?";
+	req2.open('GET', url, true);
+	req2.onreadystatechange = on_apply;
+	req2.send('');
+}
+
+function on_apply(){
+	
+	if( req2.readyState == 4 ){
+		try{
+			var da = eval('(' + req2.responseText + ')');
+			if(da == 0){
+				alert("success");
+			} else {
+				alert("error : " + da);
+			}	 
+		}catch(e){
+			alert(e);
+		}
+	}
+}
+
+function new_schema(){
+	 window.showModalDialog ('index.html', -1); 
+}
+
+function edit_schema(id){
+//	 alert("--->"+id);
+	 window.showModalDialog('index.html',id); 
+}
+
+
+
+
+function insert_rows(datas){
+	 var table = document.getElementById("schema_list");
+	 for(var i=0; i<datas.length; i++){
+		var r = document.createElement("tr");
+        	table.appendChild(r);
+		r.innerHTML = "<td width='20'>"+datas[i]['id']+"</td>"+
+			      "<td width='20'>"+datas[i]['name']+"</td>"+
+			      "<td>"+
+		      	      "<input type='button' width='10' value='edit' onclick='javascript:edit_schema("+datas[i]['id']+")'/>"+
+		      	      "</td>";
+	}
+}
+
+
+
+function schema_head(){
+	var form = document.createElement("form");
+	document.body.appendChild(form);
+	form.innerHTML = "<table border='1' id='schema_list' bgcolor=#EFF2FA>" +
+			"<tr bgcolor=#D9E107>" +
+			"<td width='20'>schema id</td>" +
+			"<td width='20'>schema name</td>" +
+			"<td><input type='button' width='10' value='add schema' onclick='javascript:new_schema()'/>"+
+			"</td>"+
+			"</tr>";
+}
+
+
+</script>
+
+<title>add reply template</title>
+</head>
+<body>
+<input type='button' width='10' value='apply to online service' onclick='javascript:update_online_template()'/>
+<br>
+<hr/>
+
+<script type="text/javascript">
+schema_head();
+request_get_schema();
+</script>
+
+</body>
+</html>

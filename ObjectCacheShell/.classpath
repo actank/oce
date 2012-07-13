@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="/Trunk/depends/jars/commons-dbcp-1.2.2.jar"/>
+	<classpathentry kind="lib" path="/Trunk/depends/jars/commons-logging-1.1.jar"/>
+	<classpathentry kind="lib" path="/Trunk/depends/jars/Ice.jar"/>
+	<classpathentry kind="lib" path="/Trunk/depends/jars/log4j-1.2.14.jar"/>
+	<classpathentry kind="lib" path="/Trunk/depends/jars/mysql-connector-java-5.0.5-bin.jar"/>
+	<classpathentry kind="lib" path="/Trunk/release/oce-dbjavapool.jar"/>
+	<classpathentry kind="lib" path="/Trunk/release/oce-util.jar"/>
+	<classpathentry kind="lib" path="/Trunk/release/oce-adapter.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

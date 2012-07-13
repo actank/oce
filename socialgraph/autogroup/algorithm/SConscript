@@ -1,0 +1,28 @@
+Import('env')
+Import('ice_libs')
+Import('db_libs')
+Import('boost_libs')
+Import('cpp_')
+Import('all_libs')
+
+autogrouping = env.Program('autogroup',
+	source = [
+		Glob('*.cc'),
+		Glob('./method/*.cc'),
+		Glob('./util/*.cc'),
+		Glob('./method/impl/*.cc')
+	],
+	LIBS = [
+		cpp_['fcgi'],
+		cpp_['cwf'],
+		cpp_['arch'],
+		cpp_['dbpool'],
+		cpp_['xceadapter'],
+		cpp_['base'],
+		boost_libs,
+		db_libs,
+		ice_libs,
+		'log4cplus',
+		all_libs,
+	]
+)

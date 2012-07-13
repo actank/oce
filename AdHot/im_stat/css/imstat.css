@@ -1,0 +1,53 @@
+td.fielddesc {
+  width:88px;padding:4px 12px;
+}
+
+table.itemlist {
+  margin:4px;
+  font-size:12px;
+  width:800px;
+  line-height:18px;
+}
+table.itemlist td {
+  border:1px solid #d3d3d3;
+}
+table.itemlist th {
+  background-color: #EBEBEB;
+  border: 1px solid #CCCCCC;
+  border-collapse: collapse;
+  font-weight: bold;
+  color:#343f3c;
+  padding: 8px 4px;
+}
+input.date_picker {
+  width:100px;
+}
+input.time_picker {
+  width:138px;
+}
+
+table ul {
+  margin:0;
+  padding:0 0 0 18px;
+}
+
+ul.minus {
+  background: url("/img/minus.png") no-repeat scroll 2px 2px transparent;
+}
+ul.minus li {
+  display:block;
+}
+ul.plus {
+  background: url("/img/plus.png") no-repeat scroll 2px 2px transparent;
+}
+ul.plus li {
+  display:none;
+}
+
+/* css for timepicker */
+.ui-timepicker-div .ui-widget-header{ margin-bottom: 8px; }
+.ui-timepicker-div dl{ text-align: left; }
+.ui-timepicker-div dl dt{ height: 25px; }
+.ui-timepicker-div dl dd{ margin: -25px 0 10px 65px; }
+.ui-timepicker-div td { font-size: 90%; }
+

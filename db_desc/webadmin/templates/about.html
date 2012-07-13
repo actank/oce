@@ -1,0 +1,26 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<script src="static/jquery.min.js"></script>
+<script>
+function bark() {
+	$.get('/subdesc', {}, function(data, textStatus) { 
+	  $('#log').html( $('#log').html() + data + '&nbsp;' + textStatus + '<br/>');
+	  });
+};
+
+function foo() {
+  $("#log").text(
+    $("#log").text() + 'a'
+    );
+}
+
+</script>
+<body>
+  <h4>{{last}}</h4>
+  <button onclick="bark()">bark</button> <button onclick="foo()">foo</button>
+  <div id="log"><br />a</div>
+</body>
+</html>

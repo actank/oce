@@ -1,0 +1,148 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<link rel="stylesheet" type="text/css" href="static/style.css" />
+</head>
+
+<script> 
+function update_instance(name) {
+  if (confirm("您确定更新这个instance的时间吗?")==true) {
+     url = "/edit_instance?instance="+name;
+     window.location=url;
+  }
+}
+
+function del_instance(name) {
+  if (confirm("你确定删除这个instance吗?")==true) {
+     url = "/?del_instance="+name;
+     window.location=url;
+  }
+}
+
+function del_server(id) {
+  if (confirm("你确定删除这个server吗?")==true) {
+    url = "/?del_server="+id;
+    window.location=url;
+  }
+}
+
+function del_route(id) {
+  if (confirm("你确定删除这个expresion吗?")==true) {
+    url = "/?del_route="+id;
+    window.location=url;
+  }
+}
+</script>
+
+<body>
+
+  <div id="page-wrap">
+    <div id="inside">
+      <div id="header"> 数据库配置更新 </div>
+      <div id="left-sidebar">
+<form action="/reload" method="post">
+    <a href = "/pubdesc" target="_blank">观察器</a> | <a href = "/edit_instance?insert=1">添加instance</a>
+    <input type="submit" value="reload"/>
+    {{ xsrf_form_html() }} 
+</form>
+
+<ul>
+  {% for instance in instances %}
+    <li {% if current and  instance.name == current.name %}style="color:red;"{% end %} >
+    <!--{% if current and instance.name == current.name %}>&nbsp;{%end%}-->
+    {% if hasattr(instance, "ext_have") %}&nbsp;&nbsp;{%end%}
+    <a href="/?instance={{escape(instance.name)}}">
+           {{escape(instance.name)}}
+           {%if instance.type=='router'%} {%if instance.ext_max != instance.ext_count%}
+           <img src="/static/8.gif"></img>{%end%}{%end%}</a>
+   | <a href="#" onclick="update_instance('{{instance.name}}')">update</a>
+   | <a href="#" onclick="del_instance('{{instance.name}}')">del</a>
+    </li>
+  {% end %}
+</ul>
+      </div>
+      <div id="main-content">
+<h2>
+{% if type %}
+  {% if type == "singler" %}
+    <a href = "edit_server?insert=1&instance_name={{escape(current.name)}}">添加 server</a>
+  {% else %}
+    <a href = "edit_route?insert=1&instance_name={{escape(current.name)}}">添加 expresion</a>
+  {% end %}
+{% end %}
+</h2>
+
+<table class="server_table" border="0" cellpadding="3" cellspacing="3">
+  {% if type %}
+    {% if type == "singler" %}
+      <tr>
+        <th>id</th>
+        <th>type</th>
+        <th>db</th>
+        <th>host</th>
+        <th>port</th>
+        <th>user</th>
+        <th>passwd</th>
+        <th>wrflag</th>
+        <th>charset</th>
+        <th>priority</th>
+        <th>EDIT</th>
+        <th>DEL</th>
+      </tr>   
+      {% for server in context %}
+      <tr>
+          <td>{{ server.id }}</td>
+          <td>{{ server.type }}</td>
+          <td>{{ server.database }}</td>
+          <td>{{ server.host }}</td>
+          <td>{{ server.port }}</td>
+          <td>{{ server.user }}</td>
+          <td>{{ server.password }}</td>
+          <td>{{ server.wrflag }}</td>
+          <td>{{ server.charset }}</td>
+          <td>{{ server.priority }}</td>
+          <td><a href="/edit_server?id={{server.id}}">edit</a></td>
+          <td><a href="#" onclick= "del_server('{{server.id}}')" >del</a></td>
+      </tr>
+      {% end %}
+   {% else %}
+      <tr>
+        <th>id</th>
+        <th>expression</th>
+        <th>instance</th>
+        <th>EDIT</th>
+        <th>DEL</th>
+        <th>   </th>
+      </tr>   
+      {% for route in context %}
+      <tr>
+          <td> {{ route.id }} </td>
+          <td> {{ route.expression }} </td>
+          <td> {{ route.instance }} </td>
+          <td><a href="/edit_route?id={{route.id}}">edit</a></td>
+          <td><a href="#"  onclick= "del_route('{{route.id}}')">del</a></td>
+          <td> {%if not hasattr(route, "ext_have")%}
+            <form action="/edit_instance" method="post">
+              <input type="hidden" name="name" value="{{route.instance}}"/>
+              <input type="hidden" name="type"value="singler"/>
+              <input type="hidden" name="insert" value="true"  />
+              <input type="submit" value="快捷添加instance"/>
+              {{ xsrf_form_html() }} 
+            </form>
+          {%end%}</td>
+      </tr>
+      {% end %}
+    {% end %}
+  {% end %}
+</table>
+      </div>
+      <div style="clear: both;" />
+      <div id="footer">beijing qiangxiang hudong youxian dongsi</div>
+      <div style="clear: both;" />
+    </div>
+  </div>
+
+</body>
+</html> 

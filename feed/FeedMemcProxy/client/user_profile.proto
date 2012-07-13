@@ -1,0 +1,17 @@
+         
+package xce.ad;
+ 
+message UserProfile {
+  required int32 id = 1;
+  required int32 stage = 2;
+  required int32 gender = 3;
+  required int32 age = 4;
+  required int64 school = 5;
+  required int32 major = 6;
+  required int32 grade = 7;
+  required string home_area = 8;
+  required string current_area = 9;
+  required int32 ip = 10;
+  required string ip_area = 11;
+}
+

@@ -1,0 +1,38 @@
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8">
+   <meta http-equiv="Pragma" content="no-cache">
+   <script LANGUAGE="JavaScript">
+
+var count = 5;
+ function timer() {
+
+  //timevid.write("还剩"+count+"秒掉转到主页面");
+  //var div = document.getElementById("timevid");
+  //alert(timevid.innerHTML);
+  if (count == 0) {
+    window.location ="/";
+    return
+  }
+
+  timevid.innerHTML = "还剩"+count+"秒掉转到主页面";
+  count -= 1;
+  setTimeout("timer()", 1000);
+ }
+
+ function init() {
+   timer()
+ }
+ </script>
+</HEAD>
+<body onLoad="init()">
+<h2> {{title}}</h2>
+
+<h3> {{error}}</h3>
+<div name="timevid" id= "timevid">xxee </div><br/>
+<a href="/">马上转入主页面</a>
+
+
+
+</body>
+</HTML>

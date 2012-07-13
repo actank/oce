@@ -1,0 +1,70 @@
+apply_id	pm_names	pm_emails	dev_names	dev_emails	feed_stype	feed_desc	apply_type	apply_desc	push_news	push_mini	news_merge_desc	mini_merge_desc	status	apply_time
+8	人人视频	huicai.wu@renren-inc.com	邓展成	zhancheng.deng@renren-inc.com	0	用户发布视频产生的视频新鲜事	2	视频发布新鲜事	1	1	按视频id替换	不合并，不去重	1	0000-00-00 00:00:00
+9	视频	huicai.wu@renren-inc.com	邓展成	zhancheng.deng@renren-inc.com	0	用户分享视频产生的分享新鲜事	2	用户分享视频产生的分享新鲜事	1	1	按照视频ID替换	不合并	1	0000-00-00 00:00:00
+10	视频	huicai.wu@renren-inc.com	邓展成	zhancheng.deng@renren-inc.com	0	用户评论视频产生的评论新鲜事	2	用户评论视频产生的评论新鲜事	1	0	按视频ID合并	不发minifeed	1	0000-00-00 00:00:00
+11	李秋实	qiushi.li@renren-inc.com	王兵	bing.wang@renren-inc.com	0	用户创建家庭空间后发送该新鲜事	1	用户创建家庭空间后发送该新鲜事	1	1	无	无	1	0000-00-00 00:00:00
+12	徐瑞航	ruihang.xu@renren-inc.com	齐大伟	dawei.qi@renren-inc.com	0	分享单曲新鲜事	1	用户在单曲终端页、音乐盒、首页新鲜事中点击分享，产生新鲜事。\n1、歌曲名+歌手名：点击后新开页面，跳转到单曲终端页，播放当前歌曲。\n2、点击播放按扭，新开页面，打开音乐盒。\n3、点击单曲图片，新开页面，进入单曲终端页。\n4、新鲜事下面功能：回复、分享、收藏、喜欢	1	1	量很低，不去重	量很低，不去重	1	0000-00-00 00:00:00
+13	徐瑞航	ruihang.xu@renren-inc.com	齐大伟	dawei.qi@renren-inc.com	0	用户分享专辑发新鲜事	1	用户在专辑终端页、新鲜事里分享整张专辑时发布新鲜事。\n1、点击歌曲名+歌手名，新开页面，跳到专辑终端页。\n2、点击播放按钮，新开页面打开音乐盒，按顺序播放当前专辑。\n3、点击专辑图片，新开页面，跳转到专辑终端页。\n4、下面功能：回复、分享、收藏、喜欢	1	1	量低，暂不去重	量低，暂不去重	1	0000-00-00 00:00:00
+14	徐瑞航	ruihang.xu@renren-inc.com	齐大伟	dawei.qi@renren-inc.com	0	用户分享自选辑发分享新鲜事	1	用户在自选辑终端页、新鲜事分享后，发布分享新鲜事。\n1、点击歌曲名+歌手名，新开页面，跳转到自选辑终端页。\n2、点击播放按钮，新开页面，顺序播放当前自选辑。\n3、点击自选辑图片，新开页面，跳到专辑终端页。\n下面功能：回复、分享、收藏、喜欢	1	1	量很低，不去重	量很低，不去重	1	0000-00-00 00:00:00
+15	徐瑞航	ruihang.xu@renren-inc.com	齐大伟	dawei.qi@renren-inc.com	0	用户评论单曲产生的新鲜事	1	用户评论某一首单曲时发新鲜事。\n所带功能：评论文案、播放按钮、单曲终端页图片，显示歌曲名+歌手名。\n用户名后面直接跟单曲评论，评论字数不大于140。\n点击播放按钮，新开页面打开音乐盒，直接播放单曲。\n点击单曲图片，新开页面，跳到单曲终端页。\n点击歌曲名+歌手名，新开页面，跳到单曲终端页。\n下面附带功能：回复	1	1	不去重	不去重	1	0000-00-00 00:00:00
+16	徐瑞航	ruihang.xu@renren-inc.com	齐大伟	dawei.qi@renren-inc.com	0	用户评论某人创建的自选辑时发新鲜事	1	功能：评论文案、自选辑图片、播放按钮、自选辑名称、制作者\n用户名后面直接跟评论的文字，评论字数不大于140\n点击播放按钮，新开页面打开音乐盒，顺序播放自选辑歌曲。\n点击图片：新开页面，打开自选辑终端页。\n点击自选辑名：新开页面，打开自选辑终端页。\n点击原创作者名：新开页面，跳到作者个人主页。\n附带功能：回复\n	1	1	不去重	不去重	1	0000-00-00 00:00:00
+17	徐瑞航	ruihang.xu@renren-inc.com	齐大伟	dawei.qi@renren-inc.com	0	用户喜欢音乐发新鲜事	1	XXX喜欢音乐XXX-XXX\n功能：单曲终端页图片、播放按钮、评论、附带功能有回复、收藏、喜欢\n点击歌曲名+歌手名：打开单曲终端页。\n点击图片，新开页面，打开单曲终端页。\n点击播放按钮：新开页面打开音乐盒播放当前歌曲\n评论字数不大于140\n附带功能：回复、收藏、喜欢	1	1	按喜欢新鲜事策略合并，不去重	按喜欢新鲜事策略合并，不去重	1	0000-00-00 00:00:00
+18	徐瑞航	ruihang.xu@renren-inc.com	齐大伟	dawei.qi@renren-inc.com	0	用户收听人人电台发新鲜事	1	XXX打开了人人电台，开始收听XXXX频道\n人人电台为链接，点击后新开页面，打开电台；\nXXXX为链接，点击XXXX后新开页面，打开人人电台当前频道，\n点击播放按钮，新开页面打开电台播放当前频道；\n点击图片，新开页面打开电台播放当前频道；\n显示XXXX人正在收听；\n	1	1	1： 只有在用户在进入电台和切换电台才发送新鲜事， 不需要合并操作。 2：　新鲜事后台首先按照电台id进行合并，　合并的结果是：“用户A， 用户B.... 正在听电台XXX";   3，然后按照时间进行合并， 同一个用户5分钟之内收到的电台新鲜事会进行合并。 合并的结果是在电台新鲜事的右下角出现链接：“ 显示n条相似的新鲜事”， 点击之后新鲜事展开。 	不去重	1	0000-00-00 00:00:00
+19	马婧	jing.ma@renren-inc.com	王文晖	wenhui.wang@renren-inc.com	0	公共主页收礼产生的新鲜事儿	1	公共主页添加送礼功能，用户能给公共主页送礼，公共主页收礼后产生新鲜事儿，样式与普通收礼新鲜事儿一致，接收人群为公共主页的关注者	1	1	根据新鲜事儿类型合并	根据新鲜事儿类型合并	1	0000-00-00 00:00:00
+21	姜戈	ge.jiang@renren-inc.com	胡尧	yao.hu@renren-inc.com	3710	小站转载状态	1	小站转载小站的状态	1	1	默认	默认	1	0000-00-00 00:00:00
+22	姜戈	ge.jiang@renren-inc.com	胡尧	yao.hu@renren-inc.com	3711	小站分享照片	1	小站分享小站的照片，1张或多张的	1	1	默认	默认	1	0000-00-00 00:00:00
+23	姜戈	ge.jiang@renren-inc.com	胡尧	yao.hu@renren-inc.com	3712	小站分享视频	1	小站分享小站的视频	1	1	默认	默认	1	0000-00-00 00:00:00
+24	姜戈	ge.jiang@renren-inc.com	胡尧	yao.hu@renren-inc.com	3713	小站分享音频	1	小站分享小站的音频	1	1	默认	默认	1	0000-00-00 00:00:00
+25	姜戈	ge.jiang@renren-inc.com	胡尧	yao.hu@renren-inc.com	3714	小站分享链接	1	小站分享小站的链接	1	1	默认	默认	1	0000-00-00 00:00:00
+26	郭超	chao.guo@renren-inc.com	朱允铭	yunming.zhu@renren-inc.com	0	用户发布评论时产生的新鲜事	1	用户使用平台提供的评论插件时，如果勾选了新鲜事同步到人人选项，即可触发一条此类新鲜事。\n新鲜事模板和目前喜欢新鲜事模板相同，文案从“很喜欢”改为“评论了”	1	1	按用户合并	按appid合并	1	0000-00-00 00:00:00
+28	郭超	chao.guo@renren-inc.com	李志才	zhicai.li@renren-inc.com	0	新增一种动作类自定义新鲜事类型	1	新增一种自定义新鲜事类型，在原有自定义新鲜事模板基础上，增加对url的解析支持，并增加一个action link	1	1	按用户合并	按app合并	1	0000-00-00 00:00:00
+29	徐瑞航	ruihang.xu@renren-inc.com	刘国君，齐大伟	guojun.liu@renren-inc.com	0	明星访谈关注新鲜事	1	人人爱听明星访谈关注新鲜事，在明星访谈活动页面内触发。	1	0	合并：N个好友同时关注时，显示N1 N2 N3 N4 N5正在关注XXX（N<=5)，无去重	无minifeed	0	0000-00-00 00:00:00
+30	车问	xiayu@renren-inc.com	李晓钟	xiaozhong.li@renren-inc.com	0	提问新鲜事	1	在车问提问，发新鲜事到人人网	1	1	按照用户ID去重	按照用户ID去重	1	0000-00-00 00:00:00
+31	车问	xiayu@renren-inc.com	李晓钟	xiaozhong.li@renren-inc.com	0	车问回答新鲜事	1	用户在车问回答问题，发的新鲜事	1	1	按用户ID去重	按用户ID去重	1	0000-00-00 00:00:00
+32	车问	xiayu@renren-inc.com	李晓钟	xiaozhong.li@renren-inc.com	0	车问车型图库新增图片	1	品牌车型图库新增图片后，发送新鲜事给关注这些车型的用户。	1	1	去重	去重	1	0000-00-00 00:00:00
+33	车问	xiayu@renren-inc.com	李晓钟	xiaozhong.li@renren-inc.com	0	车问车型新增新闻	1	车型文章新增，会给关注过这个车型的用户发送新鲜事。	1	1	去重	去重	1	0000-00-00 00:00:00
+34	车问	xiayu@renren-inc.com	李晓钟	xiaozhong.li@renren-inc.com	0	车问车型分享视频	1	车型分享视频，给关注这个车型的用户发送新鲜事。	1	1	去重	去重	1	0000-00-00 00:00:00
+35	车问	xiayu@renren-inc.com	李晓钟	xiaozhong.li@renren-inc.com	0	关注车型	1	用户关注某款车型，用户给他的好友发送新鲜事	1	1	去重	去重	1	0000-00-00 00:00:00
+36	车问	xiayu@renren-inc.com	李晓钟	xiaozhong.li@renren-inc.com	0	用户在车问中评论	1	用户评论车问的文章、图片、分享和回答，给用户的好友发送新鲜事。	1	1	去重	去重	1	0000-00-00 00:00:00
+37	黄毅	yi.huang@renren-inc.com	李翼	yi.li@renren-inc.com	0	page成为粉丝	1	sd	1	0	append	replace	0	0000-00-00 00:00:00
+38	黄欣然	xinran.huang@renren-inc.com	高红亮	hongliang.gao@renren-inc.com	0	小群多张照片上传	1	小群多张照片上传	1	0	按相册ID合并	无	1	0000-00-00 00:00:00
+39	人人商城新鲜事测试	chong.cheng@renren-inc.com	华雄	xiong.hua@renren-inc.com	0	测试用户推荐商品	1	人人商城新鲜事测试，目的是走通新鲜事接口	1	1	按用户ID（我随便写的呀~~）	不合并	0	0000-00-00 00:00:00
+40	姜戈	ge.jiang@renren-inc.com	胡尧	yao.hu@renren-inc.com	3720	小站发状态同步	1	小站发状态可以同步给人人的好友，用这套新鲜事	1	1	默认	默认	1	0000-00-00 00:00:00
+41	姜戈	ge.jiang@renren-inc.com	胡尧	yao.hu@renren-inc.com	3721	小站发日志同步	1	小站发日志同步给人人好友	1	1	默认	默认	1	0000-00-00 00:00:00
+42	姜戈	ge.jiang@renren-inc.com	胡尧	yao.hu@renren-inc.com	3722	小站发照片同步	1	小站发照片同步给人人好友	1	1	默认	默认	1	0000-00-00 00:00:00
+43	姜戈	ge.jiang@renren-inc.com	胡尧	yao.hu@renren-inc.com	3723	小站发分享视频同步	1	同步给人人好友	1	1	默认	默认	1	0000-00-00 00:00:00
+44	姜戈	ge.jiang@renren-inc.com	胡尧	yao.hu@renren-inc.com	3724	小站发分享音频同步	1	同步给人人好友	1	1	默认	默认	1	0000-00-00 00:00:00
+45	姜戈	ge.jiang@renren-inc.com	胡尧	yao.hu@renren-inc.com	3725	小站发分享link同步	1	同步给人人好友	1	1	默认	默认	1	0000-00-00 00:00:00
+46	陈冲	chong.chen@renren-inc.com	华雄	xiong.hua@renren-inc.com	9100	人人商城新鲜事	1	用户购买/推荐/发起投票都会产生新鲜事	0	0	replace	replace	0	0000-00-00 00:00:00
+47	姜戈	ge.jiang@renren-inc.com	李立新	lixin.li@renren-inc.com	3708	小站发状态(给关注者和小站管理员）	1	小站发布状态，作为新鲜事发送给好友、关注者以及小站管理员，stype3720是发送给好友的，这个是发送给关注者和小站管理员的	1	0	默认	默认	0	0000-00-00 00:00:00
+48	姜戈	ge.jiang@renren-inc.com	李立新	lixin.li@renren-inc.com	3730	小站发状态(给关注者和管理员）	1	小站发布状态后，要给好友、关注者以及小站管理员发新鲜事，stype3720为发送给好友的新鲜事，这个是发送给关注者和小站管理员的新鲜事	1	0	默认	默认	0	0000-00-00 00:00:00
+49	姜戈	ge.jiang@renren-inc.com	李立新	lixin.li@renren-inc.com	3731	小站发日志(给关注者和管理员)	1	小站发布日志后，给好友、关注者以及小站管理员发新鲜事，3721是发送给好友的，这个是发送给观注者和管理员的	1	0	默认	默认	0	0000-00-00 00:00:00
+50	姜戈	ge.jiang@renren-inc.com	李立新	lixin.li@renren-inc.com	3732	小站发照片(给关注者和管理员)	1	小站发布照片后，给好友、关注者以及小站管理员发新鲜事，3722是发送给好友的，这个是发送给观注者和管理员的	1	0	默认	默认	0	0000-00-00 00:00:00
+51	姜戈	ge.jiang@renren-inc.com	李立新	lixin.li@renren-inc.com	3733	小站发分享视频(给关注者和管理员)	1	小站发布分享视频后，给好友、关注者以及小站管理员发新鲜事，3723是发送给好友的，这个是发送给观注者和管理员的	1	0	默认	默认	0	0000-00-00 00:00:00
+52	姜戈	ge.jiang@renren-inc.com	李立新	lixin.li@renren-inc.com	3734	小站发分享音频(给关注者和管理员)	1	小站发布分享音频后，给好友、关注者以及小站管理员发新鲜事，3724是发送给好友的，这个是发送给观注者和管理员的	1	0	默认	默认	0	0000-00-00 00:00:00
+53	姜戈	ge.jiang@renren-inc.com	李立新	lixin.li@renren-inc.com	3735	小站发分享链接(给关注者和管理员)	1	小站发布分享链接后，给好友、关注者以及小站管理员发新鲜事，3725是发送给好友的，这个是发送给观注者和管理员的	1	0	默认	默认	0	0000-00-00 00:00:00
+54	黄毅	yi.huang@renren-inc.com	李翼	yi.li@renren-inc.com	0	Page用户状态新鲜事	3	改用和普通用户一样的新鲜事模版	1	1	不合并	不合并	0	0000-00-00 00:00:00
+55	马婧	jing.ma@renren-inc.com	王文晖	wenhui.wang@renren-inc.com	0	用户送礼物时产生的礼物新鲜事儿 stype为801	1	发送礼物时触发的新鲜事儿，发出者为收礼人，接受到新鲜事儿的人为收礼人好友。 产品需求，要在原有的送礼新鲜事儿基础上添加生日信息，固开发新的礼物新鲜事儿。	1	1	根据用户id append\n	根据用户id append	0	0000-00-00 00:00:00
+56	黄毅	yi.huang@renren-inc.com	李翼	yi.li@renren-inc.com	0	公共主页用户发表日志	1	公共主页用户发表日志	1	1	无	无	0	0000-00-00 00:00:00
+57	黄毅	yi.huang@renren-inc.com	李翼	yi.li@renren-inc.com	0	公共主页发表相片	1	公共主页发表相片	1	1	无	无	0	0000-00-00 00:00:00
+58	马婧	jing.ma@renren-inc.com	王文晖	wenhui.wang@renren-inc.com	0	用户过生日当天发出一条新鲜事儿提醒好友	1	一个用户当天过生日，在8点-10点左右发出一条新鲜事儿通知其好友过生日了。 触发者为当天过生日的用户，接受者为全部好友。如果一个用户收到多条该类型新鲜事儿，新鲜事儿做合并。	1	0	append	append	0	0000-00-00 00:00:00
+59	黄毅	yi.huang@renren-inc.com	李翼，高锋	yi.li@renren-inc.com,gaofeng@renren-inc.com	0	分享公共主页视频	1	分享公共主页视频	1	1	否	否	0	0000-00-00 00:00:00
+60	黄毅	yi.huang@renren-inc.com	李翼，高锋	yi.li@renren-inc.com,gaofeng@renren-inc.com	0	分享公共主页日志	1	分享公共主页日志	1	1	否	否	0	0000-00-00 00:00:00
+61	黄毅	yi.huang@renren-inc.com	李翼，高锋	yi.li@renren-inc.com	0	分享公共主页相册	1	分享公共主页相册	1	1	否	否	0	0000-00-00 00:00:00
+62	黄毅	yi.huang@renren-inc.com	李翼，高锋	yi.li@renren-inc.com,gaofeng@renren-inc.com	0	成为page粉丝	1	成为page粉丝	1	1	否	否	0	0000-00-00 00:00:00
+63	冯驰	chi.feng@renren-inc.com	刘海滨	haibin.liu@renren-inc.com	0	主页装扮更新	1	在装扮商城应用个人主页装扮时发送新鲜事。	1	0	暂无策略	暂无策略	0	0000-00-00 00:00:00
+64	黄毅	yi.huang@renren-inc.com	李翼,高锋	yi.li@renren-inc.com,gaofeng@renren-inc.com	0	公共主页分享链接	1	公共主页分享站外链接	1	1	否	否	0	0000-00-00 00:00:00
+67	杨舵	duo.yang@renren-inc.com	刘光胜	guangsheng.liu@renren-inc.com	0	发帖时产生的发帖新鲜事	1	二、线上发帖新鲜事缺点：\n1 发布地点不明确\n2 图片内容未展现\n3 无明显交互，无查看和分享提示，不利于传播和点击\n三、相关修改标准\n1. 修改目的：增加交互和传播度\n2. 评价标准：点击率\n3. 触发条件：用户写完帖子以后，点击发表按钮后触发\n4. 发送对象：发送给所有好友\n5. 发送范围：发送首页新鲜事、发送个人主页新鲜事\n6. 去重方式：按帖子id去重\n7. 功能说明：\n可以预览帖子的摘要，\n通过点击帖子的标题、图片、跳转到帖子终端页，\n新鲜事中需要有查看、分享、喜欢以及留言功能，用户可以直接在新鲜事里交互（分享可选择分享给全部好友、自己收藏、指定好友、指定群）；\n8. 大概的发送量：修改后前期预计每天5千条\n	1	1	按照帖子ID去重	按照帖子ID去重	1	0000-00-00 00:00:00
+68	黄毅	yi.huang@renren-inc.com	李翼	yi.li@renren-inc.com	0	公共主页分享相片	1	公共主页分享相片	1	1	否	否	0	0000-00-00 00:00:00
+69	黄毅	yi.huang@renren-inc.com	李翼	yi.li@renren-inc.com	0	公共主页分享链接	1	公共主页分享链接	1	1	否	否	0	0000-00-00 00:00:00
+70	黄毅	yi.huang@renren-inc.com	李翼	yi.li@renren-inc.com	0	粉丝给Page留言新鲜事	1	粉丝给Page留言新鲜事	1	1	否	否	0	0000-00-00 00:00:00
+71	黄毅	yi.huang@renren-inc.com	李翼	yi.li@renren-inc.com	0	粉丝评论相册新鲜事	1	粉丝评论相册新鲜事	1	1	否	否	0	0000-00-00 00:00:00
+72	黄毅	yi.huang@renren-inc.com	李翼	yi.li@renren-inc.com	0	粉丝评论相片新鲜事	1	粉丝评论相片新鲜事	1	1	否	否	0	0000-00-00 00:00:00
+73	黄毅	yi.huang@renren-inc.com	李翼	yi.li@renren-inc.com	0	粉丝评论日志新鲜事	1	粉丝评论日志新鲜事	1	1	否	否	0	0000-00-00 00:00:00
+74	黄毅	yi.huang@renren-inc.com	李翼	yi.li@renren-inc.com	0	公共主页分享相册	1	公共主页分享相册	1	1	否	否	0	0000-00-00 00:00:00
+75	黄毅	yi.huang@renren-inc.com	李翼	yi.li@renren-inc.com	0	公共主页分享日志	1	公共主页分享日志	1	1	否	否	0	0000-00-00 00:00:00
+76	黄毅	yi.huang@renren-inc.com	李翼	yi.li@renren-inc.com	0	公共主页报到	1	公共主页报到	1	1	否	否	0	0000-00-00 00:00:00
+77	黄毅	yi.huang@renren-inc.com	李翼	yi.li@renren-inc.com	0	粉丝评论状态	1	粉丝评论状态	1	1	否	否	0	0000-00-00 00:00:00
+78	黄毅	yi.huang@renren-inc.com	李翼	yi.li@renren-inc.com	0	公共主页分享相册	1	公共主页分享相册	1	1	否	否	0	0000-00-00 00:00:00
+79	尚洋洋	yangyang.shang@renren-inc.com	于达	da.yu@renren-inc.com	0	用户对应用进行评分时发送的评分新鲜事	1	开放平台应用中心开发一套应用评分系统，在用户对应用进行评分的过程中可以自主选择是否向个人主页发布新鲜事。\n综合之前应用评分的打分数量以及目前触发新鲜事的条件，预计发送总量在每天200次。\n	1	1	appId和用户id合并不去重	appId和用户id合并不去重	0	0000-00-00 00:00:00
+80	李博	libo@renren-inc.com	高峰	gaofeng@renren-inc.com	0	用户创建公共主页时产生的创建新鲜事	1	在用户通过自助申请平台, 成功创建公共主页之后，对其好友发送的公共主页创建新鲜事	1	1	不去重（每个人只能申请有限个公共主页，且每天只能申请１个）	不去重（每个人只能申请有限个公共主页，且每天只能申请１个）	0	0000-00-00 00:00:00

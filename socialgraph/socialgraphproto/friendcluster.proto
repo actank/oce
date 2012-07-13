@@ -1,0 +1,14 @@
+package xce.socialgraph;
+
+option java_package = "com.xiaonei.xce.socialgraph.proto";
+option java_outer_classname = "FriendClusters";
+
+message FriendCluster {
+	optional int32 weight = 1;
+	repeated int32 useridseq = 2;
+}
+
+message Person {
+	repeated int32 clusterindexseq = 3;
+}
+

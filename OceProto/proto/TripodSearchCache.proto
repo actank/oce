@@ -1,0 +1,102 @@
+package oce.tripodsearchcache;
+
+message NetWorkInfo
+{
+  required int32 id = 1;
+  optional int32 stage = 2;
+  optional string name = 3;
+}
+
+message ElementarySchoolInfo
+{
+  required int32 id = 1;
+  optional int32 year = 2;
+  optional string name = 3;
+}
+
+message JuniorSchoolInfo
+{
+  required int32 id = 1;
+  optional int32 year = 2;
+  optional string name = 3;
+}
+
+message HighSchoolInfo
+{
+  required int32 id = 1;
+  optional int32 year = 2;
+  optional string name = 3;
+  optional string class1 = 4;
+  optional string class2 = 5;
+  optional string class3 = 6;
+ 
+}
+
+message CollegeInfo
+{
+  required int32 id = 1;
+  optional int32 year = 2;
+  optional string name = 3;
+  optional string department = 4; 
+}
+
+message UniversityInfo
+{
+  required int32 id = 1;
+  optional int32 year = 2;
+  optional string name = 3;
+  optional string department = 4;
+  optional string dorm = 5;
+}
+
+message WorkplaceInfo{
+  required int32 id = 1;
+  optional string name = 2;
+}
+
+message RegionInfo{
+  required int32 id = 1;
+  optional string city = 2;
+  optional string province = 3;
+}
+
+message TripodSearchCacheData
+{
+  optional string name = 1;
+  optional string gender = 2;
+  optional string signature = 3;
+  optional string headUrl = 4;
+  optional string tinyUrl = 5;
+  optional int32 status = 6;
+  optional int32 state = 7;
+  optional int32 stage = 8;
+  optional string lastLoginTime = 9;
+  optional int32 viewCount = 10;
+  optional int32 safeStatus = 11;
+  optional int32 browseConfig = 12;
+  optional int32 statusConfig = 13;
+  optional int32 basicConfig = 14;
+  optional string profilePrivacy = 15;
+  optional string homeCity = 16;
+  optional string homeProvince = 17;
+  optional string astrology = 18;
+  optional int32 birthYear = 19;
+  optional int32 birthMonth = 20;
+  optional int32 birthDay = 21;
+  optional string interest = 22;
+  optional string music = 23;
+  optional string movie = 24;
+  optional string game = 25;
+  optional string comic = 26;
+  optional string sport = 27;
+  optional string book = 28;
+  optional string society = 29;
+  repeated NetWorkInfo networks = 30;
+  repeated ElementarySchoolInfo elementarySchools = 31;
+  repeated JuniorSchoolInfo juniorSchools = 32;
+  repeated HighSchoolInfo highSchools = 33;
+  repeated CollegeInfo collegeSchools = 34;
+  repeated UniversityInfo universitySchools = 35;
+  repeated WorkplaceInfo workplaces = 36;
+  repeated RegionInfo regions = 37;
+}

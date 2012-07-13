@@ -1,0 +1,4 @@
+export BOOST_HOME=/usr/local/xce/include/boost-1_38/
+export PROTO_HOME=/opt/protobuf-2.3.0/include
+export ZOOKEEPER_HOME=/usr/local/distcache-dev/include/
+
